@@ -1,8 +1,6 @@
 /*
- *  objc_scanner_actions.h
- *  Codon
+ *  parce: objc_scanner_actions.h
  *
- *  Created by Brent Gulanowski on 11/17/07.
  *  Copyright 2007 Bored Astronaut Software. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
