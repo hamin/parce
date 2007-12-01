@@ -1,3 +1,7 @@
+
+#ifndef OBJC_PARSER_TOKEN_H
+#define OBJC_PARSER_TOKEN_H
+
 /*
  *  parce: objc_parser_token.h
  *
@@ -56,3 +60,5 @@ extern void tokenSetDeleteFunction ( freeFunction valueFreeFunction );
 extern void tokenSetNextSibling( token *aToken );
 extern void tokenSetFirstChild( token *aToken );
 #endif
+
+#endif /* OBJC_PARSER_TOKEN_H */
