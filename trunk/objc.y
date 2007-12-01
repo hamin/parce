@@ -805,13 +805,13 @@ keyword_selector
 keyword_declarator
 	: ':' identifier { $$ = tokenListAppend( $1, $2 ); }
 	| ':' '(' type_specifier ')' identifier {
-		$$ = tokenListAppend( tokenListAppend(tokenListAppend($1, $3)), $5 );
+		$$ = tokenListAppend( $1, tokenListAppend($3, $5) );
 	}
 	| identifier ':' identifier {
-		$$ = tokenListAppend( tokenListAppend(tokenListAppend($1, $2)), $3 );
+		$$ = tokenListAppend( $1, tokenListAppend($2, $3) );
 	}
 	| identifier ':' '(' type_specifier ')' identifier {
-		$$ = tokenListAppend( tokenListAppend(tokenListAppend(tokenListAppend($1, $2)), $4) $6 );
+		$$ = tokenListAppend( $1, tokenListAppend($2, tokenListAppend( $4, $6)) );
 	}
 	;
 
@@ -842,5 +842,9 @@ category_name
 
 
 int yyerror(char *s) {
+	return 0;
+}
+
+int yywrap( int val ) {
 	return 0;
 }

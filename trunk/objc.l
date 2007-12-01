@@ -103,7 +103,7 @@ IS			(u|U|l|L)*
 "byref"			{ return BYREF; }
 "oneway"		{ return ONEWAY; }
  
-{L}({L}|{D})*	{ return identifierType(yytext); }
+{L}({L}|{D})*	{ return scanType(yytext); }
 
 0[xX]{H}+{IS}?	{ return CONSTANT; }
 0{D}+{IS}?		{ return CONSTANT; }

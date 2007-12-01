@@ -1,3 +1,8 @@
+
+#ifndef OBJC_SCANNER_ACTIONS_H
+#define OBJC_SCANNER_ACTIONS_H
+
+
 /*
  *  parce: objc_scanner_actions.h
  *
@@ -50,3 +55,5 @@ extern int scanObjCString( char *tokenString );  // OBJC_STRING_LITERAL
  An identifier is stored in a context table as a specialized type determined by the parser, and retrieved on subsequent occurrences
  */
 extern int scanType( char *tokenString );        // IDENTIFIER->TYPE_NAME/CLASS_NAME/PROTOCOL_NAME/CATEGORY_NAME
+
+#endif /* OBJC_SCANNER_ACTIONS_H */

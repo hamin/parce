@@ -1,3 +1,6 @@
+
+#ifndef OBJC_PARSER_ACTIONS_H
+#define OBJC_PARSER_ACTIONS_H
 /*
  *  parce: objc_parser_semantic.h
  *
@@ -264,3 +267,6 @@ extern token *gInstanceMethodDef( token *returnType, token *selector, token *dec
 extern token *gTypeSpec( token *typeSpec, token *protocolRefs ); // type is either OBJC_ID or CLASS_NAME; protocolRefs is a list of protocol names
 
 extern token *gStructObjCDefs( token *className );
+
+
+#endif /* OBJC_PARSER_ACTIONS_H */
