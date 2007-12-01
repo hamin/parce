@@ -757,7 +757,7 @@ class_method_declaration
 	;
 
 instance_method_declaration
-	: '-' method_selector ';' { $$ = gInstanceMethodDec( $3, $5; ); }
+	: '-' method_selector ';' { $$ = gInstanceMethodDec( NULL, $2 ); }
 	| '-' '(' type_specifier ')' method_selector ';' { $$ = gInstanceMethodDec( $3, $5 ); }
 	;
 
