@@ -264,6 +264,6 @@ token *gClassMethodDef( token *returnType, token *selector, token *decs, token *
 token *gInstanceMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ){ return NULL; }
 
 /* type specifiers */
-token *gTypeSpec( token *typeSpec, token *protocolRefs ){ return NULL; } // type is either OBJC_ID or CLASS_NAME{ return NULL; } protocolRefs is a list of protocol names
+token *gTypeSpec( token *typeSpec, token *protocolRefs ){ return NULL; } // type is either OBJC_ID or CLASS_NAME; protocolRefs is a list of protocol names
 
 token *gStructObjCDefs( token *className ){ return NULL; }
