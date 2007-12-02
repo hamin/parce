@@ -278,6 +278,7 @@
 				8DC2EF520486A6940098B216 /* Resources */,
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
+				4ED94D5C0D037B1C0020EE01 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -351,6 +352,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ ! -d \"${DERIVED_FILE_DIR}\" ]\nthen\n\tmkdir ${DERIVED_FILE_DIR}\nfi\n\ncp ${CONFIGURATION_TEMP_DIR}/generate.build/DerivedSources/parce_parser.c ${DERIVED_FILE_DIR}\n";
+		};
+		4ED94D5C0D037B1C0020EE01 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm ${DERIVED_FILE_DIR}/parce_parser.c\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
