@@ -20,15 +20,17 @@ NOTES ABOUT BUILDING THE SOURCES
 
 I have included a basic makefile and an XCode project. The makefile should be self explanatory.
 
-Where are "objc_parser.h and objc_parser.c"? Read on.
+Where are "parce_parser.h and parce_parser.c"? Read on.
 
 The XCode project may be confusing to those unfamiliar with working with non-source code input files (such as Yacc grammar specification files). There are at least two ways to support these files, but both have their drawbacks.
 
-The first way, the way I tried and then rejected, is to let XCode figure out how to deal with the input files. The problem with that is that you cannot then define a dependency between a Lex input file which depends upon the output of Bison, specifically the header which defines token type macros. Ah, but you can specify order of file processing, you are thinking. Yes, however, on multi-processor macs, two (or more) files without explicit dependencies are processed in parallel. The unsatisfactory solution is to define a custom rule for processing lex input files and provide a script that starts with "sleep(1)".
+XCode can process lex (.l) and yacc (.y) input files itself, although it requires tweaking. In Mac OS X v10.4 (Tiger) and earlier, the default install of bison does not support the %pure-parser directive. Solving that requires a custom build rule for yacc files. On Mac OS X v10.5 (Leopard), yacc resolves to bison 2.3, so this is not an issue.
 
-The alternate--somewhat less unsatisfactory--solution is to create a custom build script to ensure that the grammar file is processed first. However, in addition, it requires adding the output file to the project, which means that the file will appear missing until the target is built, which can be a source of confusion.
+When processing lex and yacc files, the intermediate *.c files are compiled immediately. Unfortunately, the default rules do not take into account the fact that the generated flex scanner depends on a header file output by bison. On multiprocessor machines, this causes the compilation of the scanner to fail.
 
-In Tiger, things are more problematic: the installed version of bison is too old to support the %pure-parser directive. Thus it is necessary to install a more up-to-date version (2.3) using macports, and ensure that the script references the correct version.
+There are two solutions to this problem that I've found, although both amount to roughly the same thing (custom scripts). Either make a custom lex rule, and add "sleep(1)" before the lex command, to ensure that bison finishes first; or use a custom Run Script build phase to generate the parser.
+
+I tried the first technique and didn't like it. It's too hackish. The second technique, requires adding the intermediate output from bison to the project, but this is akin to building a framework and an application that depends upon it in the same project.
 
 
 BACKGROUND

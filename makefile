@@ -63,12 +63,12 @@ parce_parser: $(OBJECTS)
 	$(LD) $@ $(OBJECTS)
 	
 clean:
-	rm -f objc_parser *.o parce_parser.h parce_parser.c parce_parser.output parce_scanner.c
+	rm -f parce_parser *.o parce_parser.h parce_parser.c parce_parser.output parce_scanner.c
 
 #objc_parser_lib: $(LIB_SOURCES)
 
-objc_parser.c: objc.y
+parce_parser.c: objc.y
 	$(YACC) -dv -oparce_parser.c objc.y
 
-objc_scanner.c: objc.l
+parce_scanner.c: objc.l
 	$(LEX) -oparce_scanner.c objc.l

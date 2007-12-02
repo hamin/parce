@@ -32,7 +32,7 @@ FS			(f|F|l|L)
 IS			(u|U|l|L)*
 
 %{
-#include "parse_scanner_actions.h"
+#include "parce_scanner_actions.h"
 %}
 
 %%
