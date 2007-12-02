@@ -58,7 +58,7 @@ token *tokenNew( void ) {
 	return result;
 }
 
-token *tokenNewWithAttributes( int type, char *text, void *value, token *firstChild ) {
+token *tokenNewWithAttributes( unsigned int type, char *text, void *value, token *firstChild ) {
 	
 	token *result = tokenNew();
 	

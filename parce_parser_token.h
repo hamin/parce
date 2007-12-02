@@ -29,13 +29,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 // define CUSTOM_TOKEN_TYPE at compile time as a gcc -D flag if you provide a custom token implementation; this token is a node in the abstract syntax tree
+// requires implemention of parce_custom_token.h -- usually just #include your own token header from there
 #ifdef CUSTOM_TOKEN_TYPE
-#include parce_custom_token.h
+#include "parce_custom_token.h"
 #else
 
 struct token {
 	
-	int type; // corresponds to the types in the table defined by Bison for communicating with the scanner
+	unsigned int type; // corresponds to the types in the table defined by Bison for communicating with the scanner
 	char *text; // the string from the input file corresponding to this token (optional)
 	void *value; // user-defined value (optional); provide a freeFunction for memory release or risk leaks
 	struct token *next; // next younger sibling in the list
@@ -50,7 +51,7 @@ typedef struct token token;
 extern token *tokenNew( void );
 
 // value and firstChild are optional; text is optional (ignored, in fact) for keywords
-extern token *tokenNewWithAttributes( int type, char *text, void *value, token *firstChild );
+extern token *tokenNewWithAttributes( unsigned int type, char *text, void *value, token *firstChild );
 extern void tokenRelease( token *aToken ); // releases firstChild and nextSibling
 
 

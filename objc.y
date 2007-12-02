@@ -39,7 +39,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 %}
 
-%token IDENTIFIER CONSTANT STRING_LITERAL SIZEOF
+%token IDENTIFIER CONSTANT STRING_LITERAL NULL_VAL SIZEOF
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
 %token AND_OP OR_OP MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN ADD_ASSIGN
 %token SUB_ASSIGN LEFT_ASSIGN RIGHT_ASSIGN AND_ASSIGN
@@ -74,6 +74,7 @@ primary_expression
 	: identifier
 	| CONSTANT
 	| STRING_LITERAL
+	| NULL_VAL
 	| '(' expression ')'
 	| message_expression
 	| selector_expression
@@ -211,7 +212,7 @@ constant_expression
 	: conditional_expression
 	;
 
-
+// objective-c additions
 message_expression
 	: '[' receiver message_selector ']'
 	;

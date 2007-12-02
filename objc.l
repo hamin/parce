@@ -36,9 +36,9 @@ IS			(u|U|l|L)*
 %}
 
 %%
-"^#.*"          { scanMacro(); }
-"\/\*[^*]\*\/"	{ scanCommentBlock(); }
-"\/\/.*"		{ scanCommentLine(); }
+"^#.*"          { scanMacro( yytext ); }
+"\/\*.*\*\/"	{ scanCommentBlock( yytext ); }
+"\/\/.*"		{ scanCommentLine( yytext ); }
 
 "auto"			{ return AUTO; }
 "break"			{ return BREAK; }
@@ -103,20 +103,20 @@ IS			(u|U|l|L)*
 "byref"			{ return BYREF; }
 "oneway"		{ return ONEWAY; }
  
-{L}({L}|{D})*	{ return scanType(yytext); }
+{L}({L}|{D})*	{ return scanType( yytext ); }
 
-0[xX]{H}+{IS}?	{ return CONSTANT; }
-0{D}+{IS}?		{ return CONSTANT; }
-{D}+{IS}?		{ return CONSTANT; }
-'(\\.|[^\\'])+'		{ return CONSTANT; }
+0[xX]{H}+{IS}?	{ return scanHexConstant( yytext ); }
+0{D}+{IS}?		{ return scanOctalConstant( yytext ); }
+{D}+{IS}?		{ return scanDecimalConstant( yytext ); }
+'(\\.|[^\\'])+'		{ return scanEscapeConstant( yytext ); }
 
-{D}+{E}{FS}?		{ return CONSTANT; }
-{D}*"."{D}+({E})?{FS}?	{ return CONSTANT; }
-{D}+"."{D}*({E})?{FS}?	{ return CONSTANT; }
+{D}+{E}{FS}?		{ return scanFloatEConstant( yytext ); }
+{D}*"."{D}+({E})?{FS}?	{ return scanFloatDotConstant( yytext ); }
+{D}+"."{D}*({E})?{FS}?	{ return scanFloatDotConstant( yytext ); }
 
-\"(\\.|[^\\"])*\"	{ return STRING_LITERAL; }
+\"(\\.|[^\\"])*\"	{ return scanCString( yytext ); }
 
-@\"(\\.|[^\\"])*\"	{ return OBJC_STRING_LITERAL; }
+@\"(\\.|[^\\"])*\"	{ return scanObjCString( yytext ); }
 
 ">>="		{ return RIGHT_ASSIGN; }
 "<<="		{ return LEFT_ASSIGN; }
@@ -164,7 +164,7 @@ IS			(u|U|l|L)*
 "|"			{ return '|'; }
 "?"			{ return '?'; }
 
-[ \t\v\n\f]+		{ scanWhiteSpace(); }
+[ \t\v\n\f]+		{ scanWhiteSpace( yytext ); }
 .			{ /* ignore bad characters */ }
 
 %%
