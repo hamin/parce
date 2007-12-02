@@ -44,11 +44,13 @@ void scanCommentBlock(){ return; }
 void scanCommentLine(){ return; }
 void scanWhiteSpace(){ return; }
 
-int scanConstant( char *tokenString ){ return; }    // CONSTANT
-int scanCString( char *tokenString ){ return; }     // STRING_LITERAL
-int scanObjCString( char *tokenString ){ return; }  // OBJC_STRING_LITERAL
+int scanConstant( char *tokenString ){ return CONSTANT; }    // CONSTANT
+int scanCString( char *tokenString ){ return STRING_LITERAL; }     // STRING_LITERAL
+int scanObjCString( char *tokenString ){ return OBJC_STRING_LITERAL; }  // OBJC_STRING_LITERAL
 
 /*
  An identifier is stored in a context table as a specialized type determined by the parser, and retrieved on subsequent occurrences
  */
-int scanType( char *tokenString ){ return; }        // IDENTIFIER->TYPE_NAME/CLASS_NAME/
+int scanType( char *tokenString ){ return IDENTIFIER; }        // IDENTIFIER->TYPE_NAME/CLASS_NAME/
+
+int yywrap ( void ) { return 0; }
