@@ -33,18 +33,18 @@ LD	= gcc -o
 CFLAGS =
 
 
-SOURCES = objc_parser.c			\
-		objc_scanner.c			\
-		objc_scanner_actions.c	\
-		objc_parser_actions.c	\
-		objc_parser_token.c		\
+SOURCES = parce_parser.c			\
+		parce_scanner.c			\
+		parce_scanner_actions.c	\
+		parce_parser_actions.c	\
+		parce_parser_token.c		\
 		main.c
 		
-LIB_SOURCES = objc_parser.c		\
-		objc_scanner.c			\
-		objc_scanner_actions.c	\
-		objc_parser_actions.c	\
-		objc_parser_token.c
+LIB_SOURCES = parce_parser.c		\
+		parce_scanner.c			\
+		parce_scanner_actions.c	\
+		parce_parser_actions.c	\
+		parce_parser_token.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -56,19 +56,19 @@ LIB_OBJECTS = $(LIB_SOURCES:.c=.o)
 	$(CC) $(CFLAGS) $*.c
 
 
-all: objc_parser
+all: parce_parser
 
 
-objc_parser: $(OBJECTS)
+parce_parser: $(OBJECTS)
 	$(LD) $@ $(OBJECTS)
 	
 clean:
-	rm -f objc_parser *.o objc_parser.h objc_parser.c objc_parser.output objc_scanner.c
+	rm -f objc_parser *.o parce_parser.h parce_parser.c parce_parser.output parce_scanner.c
 
 #objc_parser_lib: $(LIB_SOURCES)
 
 objc_parser.c: objc.y
-	$(YACC) -dv -oobjc_parser.c objc.y
+	$(YACC) -dv -oparce_parser.c objc.y
 
 objc_scanner.c: objc.l
-	$(LEX) -oobjc_scanner.c objc.l
+	$(LEX) -oparce_scanner.c objc.l
