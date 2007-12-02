@@ -60,151 +60,156 @@ extern token *tokenListAppend( token *head, token *last ) {
 /** specialized token creation functions for terminal symbols **/
 
 /* multi-character operators */
-token *tPtrOp( void ) { return NULL; }
 
-token *tIncOp( void ) { return NULL; }
-token *tDecOp( void ) { return NULL; }
+/* FIXME: we really need to cache all of these and just re-use them */
+token *tPtrOp( void ) { return tokenNewWithAttributes(PTR_OP, "*", NULL, NULL); }
 
-token *tBooleanAndOp( void ) { return NULL; }
-token *tBooleanOrOp( void ) { return NULL; }
-token *tEqualToOp( void ) { return NULL; }
-token *tLessOrEqualOp( void ) { return NULL; }
-token *tGreaterOrEqualOp( void ) { return NULL; }
-token *tNotEqualToOp( void ) { return NULL; }
+token *tIncOp( void ) { return tokenNewWithAttributes(INC_OP, "++", NULL, NULL); }
+token *tDecOp( void ) { return tokenNewWithAttributes(DEC_OP, "--", NULL, NULL); }
 
-token *tLeftShiftOp( void ) { return NULL; }
-token *tRightShiftOp( void ) { return NULL; }
+token *tBooleanAndOp( void ) { return tokenNewWithAttributes(AND_OP, "&&", NULL, NULL); }
+token *tBooleanOrOp( void ) { return tokenNewWithAttributes(OR_OP, "||", NULL, NULL); }
+token *tEqualToOp( void ) { return tokenNewWithAttributes(EQ_OP, "==", NULL, NULL); }
+token *tLessOrEqualOp( void ) { return tokenNewWithAttributes(LE_OP, "<=", NULL, NULL); }
+token *tGreaterOrEqualOp( void ) { return tokenNewWithAttributes(GE_OP, ">=", NULL, NULL); }
+token *tNotEqualToOp( void ) { return tokenNewWithAttributes(NE_OP, "!=", NULL, NULL); }
 
-token *tMultAssignOp( void ) { return NULL; }
-token *tDivAssignOp( void ) { return NULL; }
-token *tModAssignOp( void ) { return NULL; }
-token *tAddAssignOp( void ) { return NULL; }
-token *tSubAssignOp( void ) { return NULL; }
+token *tLeftShiftOp( void ) { return tokenNewWithAttributes(LEFT_OP, "<<", NULL, NULL); }
+token *tRightShiftOp( void ) { return tokenNewWithAttributes(RIGHT_OP, ">>", NULL, NULL); }
 
-token *tLeftAssignOp( void ) { return NULL; }
-token *tRightAssignOp( void ) { return NULL; }
-token *tAndAssignOp( void ) { return NULL; }
-token *tXORAssignOp( void ) { return NULL; }
-token *tOrAssignOp( void ) { return NULL; }
+token *tMultAssignOp( void ) { return tokenNewWithAttributes(MUL_ASSIGN, "*=", NULL, NULL); }
+token *tDivAssignOp( void ) { return tokenNewWithAttributes(DIV_ASSIGN, "/=", NULL, NULL); }
+token *tModAssignOp( void ) { return tokenNewWithAttributes(MOD_ASSIGN, "%=", NULL, NULL); }
+token *tAddAssignOp( void ) { return tokenNewWithAttributes(ADD_ASSIGN, "+=", NULL, NULL); }
+token *tSubAssignOp( void ) { return tokenNewWithAttributes(SUB_ASSIGN, "-=", NULL, NULL); }
+
+token *tLeftAssignOp( void ) { return tokenNewWithAttributes(LEFT_ASSIGN, "<<=", NULL, NULL); }
+token *tRightAssignOp( void ) { return tokenNewWithAttributes(RIGHT_ASSIGN, ">>=", NULL, NULL); }
+token *tAndAssignOp( void ) { return tokenNewWithAttributes(AND_ASSIGN, "&=", NULL, NULL); }
+token *tXORAssignOp( void ) { return tokenNewWithAttributes(XOR_ASSIGN, "^=", NULL, NULL); }
+token *tOrAssignOp( void ) { return tokenNewWithAttributes(OR_ASSIGN, "|=", NULL, NULL); }
 
 /* multi-purpose operators */
-token *tStarOp( void ) { return NULL; }
-token *tAmpOp( void ) { return NULL; }
-token *tExclamOp( void ) { return NULL; }
-token *tBarOp( void ) { return NULL; }
-token *tSubOp( void ) { return NULL; }
+token *tStarOp( void ) { return tokenNewWithAttributes((unsigned int)'*', "*", NULL, NULL); }
+token *tAmpOp( void ) { return tokenNewWithAttributes((unsigned int)'&', "&", NULL, NULL); }
+token *tExclamOp( void ) { return tokenNewWithAttributes((unsigned int)'!', "!", NULL, NULL); }
+token *tBarOp( void ) { return tokenNewWithAttributes((unsigned int)'|', "|", NULL, NULL); }
+token *tSubOp( void ) { return tokenNewWithAttributes((unsigned int)'-', "-", NULL, NULL); }
 
 /* arithmetic operators */
-token *tAddOp( void ) { return NULL; }
-token *tDivOp( void ) { return NULL; }
-token *tModOp( void ) { return NULL; }
+token *tAddOp( void ) { return tokenNewWithAttributes((unsigned int)'+', "+", NULL, NULL); }
+token *tDivOp( void ) { return tokenNewWithAttributes((unsigned int)'/', "*/", NULL, NULL); }
+token *tModOp( void ) { return tokenNewWithAttributes((unsigned int)'%', "%", NULL, NULL); }
 
 /* boolean operators */
-token *tLessOp( void ) { return NULL; }
-token *tGreaterOp( void ) { return NULL; }
+token *tLessOp( void ) { return tokenNewWithAttributes((unsigned int)'<', "<", NULL, NULL); }
+token *tGreaterOp( void ) { return tokenNewWithAttributes((unsigned int)'>', ">", NULL, NULL); }
 
 /* bitwise operators */
-token *tXOROp( void ) { return NULL; }
-token *tCompOp( void ) { return NULL; }
+token *tXOROp( void ) { return tokenNewWithAttributes((unsigned int)'^', "^", NULL, NULL); }
+token *tCompOp( void ) { return tokenNewWithAttributes((unsigned int)'~', "~", NULL, NULL); }
 
 /* other single character operators */
-token *tAssignOp( void ) { return NULL; }
-token *tDotOp( void ) { return NULL; }
+token *tAssignOp( void ) { return tokenNewWithAttributes((unsigned int)'=', "=", NULL, NULL); }
+token *tDotOp( void ) { return tokenNewWithAttributes((unsigned int)'.', ".", NULL, NULL); }
 
 /* braces/parentheses */
-token *tCurlyL( void ) { return NULL; }
-token *tCurlyR( void ) { return NULL; }
-token *tSquareL( void ) { return NULL; }
-token *tSquareR( void ) { return NULL; }
-token *tParenL( void ) { return NULL; }
-token *tParenR( void ) { return NULL; }
+token *tCurlyL( void ) { return tokenNewWithAttributes((unsigned int)'{', "{", NULL, NULL); }
+token *tCurlyR( void ) { return tokenNewWithAttributes((unsigned int)'}', "}", NULL, NULL); }
+token *tSquareL( void ) { return tokenNewWithAttributes((unsigned int)'[', "[", NULL, NULL); }
+token *tSquareR( void ) { return tokenNewWithAttributes((unsigned int)']', "]", NULL, NULL); }
+token *tParenL( void ) { return tokenNewWithAttributes((unsigned int)'(', "(", NULL, NULL); }
+token *tParenR( void ) { return tokenNewWithAttributes((unsigned int)')', ")", NULL, NULL); }
 
 /* punctuation marks */
-token *tComma( void ) { return NULL; }
-token *tColon( void ) { return NULL; }
-token *tSemi( void ) { return NULL; }
-token *tQuest( void ) { return NULL; }
+token *tComma( void ) { return tokenNewWithAttributes((unsigned int)',', ",", NULL, NULL); }
+token *tColon( void ) { return tokenNewWithAttributes((unsigned int)':', ":", NULL, NULL); }
+token *tSemi( void ) { return tokenNewWithAttributes((unsigned int)';', ";", NULL, NULL); }
+token *tQuest( void ) { return tokenNewWithAttributes((unsigned int)'?', "?", NULL, NULL); }
 
 /* built in types */
-token *tChar( void ) { return NULL; }
-token *tShort( void ) { return NULL; }
-token *tInt( void ) { return NULL; }
-token *tLong( void ) { return NULL; }
-token *tSigned( void ) { return NULL; }
-token *tUnsigned( void ) { return NULL; }
-token *tFloat( void ) { return NULL; }
-token *tDouble( void ) { return NULL; }
-token *tConst( void ) { return NULL; }
-token *tVolatile( void ) { return NULL; }
-token *tVoid( void ) { return NULL; }
+token *tChar( void ) { return tokenNewWithAttributes(CHAR, "char", NULL, NULL); }
+token *tShort( void ) { return tokenNewWithAttributes(SHORT, "short", NULL, NULL); }
+token *tInt( void ) { return tokenNewWithAttributes(INT, "int", NULL, NULL); }
+token *tLong( void ) { return tokenNewWithAttributes(LONG, "long", NULL, NULL); }
+token *tSigned( void ) { return tokenNewWithAttributes(SIGNED, "signed", NULL, NULL); }
+token *tUnsigned( void ) { return tokenNewWithAttributes(UNSIGNED, "unsigned", NULL, NULL); }
+token *tFloat( void ) { return tokenNewWithAttributes(FLOAT, "float", NULL, NULL); }
+token *tDouble( void ) { return tokenNewWithAttributes(DOUBLE, "double", NULL, NULL); }
+token *tConst( void ) { return tokenNewWithAttributes(CONST, "const", NULL, NULL); }
+token *tVolatile( void ) { return tokenNewWithAttributes(VOLATILE, "volatile", NULL, NULL); }
+token *tVoid( void ) { return tokenNewWithAttributes(VOID, "void", NULL, NULL); }
 
 /* reserved words */
-token *tExtern( void ) { return NULL; }
-token *tStatic( void ) { return NULL; }
-token *tAuto( void ) { return NULL; }
-token *tRegister( void ) { return NULL; }
+token *tExtern( void ) { return tokenNewWithAttributes(EXTERN, "extern", NULL, NULL); }
+token *tStatic( void ) { return tokenNewWithAttributes(STATIC, "static", NULL, NULL); }
+token *tAuto( void ) { return tokenNewWithAttributes(AUTO, "auto", NULL, NULL); }
+token *tRegister( void ) { return tokenNewWithAttributes(REGISTER, "register", NULL, NULL); }
 
-token *tSizeof( void ) { return NULL; }
+token *tSizeof( void ) { return tokenNewWithAttributes(SIZEOF, "sizeof", NULL, NULL); }
 
 /* user defined type creation */
-token *tTypedef( void ) { return NULL; }
-token *tStruct( void ) { return NULL; }
-token *tUnion( void ) { return NULL; }
-token *tEnum( void ) { return NULL; }
+token *tTypedef( void ) { return tokenNewWithAttributes(TYPEDEF, "typedef", NULL, NULL); }
+token *tStruct( void ) { return tokenNewWithAttributes(STRUCT, "struct", NULL, NULL); }
+token *tUnion( void ) { return tokenNewWithAttributes(UNION, "union", NULL, NULL); }
+token *tEnum( void ) { return tokenNewWithAttributes(ENUM, "enum", NULL, NULL); }
 
-token *tEllipsis( void ) { return NULL; }
+token *tEllipsis( void ) { return tokenNewWithAttributes(ELLIPSIS, "...", NULL, NULL); }
 
 /* control flow */
-token *tIf( void ) { return NULL; }
-token *tElse( void ) { return NULL; }
-token *tSwitch( void ) { return NULL; }
-token *tCase( void ) { return NULL; }
-token *tDefault( void ) { return NULL; }
-token *tWhile( void ) { return NULL; }
-token *tDo( void ) { return NULL; }
-token *tFor( void ) { return NULL; }
-token *tGoto( void ) { return NULL; }
-token *tContinue( void ) { return NULL; }
-token *tBreak( void ) { return NULL; }
-token *tReturn( void ) { return NULL; }
+token *tIf( void ) { return tokenNewWithAttributes(IF, "if", NULL, NULL); }
+token *tElse( void ) { return tokenNewWithAttributes(ELSE, "else", NULL, NULL); }
+token *tSwitch( void ) { return tokenNewWithAttributes(SWITCH, "switch", NULL, NULL); }
+token *tCase( void ) { return tokenNewWithAttributes(CASE, "case", NULL, NULL); }
+token *tDefault( void ) { return tokenNewWithAttributes(DEFAULT, "default", NULL, NULL); }
+token *tWhile( void ) { return tokenNewWithAttributes(WHILE, "while", NULL, NULL); }
+token *tDo( void ) { return tokenNewWithAttributes(DO, "do", NULL, NULL); }
+token *tFor( void ) { return tokenNewWithAttributes(FOR, "for", NULL, NULL); }
+token *tGoto( void ) { return tokenNewWithAttributes(GOTO, "goto", NULL, NULL); }
+token *tContinue( void ) { return tokenNewWithAttributes(CONTINUE, "continue", NULL, NULL); }
+token *tBreak( void ) { return tokenNewWithAttributes(BREAK, "break", NULL, NULL); }
+token *tReturn( void ) { return tokenNewWithAttributes(RETURN, "return", NULL, NULL); }
 
 /* comments */
 token *tBlockComment( void ) { return NULL; }
 token *tInLineComment( void ) { return NULL; }
 
+extern token *tConstant( char *text ) { return tokenNewWithAttributes(CONSTANT, text, NULL, NULL); } // FIXME: when to determine the value?
+extern token *tStringLiteral( char *text ) { return tokenNewWithAttributes(STRING_LITERAL, text, NULL, NULL); }
+
 
 /** objective-c extensions **/
-token *tObjCId( void ) { return NULL; }
-token *tObjCSelf( void ) { return NULL; }
-token *tObjCSuper( void ) { return NULL; }
-token *tObjCIn( void ) { return NULL; }
-token *tObjCOut( void ) { return NULL; }
-token *tObjCInout( void ) { return NULL; }
-token *tObjCBycopy( void ) { return NULL; }
-token *tObjCByref( void ) { return NULL; }
-token *tObjCOneway( void ) { return NULL; }
+token *tObjCId( void ) { return tokenNewWithAttributes(OBJC_ID, "id", NULL, NULL); }
+token *tObjCSelf( void ) { return tokenNewWithAttributes(SELF, "self", NULL, NULL); }
+token *tObjCSuper( void ) { return tokenNewWithAttributes(SUPER, "super", NULL, NULL); }
+token *tObjCIn( void ) { return tokenNewWithAttributes(IN, "in", NULL, NULL); }
+token *tObjCOut( void ) { return tokenNewWithAttributes(OUT, "out", NULL, NULL); }
+token *tObjCInout( void ) { return tokenNewWithAttributes(INOUT, "inout", NULL, NULL); }
+token *tObjCBycopy( void ) { return tokenNewWithAttributes(BYCOPY, "bycopy", NULL, NULL); }
+token *tObjCByref( void ) { return tokenNewWithAttributes(BYREF, "byref", NULL, NULL); }
+token *tObjCOneway( void ) { return tokenNewWithAttributes(ONEWAY, "oneway", NULL, NULL); }
 
-token *tObjCAtClass( void ) { return NULL; }
-token *tObjCAtProtocol( void ) { return NULL; }
-token *tObjCAtInterface( void ) { return NULL; }
-token *tObjCAtImplementation( void ) { return NULL; }
-token *tObjCAtEnd( void ) { return NULL; }
+token *tObjCAtClass( void ) { return tokenNewWithAttributes(AT_CLASS, "@class", NULL, NULL); }
+token *tObjCAtProtocol( void ) { return tokenNewWithAttributes(AT_PROTOCOL, "@protocol", NULL, NULL); }
+token *tObjCAtInterface( void ) { return tokenNewWithAttributes(AT_INTERFACE, "@interface", NULL, NULL); }
+token *tObjCAtImplementation( void ) { return tokenNewWithAttributes(AT_IMPLEMENTATION, "@implementation", NULL, NULL); }
+token *tObjCAtEnd( void ) { return tokenNewWithAttributes(AT_END, "@end", NULL, NULL); }
 
-token *tObjCAtPrivate( void ) { return NULL; }
-token *tObjCAtPublic( void ) { return NULL; }
-token *tObjCAtProtected( void ) { return NULL; }
+token *tObjCAtPrivate( void ) { return tokenNewWithAttributes(AT_PRIVATE, "@private", NULL, NULL); }
+token *tObjCAtPublic( void ) { return tokenNewWithAttributes(AT_PUBLIC, "@public", NULL, NULL); }
+token *tObjCAtProtected( void ) { return tokenNewWithAttributes(AT_PROTECTED, "@protected", NULL, NULL); }
 
-token *tObjCAtTry( void ) { return NULL; }
-token *tObjCAtCatch( void ) { return NULL; }
-token *tObjCAtFinally( void ) { return NULL; }
-token *tObjCThrow( void ) { return NULL; }
+token *tObjCAtTry( void ) { return tokenNewWithAttributes(AT_TRY, "@try", NULL, NULL); }
+token *tObjCAtCatch( void ) { return tokenNewWithAttributes(AT_CATCH, "@catch", NULL, NULL); }
+token *tObjCAtFinally( void ) { return tokenNewWithAttributes(AT_FINALLY, "@finally", NULL, NULL); }
+token *tObjCThrow( void ) { return tokenNewWithAttributes(AT_THROW, "@throw", NULL, NULL); }
 
-token *tObjCAtDefs( void ) { return NULL; }
-token *tObjCAtSynchronized( void ) { return NULL; }
-token *tObjCAtSelector( void ) { return NULL; }
-token *tObjCAtEncode( void ) { return NULL; }
+token *tObjCAtDefs( void ) { return tokenNewWithAttributes(AT_DEFS, "@defs", NULL, NULL); }
+token *tObjCAtSynchronized( void ) { return tokenNewWithAttributes(AT_SYNCHRONIZED, "@synchronized", NULL, NULL); }
+token *tObjCAtSelector( void ) { return tokenNewWithAttributes(AT_SELECTOR, "@selector", NULL, NULL); }
+token *tObjCAtEncode( void ) { return tokenNewWithAttributes(AT_ENCODE, "@encode", NULL, NULL); }
 
-token *tObjCString( void ) { return NULL; }
+token *tObjCString( char *tokenString ) { return tokenNewWithAttributes(OBJC_STRING_LITERAL, tokenString, NULL, NULL); }
 
 
 // NON-TERMINAL TOKENS

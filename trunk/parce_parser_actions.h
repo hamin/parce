@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 extern token *tokenCopy( token *original );
-extern token *tokenListAppend( token *list, token *last ); // this may limit flexibility ... consider later
+extern token *tokenListAppend( token *list, token *last );
 
 
 /** specialized token creation functions for terminal symbols **/
@@ -147,8 +147,10 @@ extern token *tBreak( void );          // break
 extern token *tReturn( void );         // return
 
 /* comments */
-extern token *tBlockComment( void );   // /* ... */
-extern token *tInLineComment( void );  // // very ... self-referential
+extern token *tBlockComment( void );   // /* ... */  FIXME: no token defined yet
+extern token *tInLineComment( void );  // // very ... self-referential   FIXME: no token defined yet
+extern token *tConstant( char *text );
+extern token *tStringLiteral( char *text );
 
 
 /** objective-c extensions **/
@@ -182,7 +184,7 @@ extern token *tObjCAtSynchronized( void );    // @synchronized
 extern token *tObjCAtSelector( void );        // @selector
 extern token *tObjCAtEncode( void );          // @encode
 
-extern token *tObjCString( void );            // @"string" -- '@' and quotation marks are not removed
+extern token *tObjCString( char * );            // @"string" -- '@' and quotation marks are not removed
 
 
 /** specialized token creation functions for groups (nonterminal symbols) - groups have children; terminals do not **/

@@ -23,32 +23,35 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
 
+
 #include "parce_scanner_actions.h"
 
+//#include "parce_parser_context.h" // identifiers (type names, classes, protocols, categories, variables)
 
 
+void scanMacro( char *tokenString ){ return; }
 
+void scanCommentBlock( char *tokenString ){ return; }
+void scanCommentLine( char *tokenString ){ return; }
+void scanWhiteSpace( char *tokenString ){ return; }
 
-/*
-#define eatCommentBlock() [[parser scanner] comment:commentBlock()]
-#define eatCommentLine() [[parser scanner] comment:commentLine()]
-#define eatWhiteSpace() [[parser scanner] whiteSpace:whiteSpace()]
- 
-#define eat(x) [[CodToken alloc] initWithCode:(x) value:[NSString stringWithUTF8String:yytext]]
-#define identifierType() [[parser currentScope] codeForIdentifier:[NSString stringWithUTF8String:yytext]]
- */
-
-void scanMacro(){ return; }
-
-void scanCommentBlock(){ return; }
-void scanCommentLine(){ return; }
-void scanWhiteSpace(){ return; }
-
-int scanConstant( char *tokenString ){ return CONSTANT; }    // CONSTANT
-int scanCString( char *tokenString ){ return STRING_LITERAL; }     // STRING_LITERAL
-int scanObjCString( char *tokenString ){ return OBJC_STRING_LITERAL; }  // OBJC_STRING_LITERAL
+int scanHexConstant( char *tokenString ) { return CONSTANT; }
+int scanOctalConstant( char *tokenString ) { return CONSTANT; }
+int scanDecimalConstant( char *tokenString ) { return CONSTANT; }
+int scanEscapeConstant( char *tokenString ) { return CONSTANT; }
+int scanFloatEConstant( char *tokenString ) { return CONSTANT; }
+int scanFloatDotConstant( char *tokenString ) { return CONSTANT; }
+int scanCString( char *tokenString ) { return STRING_LITERAL; }
+int scanObjCString( char *tokenString ) { return OBJC_STRING_LITERAL; }
 
 /*
  An identifier is stored in a context table as a specialized type determined by the parser, and retrieved on subsequent occurrences
  */
-int scanType( char *tokenString ){ return IDENTIFIER; }        // IDENTIFIER->TYPE_NAME/CLASS_NAME/
+
+// IDENTIFIER->TYPE_NAME/CLASS_NAME/
+int scanType( char *tokenString ) {
+	
+	// check the context stack for a matching type; if found, return associated token type and set yylval
+	
+	return IDENTIFIER;
+}

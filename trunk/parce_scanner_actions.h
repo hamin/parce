@@ -41,13 +41,18 @@ void count();
  The Objective-C Parser framework will handle comments, whitespace and macros without the aid of the generated parser.
  */
 
-extern void scanMacro();
+extern void scanMacro( char *tokenString );
 
-extern void scanCommentBlock();
-extern void scanCommentLine();
-extern void scanWhiteSpace();
+extern void scanCommentBlock( char *tokenString );
+extern void scanCommentLine( char *tokenString );
+extern void scanWhiteSpace( char *tokenString );
 
-extern int scanConstant( char *tokenString );    // CONSTANT
+extern int scanHexConstant( char *tokenString );    // CONSTANT
+extern int scanOctalConstant( char *tokenString );    // CONSTANT
+extern int scanDecimalConstant( char *tokenString );    // CONSTANT
+extern int scanEscapeConstant( char *tokenString );    // CONSTANT
+extern int scanFloatEConstant( char *tokenString );    // CONSTANT
+extern int scanFloatDotConstant( char *tokenString );    // CONSTANT
 extern int scanCString( char *tokenString );     // STRING_LITERAL
 extern int scanObjCString( char *tokenString );  // OBJC_STRING_LITERAL
 
