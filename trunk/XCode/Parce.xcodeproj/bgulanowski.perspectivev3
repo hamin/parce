@@ -300,9 +300,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>14</integer>
-									<integer>8</integer>
-									<integer>7</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -340,7 +337,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>4ED4EDEF0D02E51900A7502A</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>PaScanner.m</string>
+								<string>parce_scanner_actions.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -348,11 +345,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>4ED4EDF00D02E51900A7502A</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>PaScanner.m</string>
+										<string>parce_scanner_actions.h</string>
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>4ED94D530D037A1F0020EE01</string>
+										<string>4ED94D560D037AC20020EE01</string>
 										<key>history</key>
 										<array>
 											<string>4ED94D1A0D0372500020EE01</string>
@@ -363,8 +360,7 @@
 											<string>4ED94D480D037A1F0020EE01</string>
 											<string>4ED94D490D037A1F0020EE01</string>
 											<string>4ED94D4A0D037A1F0020EE01</string>
-											<string>4ED94D4B0D037A1F0020EE01</string>
-											<string>4ED94D4C0D037A1F0020EE01</string>
+											<string>4ED94D520D037A1F0020EE01</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -375,10 +371,7 @@
 											<string>4ED94D250D0372500020EE01</string>
 											<string>4ED94D4D0D037A1F0020EE01</string>
 											<string>4ED94D4E0D037A1F0020EE01</string>
-											<string>4ED94D4F0D037A1F0020EE01</string>
 											<string>4ED94D500D037A1F0020EE01</string>
-											<string>4ED94D510D037A1F0020EE01</string>
-											<string>4ED94D520D037A1F0020EE01</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -658,7 +651,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>218331679.88187701</real>
+	<real>218331842.96514001</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
