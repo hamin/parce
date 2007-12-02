@@ -41,14 +41,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 4ED4EEE70D0309EF00A7502A /* generated */;
+			remoteGlobalIDString = 4ED4EEE70D0309EF00A7502A;
 			remoteInfo = generated;
 		};
 		4ED4EF0C0D03195F00A7502A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 4ED4EEE70D0309EF00A7502A /* generated */;
+			remoteGlobalIDString = 4ED4EEE70D0309EF00A7502A;
 			remoteInfo = generated;
 		};
 /* End PBXContainerItemProxy section */
@@ -56,20 +56,20 @@
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		4ED4EE030D02E5BF00A7502A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = /Users/bgulanowski/Developer/My/parce/main.c; sourceTree = "<absolute>"; };
-		4ED4EE040D02E5BF00A7502A /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = makefile; path = /Users/bgulanowski/Developer/My/parce/makefile; sourceTree = "<absolute>"; };
-		4ED4EE050D02E5BF00A7502A /* objc.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = objc.l; path = /Users/bgulanowski/Developer/My/parce/objc.l; sourceTree = "<absolute>"; };
-		4ED4EE060D02E5BF00A7502A /* objc.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = objc.y; path = /Users/bgulanowski/Developer/My/parce/objc.y; sourceTree = "<absolute>"; };
-		4ED4EE110D02E5EB00A7502A /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = /Users/bgulanowski/Developer/My/parce/README.txt; sourceTree = "<absolute>"; };
+		4ED4EE030D02E5BF00A7502A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../main.c; sourceTree = "<group>"; };
+		4ED4EE040D02E5BF00A7502A /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = makefile; path = ../makefile; sourceTree = "<group>"; };
+		4ED4EE050D02E5BF00A7502A /* objc.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = objc.l; path = ../objc.l; sourceTree = "<group>"; };
+		4ED4EE060D02E5BF00A7502A /* objc.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = objc.y; path = ../objc.y; sourceTree = "<group>"; };
+		4ED4EE110D02E5EB00A7502A /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = ../README.txt; sourceTree = "<group>"; };
 		4ED4EE7E0D02F68400A7502A /* libparce.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libparce.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4ED4EF2C0D031FC300A7502A /* parce_parser_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser_actions.c; path = /Users/bgulanowski/Developer/My/parce/parce_parser_actions.c; sourceTree = "<absolute>"; };
-		4ED4EF2D0D031FC300A7502A /* parce_parser_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser_actions.h; path = /Users/bgulanowski/Developer/My/parce/parce_parser_actions.h; sourceTree = "<absolute>"; };
-		4ED4EF2E0D031FC300A7502A /* parce_parser_token.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser_token.c; path = /Users/bgulanowski/Developer/My/parce/parce_parser_token.c; sourceTree = "<absolute>"; };
-		4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser_token.h; path = /Users/bgulanowski/Developer/My/parce/parce_parser_token.h; sourceTree = "<absolute>"; };
-		4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_scanner_actions.c; path = /Users/bgulanowski/Developer/My/parce/parce_scanner_actions.c; sourceTree = "<absolute>"; };
-		4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_scanner_actions.h; path = /Users/bgulanowski/Developer/My/parce/parce_scanner_actions.h; sourceTree = "<absolute>"; };
-		4ED4EF540D0321FC00A7502A /* parce_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser.c; path = ../../../../../Shared/bgulanowski/Build/Parce.build/Debug/generate.build/DerivedSources/parce_parser.c; sourceTree = SOURCE_ROOT; };
-		4ED4EF550D0321FC00A7502A /* parce_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser.h; path = ../../../../../Shared/bgulanowski/Build/Parce.build/Debug/generate.build/DerivedSources/parce_parser.h; sourceTree = SOURCE_ROOT; };
+		4ED4EF2C0D031FC300A7502A /* parce_parser_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser_actions.c; path = ../parce_parser_actions.c; sourceTree = "<group>"; };
+		4ED4EF2D0D031FC300A7502A /* parce_parser_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser_actions.h; path = ../parce_parser_actions.h; sourceTree = "<group>"; };
+		4ED4EF2E0D031FC300A7502A /* parce_parser_token.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser_token.c; path = ../parce_parser_token.c; sourceTree = "<group>"; };
+		4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser_token.h; path = ../parce_parser_token.h; sourceTree = "<group>"; };
+		4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_scanner_actions.c; path = ../parce_scanner_actions.c; sourceTree = "<group>"; };
+		4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_scanner_actions.h; path = ../parce_scanner_actions.h; sourceTree = "<group>"; };
+		4ED4EF540D0321FC00A7502A /* parce_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser.c; path = ../Build/Parce.build/Debug/generate.build/DerivedSources/parce_parser.c; sourceTree = BUILT_PRODUCTS_DIR; };
+		4ED4EF550D0321FC00A7502A /* parce_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser.h; path = ../Build/Parce.build/Debug/generate.build/DerivedSources/parce_parser.h; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* Parce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Parce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -110,7 +110,6 @@
 				4ED4EE120D02E5FA00A7502A /* Specifications */,
 				4ED4EED20D03047500A7502A /* libparce */,
 				4ED4EED30D03047A00A7502A /* Parce */,
-				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				4ED4EE0E0D02E5CB00A7502A /* Support */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
@@ -149,13 +148,6 @@
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 			);
 			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		32C88DFF0371C24200C91783 /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Other Sources";
 			sourceTree = "<group>";
 		};
 		4ED4EE0E0D02E5CB00A7502A /* Support */ = {
