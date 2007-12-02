@@ -29,7 +29,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 // define CUSTOM_TOKEN_TYPE at compile time as a gcc -D flag if you provide a custom token implementation; this token is a node in the abstract syntax tree
-#ifndef CUSTOM_TOKEN_TYPE
+#ifdef CUSTOM_TOKEN_TYPE
+#include parce_custom_token.h
+#else
+
 struct token {
 	
 	int type; // corresponds to the types in the table defined by Bison for communicating with the scanner
