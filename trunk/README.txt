@@ -18,7 +18,9 @@ The primary goals of the design are two, but are met by a single strategy: by se
 
 It is possible to substitute a different token type, a different implementation of the tree generation functions, or both. (The Parce framework does just that.) The least elegant aspect of the design is that the generated parser depends upon two functions which should strictly be part of the token interface--tokenCopy() and tokenListAppend()--however they have been treated as extensions, because otherwise the interface upon which the generated parser depends would be incomplete if the token ADT was replaced with a custom type.
 
-Additionally, the included impelementation files can be used as-is if they are sufficient, and together with the generated components can form a simple library.
+In order to allow substitution of alternate implementations without replacing the existing headers (although others are welcome to do that if they prefer), the token header--parce_parser_token.h--checks for a preprocessor define CUSTOM_TOKEN_TYPE, which should be provided as an argument to gcc ("-DCUSTOM_TOKEN_TYPE"). If present, instead of compiling the default token interface, it will instead include another file--parce_custom_token.h--which will have to be provided. This file can define a new token type, or be used to include some other token interface (if, for example, your file names follow a different naming scheme).
+
+Then simply provide implementations of the scanner and/or parser functions (either those provided with the library, or any alternate), and you're in business.
 
 
 BUILDING THE SOURCES
