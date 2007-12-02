@@ -7,32 +7,32 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		4ED4EEE70D0309EF00A7502A /* generated */ = {
+		4ED4EEE70D0309EF00A7502A /* generate */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 4ED4EEEA0D030A0D00A7502A /* Build configuration list for PBXAggregateTarget "generated" */;
+			buildConfigurationList = 4ED4EEEA0D030A0D00A7502A /* Build configuration list for PBXAggregateTarget "generate" */;
 			buildPhases = (
 				4ED4EEE60D0309EF00A7502A /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = generated;
+			name = generate;
 			productName = generated;
 		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		4ED4ED6D0D02E3FF00A7502A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0867D69BFE84028FC02AAC07 /* Foundation.framework */; };
-		4ED4EE900D02F7B400A7502A /* objc_parser_token.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EE090D02E5BF00A7502A /* objc_parser_token.c */; };
-		4ED4EE910D02F7B500A7502A /* objc_parser_actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EE070D02E5BF00A7502A /* objc_parser_actions.c */; };
-		4ED4EE920D02F7B600A7502A /* objc_scanner_actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EE0B0D02E5BF00A7502A /* objc_scanner_actions.c */; };
-		4ED4EE930D02F7BB00A7502A /* objc_parser_actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EE080D02E5BF00A7502A /* objc_parser_actions.h */; };
-		4ED4EE940D02F7BB00A7502A /* objc_parser_token.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EE0A0D02E5BF00A7502A /* objc_parser_token.h */; };
-		4ED4EE950D02F7BC00A7502A /* objc_scanner_actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EE0C0D02E5BF00A7502A /* objc_scanner_actions.h */; };
 		4ED4EEB60D02FF9400A7502A /* objc.l in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EE050D02E5BF00A7502A /* objc.l */; };
-		4ED4EF050D03193000A7502A /* parce_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF030D03193000A7502A /* parce_parser.c */; };
-		4ED4EF060D03193000A7502A /* parce_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF040D03193000A7502A /* parce_parser.h */; };
-		4ED4EF070D03193000A7502A /* parce_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF030D03193000A7502A /* parce_parser.c */; };
-		4ED4EF080D03193000A7502A /* parce_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF040D03193000A7502A /* parce_parser.h */; };
+		4ED4EF320D031FC300A7502A /* parce_parser_actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF2C0D031FC300A7502A /* parce_parser_actions.c */; };
+		4ED4EF330D031FC300A7502A /* parce_parser_actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF2D0D031FC300A7502A /* parce_parser_actions.h */; };
+		4ED4EF340D031FC300A7502A /* parce_parser_token.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF2E0D031FC300A7502A /* parce_parser_token.c */; };
+		4ED4EF350D031FC300A7502A /* parce_parser_token.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */; };
+		4ED4EF360D031FC300A7502A /* parce_scanner_actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */; };
+		4ED4EF370D031FC300A7502A /* parce_scanner_actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */; };
+		4ED4EF560D0321FC00A7502A /* parce_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF540D0321FC00A7502A /* parce_parser.c */; };
+		4ED4EF570D0321FC00A7502A /* parce_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF550D0321FC00A7502A /* parce_parser.h */; };
+		4ED4EF580D0321FC00A7502A /* parce_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF540D0321FC00A7502A /* parce_parser.c */; };
+		4ED4EF590D0321FC00A7502A /* parce_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF550D0321FC00A7502A /* parce_parser.h */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -60,16 +60,16 @@
 		4ED4EE040D02E5BF00A7502A /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = makefile; path = /Users/bgulanowski/Developer/My/parce/makefile; sourceTree = "<absolute>"; };
 		4ED4EE050D02E5BF00A7502A /* objc.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = objc.l; path = /Users/bgulanowski/Developer/My/parce/objc.l; sourceTree = "<absolute>"; };
 		4ED4EE060D02E5BF00A7502A /* objc.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; name = objc.y; path = /Users/bgulanowski/Developer/My/parce/objc.y; sourceTree = "<absolute>"; };
-		4ED4EE070D02E5BF00A7502A /* objc_parser_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = objc_parser_actions.c; path = /Users/bgulanowski/Developer/My/parce/objc_parser_actions.c; sourceTree = "<absolute>"; };
-		4ED4EE080D02E5BF00A7502A /* objc_parser_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = objc_parser_actions.h; path = /Users/bgulanowski/Developer/My/parce/objc_parser_actions.h; sourceTree = "<absolute>"; };
-		4ED4EE090D02E5BF00A7502A /* objc_parser_token.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = objc_parser_token.c; path = /Users/bgulanowski/Developer/My/parce/objc_parser_token.c; sourceTree = "<absolute>"; };
-		4ED4EE0A0D02E5BF00A7502A /* objc_parser_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = objc_parser_token.h; path = /Users/bgulanowski/Developer/My/parce/objc_parser_token.h; sourceTree = "<absolute>"; };
-		4ED4EE0B0D02E5BF00A7502A /* objc_scanner_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = objc_scanner_actions.c; path = /Users/bgulanowski/Developer/My/parce/objc_scanner_actions.c; sourceTree = "<absolute>"; };
-		4ED4EE0C0D02E5BF00A7502A /* objc_scanner_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = objc_scanner_actions.h; path = /Users/bgulanowski/Developer/My/parce/objc_scanner_actions.h; sourceTree = "<absolute>"; };
 		4ED4EE110D02E5EB00A7502A /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = /Users/bgulanowski/Developer/My/parce/README.txt; sourceTree = "<absolute>"; };
 		4ED4EE7E0D02F68400A7502A /* libparce.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libparce.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4ED4EF030D03193000A7502A /* parce_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser.c; path = ../../../../../Shared/bgulanowski/Build/Parce.build/Debug/parce_parser.c; sourceTree = SOURCE_ROOT; };
-		4ED4EF040D03193000A7502A /* parce_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser.h; path = ../../../../../Shared/bgulanowski/Build/Parce.build/Debug/parce_parser.h; sourceTree = SOURCE_ROOT; };
+		4ED4EF2C0D031FC300A7502A /* parce_parser_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser_actions.c; path = /Users/bgulanowski/Developer/My/parce/parce_parser_actions.c; sourceTree = "<absolute>"; };
+		4ED4EF2D0D031FC300A7502A /* parce_parser_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser_actions.h; path = /Users/bgulanowski/Developer/My/parce/parce_parser_actions.h; sourceTree = "<absolute>"; };
+		4ED4EF2E0D031FC300A7502A /* parce_parser_token.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser_token.c; path = /Users/bgulanowski/Developer/My/parce/parce_parser_token.c; sourceTree = "<absolute>"; };
+		4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser_token.h; path = /Users/bgulanowski/Developer/My/parce/parce_parser_token.h; sourceTree = "<absolute>"; };
+		4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_scanner_actions.c; path = /Users/bgulanowski/Developer/My/parce/parce_scanner_actions.c; sourceTree = "<absolute>"; };
+		4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_scanner_actions.h; path = /Users/bgulanowski/Developer/My/parce/parce_scanner_actions.h; sourceTree = "<absolute>"; };
+		4ED4EF540D0321FC00A7502A /* parce_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser.c; path = ../../../../../Shared/bgulanowski/Build/Parce.build/Debug/generate.build/DerivedSources/parce_parser.c; sourceTree = SOURCE_ROOT; };
+		4ED4EF550D0321FC00A7502A /* parce_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser.h; path = ../../../../../Shared/bgulanowski/Build/Parce.build/Debug/generate.build/DerivedSources/parce_parser.h; sourceTree = SOURCE_ROOT; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* Parce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Parce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -96,6 +96,8 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				4ED4EF540D0321FC00A7502A /* parce_parser.c */,
+				4ED4EF550D0321FC00A7502A /* parce_parser.h */,
 				8DC2EF5B0486A6940098B216 /* Parce.framework */,
 				4ED4EE7E0D02F68400A7502A /* libparce.a */,
 			);
@@ -106,7 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				4ED4EE120D02E5FA00A7502A /* Specifications */,
-				4ED4EF090D03193800A7502A /* intermediate */,
 				4ED4EED20D03047500A7502A /* libparce */,
 				4ED4EED30D03047A00A7502A /* Parce */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
@@ -160,6 +161,7 @@
 		4ED4EE0E0D02E5CB00A7502A /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				4ED4EE030D02E5BF00A7502A /* main.c */,
 				4ED4EE110D02E5EB00A7502A /* README.txt */,
 				4ED4EE040D02E5BF00A7502A /* makefile */,
 			);
@@ -178,6 +180,12 @@
 		4ED4EED20D03047500A7502A /* libparce */ = {
 			isa = PBXGroup;
 			children = (
+				4ED4EF2C0D031FC300A7502A /* parce_parser_actions.c */,
+				4ED4EF2D0D031FC300A7502A /* parce_parser_actions.h */,
+				4ED4EF2E0D031FC300A7502A /* parce_parser_token.c */,
+				4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */,
+				4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */,
+				4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */,
 				4ED4EED60D0304F300A7502A /* source */,
 			);
 			name = libparce;
@@ -194,24 +202,8 @@
 		4ED4EED60D0304F300A7502A /* source */ = {
 			isa = PBXGroup;
 			children = (
-				4ED4EE030D02E5BF00A7502A /* main.c */,
-				4ED4EE070D02E5BF00A7502A /* objc_parser_actions.c */,
-				4ED4EE080D02E5BF00A7502A /* objc_parser_actions.h */,
-				4ED4EE090D02E5BF00A7502A /* objc_parser_token.c */,
-				4ED4EE0A0D02E5BF00A7502A /* objc_parser_token.h */,
-				4ED4EE0B0D02E5BF00A7502A /* objc_scanner_actions.c */,
-				4ED4EE0C0D02E5BF00A7502A /* objc_scanner_actions.h */,
 			);
 			name = source;
-			sourceTree = "<group>";
-		};
-		4ED4EF090D03193800A7502A /* intermediate */ = {
-			isa = PBXGroup;
-			children = (
-				4ED4EF030D03193000A7502A /* parce_parser.c */,
-				4ED4EF040D03193000A7502A /* parce_parser.h */,
-			);
-			name = intermediate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,10 +213,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ED4EE930D02F7BB00A7502A /* objc_parser_actions.h in Headers */,
-				4ED4EE940D02F7BB00A7502A /* objc_parser_token.h in Headers */,
-				4ED4EE950D02F7BC00A7502A /* objc_scanner_actions.h in Headers */,
-				4ED4EF080D03193000A7502A /* parce_parser.h in Headers */,
+				4ED4EF330D031FC300A7502A /* parce_parser_actions.h in Headers */,
+				4ED4EF350D031FC300A7502A /* parce_parser_token.h in Headers */,
+				4ED4EF370D031FC300A7502A /* parce_scanner_actions.h in Headers */,
+				4ED4EF570D0321FC00A7502A /* parce_parser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +224,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ED4EF060D03193000A7502A /* parce_parser.h in Headers */,
+				4ED4EF590D0321FC00A7502A /* parce_parser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +282,7 @@
 			projectDirPath = "";
 			projectRoot = ..;
 			targets = (
-				4ED4EEE70D0309EF00A7502A /* generated */,
+				4ED4EEE70D0309EF00A7502A /* generate */,
 				4ED4EE7D0D02F68400A7502A /* libparce */,
 				8DC2EF4F0486A6940098B216 /* Parce */,
 			);
@@ -318,12 +310,12 @@
 				"$(SRCROOT)/../objc.y",
 			);
 			outputPaths = (
-				"$(CONFIGURATION_TEMP_DIR)/parce_parser.h",
-				"$(CONFIGURATION_TEMP_DIR)/parce_parser.c",
+				"$(DERIVED_FILES_DIR)/parce_parser.h",
+				"$(DERIVED_FILES_DIR)/parce_parser.c",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# shell script goes here\nCMD=\"${YACC} -dv -o${CONFIGURATION_TEMP_DIR}/parce_parser.c ${SRCROOT}/../objc.y\"\necho \"Processing script command: ${CMD}\"\n${CMD}\n";
+			shellScript = "# shell script goes here\nCMD=\"${YACC} -dv -o${DERIVED_FILES_DIR}/parce_parser.c ${SRCROOT}/../objc.y\"\necho \"Processing script command: ${CMD}\"\n${CMD}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -332,11 +324,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ED4EE900D02F7B400A7502A /* objc_parser_token.c in Sources */,
-				4ED4EE910D02F7B500A7502A /* objc_parser_actions.c in Sources */,
-				4ED4EE920D02F7B600A7502A /* objc_scanner_actions.c in Sources */,
 				4ED4EEB60D02FF9400A7502A /* objc.l in Sources */,
-				4ED4EF070D03193000A7502A /* parce_parser.c in Sources */,
+				4ED4EF320D031FC300A7502A /* parce_parser_actions.c in Sources */,
+				4ED4EF340D031FC300A7502A /* parce_parser_token.c in Sources */,
+				4ED4EF360D031FC300A7502A /* parce_scanner_actions.c in Sources */,
+				4ED4EF560D0321FC00A7502A /* parce_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,7 +336,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ED4EF050D03193000A7502A /* parce_parser.c in Sources */,
+				4ED4EF580D0321FC00A7502A /* parce_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,12 +345,12 @@
 /* Begin PBXTargetDependency section */
 		4ED4EF0B0D03195900A7502A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4ED4EEE70D0309EF00A7502A /* generated */;
+			target = 4ED4EEE70D0309EF00A7502A /* generate */;
 			targetProxy = 4ED4EF0A0D03195900A7502A /* PBXContainerItemProxy */;
 		};
 		4ED4EF0D0D03195F00A7502A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4ED4EEE70D0309EF00A7502A /* generated */;
+			target = 4ED4EEE70D0309EF00A7502A /* generate */;
 			targetProxy = 4ED4EF0C0D03195F00A7502A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -518,7 +510,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4ED4EEEA0D030A0D00A7502A /* Build configuration list for PBXAggregateTarget "generated" */ = {
+		4ED4EEEA0D030A0D00A7502A /* Build configuration list for PBXAggregateTarget "generate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4ED4EEE80D0309EF00A7502A /* Debug */,

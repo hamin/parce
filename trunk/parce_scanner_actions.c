@@ -23,7 +23,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  */
 
-#include "objc_scanner_actions.h"
+#include "parce_scanner_actions.h"
 
 
 
@@ -52,5 +52,3 @@ int scanObjCString( char *tokenString ){ return OBJC_STRING_LITERAL; }  // OBJC_
  An identifier is stored in a context table as a specialized type determined by the parser, and retrieved on subsequent occurrences
  */
 int scanType( char *tokenString ){ return IDENTIFIER; }        // IDENTIFIER->TYPE_NAME/CLASS_NAME/
-
-int yywrap ( void ) { return 0; }
