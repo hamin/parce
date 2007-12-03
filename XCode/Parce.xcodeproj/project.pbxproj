@@ -29,16 +29,13 @@
 		4ED4EF350D031FC300A7502A /* parce_parser_token.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */; };
 		4ED4EF360D031FC300A7502A /* parce_scanner_actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */; };
 		4ED4EF370D031FC300A7502A /* parce_scanner_actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */; };
-		4ED4EF560D0321FC00A7502A /* parce_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF540D0321FC00A7502A /* parce_parser.c */; };
-		4ED4EF570D0321FC00A7502A /* parce_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF550D0321FC00A7502A /* parce_parser.h */; };
-		4ED4EF590D0321FC00A7502A /* parce_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF550D0321FC00A7502A /* parce_parser.h */; };
-		4ED94CDF0D0352640020EE01 /* PaToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED94CDD0D0352640020EE01 /* PaToken.h */; };
+		4ED94CDF0D0352640020EE01 /* PaToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED94CDD0D0352640020EE01 /* PaToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ED94CE00D0352640020EE01 /* PaToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED94CDE0D0352640020EE01 /* PaToken.m */; };
 		4ED94CE20D03542B0020EE01 /* parce_custom_token.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED94CE10D03542B0020EE01 /* parce_custom_token.h */; };
-		4ED94CE60D0354C40020EE01 /* PaParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED94CE40D0354C40020EE01 /* PaParser.h */; };
+		4ED94CE60D0354C40020EE01 /* PaParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED94CE40D0354C40020EE01 /* PaParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ED94CE70D0354C40020EE01 /* PaParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED94CE50D0354C40020EE01 /* PaParser.m */; };
 		4ED94D0C0D0371600020EE01 /* parce_parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED94D0B0D0371600020EE01 /* parce_parser.m */; };
-		4ED94D3E0D03779B0020EE01 /* PaScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED94D3C0D03779B0020EE01 /* PaScanner.h */; };
+		4ED94D3E0D03779B0020EE01 /* PaScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED94D3C0D03779B0020EE01 /* PaScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ED94D3F0D03779B0020EE01 /* PaScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED94D3D0D03779B0020EE01 /* PaScanner.m */; };
 		4ED94D410D03796E0020EE01 /* objc.l in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EE050D02E5BF00A7502A /* objc.l */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
@@ -76,8 +73,6 @@
 		4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser_token.h; path = ../parce_parser_token.h; sourceTree = "<group>"; };
 		4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_scanner_actions.c; path = ../parce_scanner_actions.c; sourceTree = "<group>"; };
 		4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_scanner_actions.h; path = ../parce_scanner_actions.h; sourceTree = "<group>"; };
-		4ED4EF540D0321FC00A7502A /* parce_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser.c; path = ../parce_parser.c; sourceTree = BUILT_PRODUCTS_DIR; };
-		4ED4EF550D0321FC00A7502A /* parce_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser.h; path = ../parce_parser.h; sourceTree = BUILT_PRODUCTS_DIR; };
 		4ED94CDD0D0352640020EE01 /* PaToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaToken.h; path = ../PaToken.h; sourceTree = "<group>"; };
 		4ED94CDE0D0352640020EE01 /* PaToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaToken.m; path = ../PaToken.m; sourceTree = "<group>"; };
 		4ED94CE10D03542B0020EE01 /* parce_custom_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_custom_token.h; path = ../parce_custom_token.h; sourceTree = SOURCE_ROOT; };
@@ -112,8 +107,6 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4ED4EF540D0321FC00A7502A /* parce_parser.c */,
-				4ED4EF550D0321FC00A7502A /* parce_parser.h */,
 				8DC2EF5B0486A6940098B216 /* Parce.framework */,
 				4ED4EE7E0D02F68400A7502A /* libparce.a */,
 			);
@@ -232,7 +225,6 @@
 				4ED4EF330D031FC300A7502A /* parce_parser_actions.h in Headers */,
 				4ED4EF350D031FC300A7502A /* parce_parser_token.h in Headers */,
 				4ED4EF370D031FC300A7502A /* parce_scanner_actions.h in Headers */,
-				4ED4EF570D0321FC00A7502A /* parce_parser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,7 +232,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ED4EF590D0321FC00A7502A /* parce_parser.h in Headers */,
 				4ED94CDF0D0352640020EE01 /* PaToken.h in Headers */,
 				4ED94CE20D03542B0020EE01 /* parce_custom_token.h in Headers */,
 				4ED94CE60D0354C40020EE01 /* PaParser.h in Headers */,
@@ -348,7 +339,6 @@
 				4ED4EF320D031FC300A7502A /* parce_parser_actions.c in Sources */,
 				4ED4EF340D031FC300A7502A /* parce_parser_token.c in Sources */,
 				4ED4EF360D031FC300A7502A /* parce_scanner_actions.c in Sources */,
-				4ED4EF560D0321FC00A7502A /* parce_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
