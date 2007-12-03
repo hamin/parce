@@ -38,6 +38,8 @@
 		4ED94D3E0D03779B0020EE01 /* PaScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED94D3C0D03779B0020EE01 /* PaScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4ED94D3F0D03779B0020EE01 /* PaScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED94D3D0D03779B0020EE01 /* PaScanner.m */; };
 		4ED94D410D03796E0020EE01 /* objc.l in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EE050D02E5BF00A7502A /* objc.l */; };
+		4ED9509A0D0466C30020EE01 /* parce_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED950980D0466C30020EE01 /* parce_parser.c */; };
+		4ED9509B0D0466C30020EE01 /* parce_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED950990D0466C30020EE01 /* parce_parser.h */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +83,8 @@
 		4ED94D0B0D0371600020EE01 /* parce_parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = parce_parser.m; path = ../parce_parser.m; sourceTree = SOURCE_ROOT; };
 		4ED94D3C0D03779B0020EE01 /* PaScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaScanner.h; path = ../PaScanner.h; sourceTree = SOURCE_ROOT; };
 		4ED94D3D0D03779B0020EE01 /* PaScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaScanner.m; path = ../PaScanner.m; sourceTree = SOURCE_ROOT; };
+		4ED950980D0466C30020EE01 /* parce_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parce_parser.c; path = ../../../../../Shared/bgulanowski/Build/Parce.build/parce_parser.c; sourceTree = SOURCE_ROOT; };
+		4ED950990D0466C30020EE01 /* parce_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parce_parser.h; path = ../../../../../Shared/bgulanowski/Build/Parce.build/parce_parser.h; sourceTree = SOURCE_ROOT; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* Parce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Parce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -107,6 +111,8 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				4ED950980D0466C30020EE01 /* parce_parser.c */,
+				4ED950990D0466C30020EE01 /* parce_parser.h */,
 				8DC2EF5B0486A6940098B216 /* Parce.framework */,
 				4ED4EE7E0D02F68400A7502A /* libparce.a */,
 			);
@@ -225,6 +231,7 @@
 				4ED4EF330D031FC300A7502A /* parce_parser_actions.h in Headers */,
 				4ED4EF350D031FC300A7502A /* parce_parser_token.h in Headers */,
 				4ED4EF370D031FC300A7502A /* parce_scanner_actions.h in Headers */,
+				4ED9509B0D0466C30020EE01 /* parce_parser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,12 +328,12 @@
 				"$(SRCROOT)/../objc.y",
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/parce_parser.h",
-				"$(BUILT_PRODUCTS_DIR)/parce_parser.c",
+				"$(PROJECT_TEMP_DIR)/parce_parser.h",
+				"$(PROJECT_TEMP_DIR)/parce_parser.c",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "YACC=`which bison`\nCMD=\"${YACC} -dv -o${BUILT_PRODUCTS_DIR}/parce_parser.c ${SRCROOT}/../objc.y\"\necho \"Processing script command: ${CMD}\"\n${CMD}\n";
+			shellScript = "YACC=`which bison`\nCMD=\"${YACC} -dv -o${PROJECT_TEMP_DIR}/parce_parser.c ${SRCROOT}/../objc.y\"\necho \"Processing script command: ${CMD}\"\n${CMD}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -339,6 +346,7 @@
 				4ED4EF320D031FC300A7502A /* parce_parser_actions.c in Sources */,
 				4ED4EF340D031FC300A7502A /* parce_parser_token.c in Sources */,
 				4ED4EF360D031FC300A7502A /* parce_scanner_actions.c in Sources */,
+				4ED9509A0D0466C30020EE01 /* parce_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

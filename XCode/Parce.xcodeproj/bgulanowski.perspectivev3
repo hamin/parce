@@ -294,12 +294,13 @@
 								<string>4ED4EE0E0D02E5CB00A7502A</string>
 								<string>034768DFFF38A50411DB9C8B</string>
 								<string>1C37FBAC04509CD000000102</string>
-								<string>4ED94D650D043F800020EE01</string>
+								<string>4ED9508D0D0465BA0020EE01</string>
 								<string>1C37FAAC04509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>23</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -321,7 +322,7 @@
 							<real>206</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>0 50 1436 828 0 0 1440 878 </string>
+						<string>-1440 72 1436 828 -1440 0 1440 900 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -349,7 +350,7 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>4ED94D890D0441240020EE01</string>
+										<string>4ED9509D0D0466E50020EE01</string>
 										<key>history</key>
 										<array>
 											<string>4ED94D1A0D0372500020EE01</string>
@@ -360,7 +361,7 @@
 											<string>4ED94D490D037A1F0020EE01</string>
 											<string>4ED94D4A0D037A1F0020EE01</string>
 											<string>4ED94D760D0440080020EE01</string>
-											<string>4ED94D770D0440080020EE01</string>
+											<string>4ED950940D0466340020EE01</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -387,7 +388,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1208, 485}}</string>
 								<key>RubberWindowFrame</key>
-								<string>0 50 1436 828 0 0 1440 878 </string>
+								<string>-1440 72 1436 828 -1440 0 1440 900 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -400,6 +401,8 @@
 							<key>Tabs</key>
 							<array>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -411,6 +414,8 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1208, 270}}</string>
+										<key>RubberWindowFrame</key>
+										<string>-1440 72 1436 828 -1440 0 1440 900 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -450,12 +455,10 @@
 									<string>PBXCVSModule</string>
 								</dict>
 								<dict>
-									<key>BecomeActive</key>
-									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXBuildLogShowsTranscriptDefaultKey</key>
-										<string>{{0, 112}, {1208, 158}}</string>
+										<string>{{0, 144}, {1208, 126}}</string>
 										<key>PBXProjectModuleGUID</key>
 										<string>XCMainBuildResultsModuleGUID</string>
 										<key>PBXProjectModuleLabel</key>
@@ -469,8 +472,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1208, 270}}</string>
-										<key>RubberWindowFrame</key>
-										<string>0 50 1436 828 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -498,11 +499,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>4ED94D7A0D0440080020EE01</string>
+				<string>4ED9509E0D0466E50020EE01</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>4ED94D7B0D0440080020EE01</string>
+				<string>4ED9509F0D0466E50020EE01</string>
 				<string>4ED4EDEF0D02E51900A7502A</string>
-				<string>4ED94D7C0D0440080020EE01</string>
+				<string>4ED950A00D0466E50020EE01</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -673,7 +674,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>218382628.73223299</real>
+	<real>218392293.47797999</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -691,7 +692,7 @@
 		<string>/Users/bgulanowski/Developer/My/parce/XCode/Parce.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>0 50 1436 828 0 0 1440 878 </string>
+	<string>-1440 72 1436 828 -1440 0 1440 900 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

@@ -33,11 +33,11 @@ The XCode project may be confusing to those unfamiliar with working with non-sou
 
 XCode can process lex (.l) and yacc (.y) input files itself, although it requires tweaking. In Mac OS X v10.4 (Tiger) and earlier, the default install of bison does not support the %pure-parser directive. Solving that requires a custom build rule for yacc files. On Mac OS X v10.5 (Leopard), yacc resolves to bison 2.3, so this is not an issue.
 
-When processing lex and yacc files, the intermediate *.c files are compiled immediately. Unfortunately, the default rules do not take into account the fact that the generated flex scanner depends on a header file output by bison. On multiprocessor machines, this causes the compilation of the scanner to fail.
+When processing lex and yacc files, the intermediate *.c files are compiled immediately. Unfortunately, the default rules do not take into account the fact that the generated flex scanner depends on a header file output by bison. On multiprocessor machines, this causes the compilation of the scanner to fail if both are built in parallel.
 
 There are two solutions to this problem that I've found, although both amount to roughly the same thing (custom scripts). Either make a custom lex rule, and add "sleep(1)" before the lex command, to ensure that bison finishes first; or use a custom Run Script build phase to generate the parser.
 
-I tried the first technique and didn't like it. It's too hackish. The second technique, requires adding the intermediate output from bison to the project, but this is akin to building a framework and an application that depends upon it in the same project.
+I tried the first technique and didn't like it. It's too hackish. The second technique requires ensuring that the generated files can be found and built in to targets that need them. (TODO: finalize how this is done, i.e. in what directory are the generated files placed.)
 
 
 BACKGROUND
