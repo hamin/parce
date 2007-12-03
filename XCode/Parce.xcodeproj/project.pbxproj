@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -321,12 +321,12 @@
 				"$(SRCROOT)/../objc.y",
 			);
 			outputPaths = (
-				"$(BUILD_DIR)/parce_parser.h",
-				"$(BUILD_DIR)/parce_parser.c",
+				"$(BUILT_PRODUCTS_DIR)/parce_parser.h",
+				"$(BUILT_PRODUCTS_DIR)/parce_parser.c",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "YACC=`which bison`\nCMD=\"${YACC} -dv -o${BUILD_DIR}/parce_parser.c ${SRCROOT}/../objc.y\"\necho \"Processing script command: ${CMD}\"\n${CMD}\n";
+			shellScript = "YACC=`which bison`\nCMD=\"${YACC} -dv -o${BUILT_PRODUCTS_DIR}/parce_parser.c ${SRCROOT}/../objc.y\"\necho \"Processing script command: ${CMD}\"\n${CMD}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -426,9 +426,9 @@
 			buildSettings = {
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = Debug;
 		};
@@ -442,7 +442,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = Release;
 		};
