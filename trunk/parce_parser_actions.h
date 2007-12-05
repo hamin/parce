@@ -29,6 +29,32 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // provide your own token implementation
 #include "parce_parser_token.h"
+#include "parce_parser.h"
+
+
+enum {
+	LIST = CATEGORY_NAME + 1,
+	DECLARATION,
+	INIT_DECLARATOR,
+	FUNCTION_DEF,
+	FUNCTION_BODY,
+	STRUCT_SPEC,
+	UNION_SPEC,
+	ENUM_SPEC,
+	STRUCT_DEC,
+	STRUCT_DECLARATOR,
+	ENUMERATOR,
+	TYPE_DECLARATOR,
+	ARRAY_DECLARATOR,
+	LIST_DECLARATOR,
+	PARAMETER_DEC,
+	STRUCT_INIT,
+	CLASS_IMP,
+	CATEGORY_IMP,
+	CLASS_METHOD_DEC,
+	INSTANCE_METHOD_DEC,
+	TYPE_SPEC
+};
 
 
 extern token *tokenCopy( token *original );
@@ -202,8 +228,6 @@ extern token *tObjCString( char * );            // @"string" -- '@' and quotatio
  - plural means the head of list, returning from a recursive descent call sequence
  */
 
-extern token *gExternalDefinitionList( token *externalDefinitions, token *externalDefinition ); // aka a list of externalDefinitions
-// gExternalDefinition // default rule - any of nine subsidiary types
 
 /* external definitions */
 extern token *gDec( token *decSpecs, token *initDeclarators ); // initDeclarators may be NULL
@@ -212,7 +236,6 @@ extern token *gDec( token *decSpecs, token *initDeclarators ); // initDeclarator
 /* declarations */
 
 /* declarators (??) */
-//gTypeDeclarator
 extern token *gInitDeclarator( token *typeDeclarator, token *initializer );
 
 /* declaration specifiers */
@@ -234,14 +257,15 @@ extern token *gStructDec( token *specQuals, token *declarators );
 extern token *gStructDeclarator( token *typeDeclarator, token *initValue ); // type declarator or initValue may be null (but not both)
 
 /* enumeration elements */
-extern token *gEnumSpec( token *name, token *enumerators ); // name or enumerators may be NULL (but not both)
 extern token *gEnumerator( token *name, token *initValue ); // initValue may be NULL
 
 /* type declarations */
-extern token *gTypeDeclarator( token *pointer, token *declarators ); // pointer may be NULL
+extern token *gTypeDeclarator( token *pointer, token *declarators ); // pointer may be NULL, or a list
 extern token *gArrayDeclarator( token *length ); // '[' length ']' length may be NULL
 extern token *gListDeclarator( token *parameters ); // '(' parameters ')' parameters may be NULL, or a list of types or a list of identifiers; either list may end in an ellipsis
 extern token *gParameterDec( token *specs, token *declarator ); // declarator is a typeDeclarator or an abstractDeclarator, or may be NULL
+
+extern token *gPointer( token *elements );
 
 extern token *gStructInitializer( token *assignmentExpr );
 

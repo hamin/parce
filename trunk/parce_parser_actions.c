@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 
 
-extern token *tokenCopy( token *original ) {
+token *tokenCopy( token *original ) {
 
 	token *result = tokenNew();
 
@@ -47,7 +47,7 @@ extern token *tokenCopy( token *original ) {
 	return result;
 }
 
-extern token *tokenListAppend( token *head, token *last ) {
+token *tokenListAppend( token *head, token *last ) {
 	token *oldLast = head->next;
 	while (oldLast = oldLast->next)
 		;
@@ -214,61 +214,152 @@ token *tObjCString( char *tokenString ) { return tokenNewWithAttributes(OBJC_STR
 
 // NON-TERMINAL TOKENS
 
-token *gExternalDefinitionList( token *externalDefinitions, token *externalDefinition ) {
-	return NULL;
-}
-
 token *gDec( token *decSpecs, token *initDeclarators ) {
-	return NULL;
+	if(NULL != initDeclarators)
+		tokenSetNextSibling(decSpecs, initDeclarators);
+	return tokenNewWithAttributes(DECLARATION, NULL, NULL, decSpecs);
 }
 
-token *gInitDeclarator( token *typeDeclarator, token *initializer ){ return NULL; }
+token *gInitDeclarator( token *typeDeclarator, token *initializer ) {
+	tokenSetNextSibling(typeDeclarator, initializer);
+	return tokenNewWithAttributes(INIT_DECLARATOR, NULL, NULL, typeDeclarator);
+}
 
 
 /* functions */
-token *gFunctionDef (token *decSpecs, token *typeDec, token *body ){ return NULL; } // decSpecs may be NULL
-token *gFunctionBody ( token *decs, token *compoundStatement ){ return NULL; } // decs may be NULL
+token *gFunctionDef (token *decSpecs, token *typeDec, token *body ) {
+
+	// verify that typeDec is correct
+	// 1. ensure its first child is an identifier
+	token *functionName = typeDec->first;
+	if(! IDENTIFIER == functionName->type)
+		failWithError("Function signature ill-defined: no name");
+	// 2. ensure its second child is a list declarator
+	token *listDeclarator = functionName->next;
+	if(! LIST_DECLARATOR == listDeclarator->type)
+		failWithError("Function signature ill-defined: no parameter list");
+	
+	tokenSetNextSibling(typeDec, body);
+	if(NULL != decSpecs) {
+		tokenSetNextSibling(decSpecs, typeDec);
+		return tokenNewWithAttributes(FUNCTION_DEF, NULL, NULL, decSpecs);
+	}
+	return tokenNewWithAttributes(FUNCTION_DEF, NULL, NULL, typeDec);
+}
+
+token *gFunctionBody ( token *decs, token *compoundStatement ) {
+	if(NULL != decs) {
+		tokenSetNextSibling(decs, compoundStatement);
+		return tokenNewWithAttributes(FUNCTION_BODY, NULL, NULL, compoundStatement);
+	}
+	return tokenNewWithAttributes(FUNCTION_BODY, NULL, NULL, compoundStatement);
+}
+
 
 /* type specifiers */
-token *gStructOrUnionSpec( token *structOrUnion, token *name, token *structDecs ){ return NULL; } // name or structDecs may be NULL (but not both)
+token *gStructOrUnionSpec( token *structOrUnion, token *name, token *structDecs ) {
+	
+	unsigned int type;
+	
+	if(STRUCT == structOrUnion->type)
+		type = STRUCT_SPEC;
+	else
+		type = UNION_SPEC;
+	
+	if(NULL != name) {
+		if(NULL != structDecs)
+			tokenSetNextSibling(name, structDecs);
+		return tokenNewWithAttributes(type, NULL, NULL, name);
+	}	
+
+	return tokenNewWithAttributes(type, NULL, NULL, structDecs);	
+}
+
+token *gEnumSpec( token *name, token *enumerators ) {
+
+	if(NULL != enumerators) {
+		tokenSetNextSibling(name, enumerators);
+		return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, name);
+	}
+	return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, enumerators);
+}
 
 /* structure/union elements */
-token *gStructDec( token *specQuals, token *declarators ){ return NULL; }
-token *gStructDeclarator( token *typeDeclarator, token *initValue ){ return NULL; } // type declarator or initValue may be null (but not both)
+token *gStructDec( token *specQuals, token *declarators ) {
+	tokenSetNextSibling(specQuals, declarators);
+	return tokenNewWithAttributes(STRUCT_DEC, NULL, NULL, specQuals);
+}
+token *gStructDeclarator( token *typeDeclarator, token *initValue ) {
+	if(NULL != typeDeclarator) {
+		tokenSetNextSibling(typeDeclarator, initValue);
+		return tokenNewWithAttributes(STRUCT_DECLARATOR, NULL, NULL, typeDeclarator);
+	}
+	return tokenNewWithAttributes(STRUCT_DECLARATOR, NULL, NULL, initValue);
+}
 
 /* enumeration elements */
-token *gEnumSpec( token *name, token *enumerators ){ return NULL; } // name or enumerators may be NULL (but not both)
-token *gEnumerator( token *name, token *initValue ){ return NULL; } // initValue may be NULL
+token *gEnumerator( token *name, token *initValue ) {
+	if(NULL != initValue)
+		tokenSetNextSibling(name, initValue);
+	tokenListAppend(name, tParenR()); // name[, initValue], ')'
+	return tokenNewWithAttributes(ENUMERATOR, NULL, NULL, tokenSetNextSibling(tParenL(), name));
+}
 
 /* type declarations */
-token *gTypeDeclarator( token *pointer, token *declarators ){ return NULL; } // pointer may be NULL
-token *gArrayDeclarator( token *length ){ return NULL; } // '[' length ']' length may be NULL
-token *gListDeclarator( token *parameters ){ return NULL; } // '(' parameters ')' parameters may be NULL, or a list of types or a list of identifiers{ return NULL; } either list may end in an ellipsis
-token *gParameterDec( token *specs, token *declarator ){ return NULL; } // declarator is a typeDeclarator or an abstractDeclarator, or may be NULL
+token *gTypeDeclarator( token *pointer, token *declarators ) {
+	token *list = tokenNewWithAttributes(LIST, NULL, NULL, declarators);
+	if(NULL != pointer) {
+		tokenListAppend(pointer, list);
+		tokenNewWithAttributes(TYPE_DECLARATOR, NULL, NULL, pointer);
+	}
+	return tokenNewWithAttributes(TYPE_DECLARATOR, NULL, NULL, list);
+}
+token *gArrayDeclarator( token *length ) {
+	return tokenNewWithAttributes(ARRAY_DECLARATOR, NULL, NULL, length);
+}
+token *gListDeclarator( token *parameters ) {
+	token *list = tokenNewWithAttributes(LIST, NULL, NULL, parameters);
+	tokenListAppend(list, tParenR());
+	return tokenNewWithAttributes(LIST_DECLARATOR, NULL, NULL, tokenListAppend(tParenL(), list));
+}
 
-token *gStructInitializer( token *assignmentExpr ){ return NULL; }
+token *gParameterDec( token *specs, token *declarator ) {
+	token *list = tokenNewWithAttributes(LIST, NULL, NULL, specs);
+	if(NULL != declarator)
+		tokenListAppend(list, declarator); // this is sketchy; we may need list tokens
+	return tokenNewWithAttributes(PARAMETER_DEC, NULL, NULL, list);
+}
+
+token *gPointer( token *elements ) {
+	return tokenNewWithAttributes(LIST, NULL, NULL, elements);
+}
+
+token *gStructInitializer( token *assignmentExpr ) {
+	tokenListAppend(assignmentExpr, tCurlyR());
+	return tokenNewWithAttributes(STRUCT_INIT, NULL, NULL, tokenListAppend(tCurlyL(), assignmentExpr));
+}
 
 
 /** Objective-C **/
 
 /* external definitions */
-token *gClassDecs( token *identifiers ){ return NULL; }
-token *gProtocolDecs( token *identifiers ){ return NULL; }
+token *gClassDecs( token *identifiers ) { return NULL; }
+token *gProtocolDecs( token *identifiers ) { return NULL; }
 
-token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs ){ return NULL; }
-token *gCategoryInterface( token *className, token *categoryName, token *protocolRefs, token *interfaceDecs ){ return NULL; }
-token *gProtocolDec( token *protocolName, token *protocolRefs, token *interfaceDecs ){ return NULL; }
+token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs ) { return NULL; }
+token *gCategoryInterface( token *className, token *categoryName, token *protocolRefs, token *interfaceDecs ) { return NULL; }
+token *gProtocolDec( token *protocolName, token *protocolRefs, token *interfaceDecs ) { return NULL; }
 
-token *gClassImplementation(token *className, token *methodDefs ){ return NULL; }
-token *gCategoryImplementation( token *className, token *categoryName, token *methodDefs ){ return NULL; }
+token *gClassImplementation(token *className, token *methodDefs ) { return NULL; }
+token *gCategoryImplementation( token *className, token *categoryName, token *methodDefs ) { return NULL; }
 
-token *gClassMethodDec( token *returnType, token *selector ){ return NULL; }
-token *gInstanceMethodDec( token *returnType, token *selector ){ return NULL; }
+token *gClassMethodDec( token *returnType, token *selector ) { return NULL; }
+token *gInstanceMethodDec( token *returnType, token *selector ) { return NULL; }
 
-token *gClassMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ){ return NULL; }
-token *gInstanceMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ){ return NULL; }
+token *gClassMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ) { return NULL; }
+token *gInstanceMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ) { return NULL; }
 
 /* type specifiers */
-token *gTypeSpec( token *typeSpec, token *protocolRefs ){ return NULL; } // type is either OBJC_ID or CLASS_NAME; protocolRefs is a list of protocol names
+token *gTypeSpec( token *typeSpec, token *protocolRefs ) { return NULL; }
 
-token *gStructObjCDefs( token *className ){ return NULL; }
+token *gStructObjCDefs( token *className ) { return NULL; }
