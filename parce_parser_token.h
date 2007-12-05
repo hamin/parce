@@ -61,8 +61,8 @@ extern void tokenSetDeleteFunction ( freeFunction valueFreeFunction );
 
 
 /** smart setter functions -- these release any existing tokens before replacing them **/
-extern void tokenSetNextSibling( token *aToken );
-extern void tokenSetFirstChild( token *aToken );
+extern token *tokenSetNextSibling( token *aToken, token *next );
+extern token *tokenSetFirstChild( token *aToken, token *first );
 #endif
 
 #endif /* OBJC_PARSER_TOKEN_H */
