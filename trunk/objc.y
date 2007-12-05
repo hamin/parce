@@ -634,7 +634,7 @@ throw_statement
 
 translation_unit
 	: external_definition
-	| translation_unit external_definition { $$ = gExternalDefinitionList($1, $2); }
+	| translation_unit external_definition { $$ = tokenListAppend($1, $2); }
 	;
 
 external_definition // default rule
