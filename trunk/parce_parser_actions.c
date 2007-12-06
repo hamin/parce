@@ -228,7 +228,9 @@ token *gDec( token *decSpecs, token *initDeclarators ) {
 }
 
 token *gInitDeclarator( token *typeDeclarator, token *initializer ) {
-	tokenSetNextSibling(typeDeclarator, initializer);
+	if(NULL != initializer) {
+		tokenSetNextSibling(typeDeclarator, tokenSetNextSibling(tAssignOp(), initializer));
+	}
 	return tokenNewWithAttributes(INIT_DECLARATOR, NULL, NULL, typeDeclarator);
 }
 
@@ -274,17 +276,21 @@ token *gStructOrUnionSpec( token *structOrUnion, token *name, token *structDecs 
 	else
 		type = UNION_SPEC;
 	
+	token *structBody = NULL;
+	
 	if(NULL != structDecs) {
 		token *structDecList = tokenNewWithAttributes(LIST, NULL, NULL, structDecs);
+		structBody =  tokenSetNextSibling(tCurlyL(), tokenSetNextSibling(structDecList, tCurlyR()));
+	}
 	
 	if(NULL != name) {
-		if(NULL != structDecList) {
-			tokenSetNextSibling(name, tokenSetNextSibling(tCurlyL(), tokenSetNextSibling(structDecList, tCurlyR())));
+		if(NULL != structBody) {
+			tokenSetNextSibling(name, structBody);
 		}
 		return tokenNewWithAttributes(type, NULL, NULL, name);
 	}	
 
-	return tokenNewWithAttributes(type, NULL, NULL, structDecList);	
+	return tokenNewWithAttributes(type, NULL, NULL, structBody);	
 }
 
 token *gEnumSpec( token *name, token *enumerators ) {
@@ -298,7 +304,6 @@ token *gEnumSpec( token *name, token *enumerators ) {
 	}
 	if(NULL != enumeratorList)
 		tokenSetNextSibling(name, enumeratorList);
-	}
 	return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, name);
 }
 
