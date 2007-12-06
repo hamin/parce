@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 enum {
 	LIST = CATEGORY_NAME + 1,
+	TRANSLATION_UNIT,
 	DECLARATION,
 	INIT_DECLARATOR,
 	FUNCTION_DEF,
@@ -230,6 +231,7 @@ extern token *tObjCString( char * );            // @"string" -- '@' and quotatio
 
 
 /* external definitions */
+extern token *gTranslationUnit( token *externalDef );
 extern token *gDec( token *decSpecs, token *initDeclarators ); // initDeclarators may be NULL
 
 

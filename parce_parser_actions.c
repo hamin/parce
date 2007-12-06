@@ -56,6 +56,9 @@ token *tokenListAppend( token *head, token *last ) {
 }
 
 
+void failWithError(const char *message) {
+	// FIXME: implement
+}
 
 /** specialized token creation functions for terminal symbols **/
 
@@ -214,9 +217,13 @@ token *tObjCString( char *tokenString ) { return tokenNewWithAttributes(OBJC_STR
 
 // NON-TERMINAL TOKENS
 
+token *gTranslationUnit( token *externalDef ) {
+	return tokenNewWithAttributes(TRANSLATION_UNIT, NULL, NULL, externalDef);
+}
+
 token *gDec( token *decSpecs, token *initDeclarators ) {
 	if(NULL != initDeclarators)
-		tokenSetNextSibling(decSpecs, initDeclarators);
+		tokenSetNextSibling(decSpecs, tokenNewWithAttributes(LIST, NULL, NULL, initDeclarators));
 	return tokenNewWithAttributes(DECLARATION, NULL, NULL, decSpecs);
 }
 
@@ -240,17 +247,18 @@ token *gFunctionDef (token *decSpecs, token *typeDec, token *body ) {
 		failWithError("Function signature ill-defined: no parameter list");
 	
 	tokenSetNextSibling(typeDec, body);
+	
 	if(NULL != decSpecs) {
-		tokenSetNextSibling(decSpecs, typeDec);
-		return tokenNewWithAttributes(FUNCTION_DEF, NULL, NULL, decSpecs);
+		token *decSpecList = tokenSetNextSibling(tokenNewWithAttributes(LIST, NULL, NULL, decSpecs), typeDec);
+		return tokenNewWithAttributes(FUNCTION_DEF, NULL, NULL, decSpecList);
 	}
 	return tokenNewWithAttributes(FUNCTION_DEF, NULL, NULL, typeDec);
 }
 
 token *gFunctionBody ( token *decs, token *compoundStatement ) {
 	if(NULL != decs) {
-		tokenSetNextSibling(decs, compoundStatement);
-		return tokenNewWithAttributes(FUNCTION_BODY, NULL, NULL, compoundStatement);
+		token *decList = tokenSetNextSibling(tokenNewWithAttributes(LIST, NULL, NULL, decs), compoundStatement);
+		return tokenNewWithAttributes(FUNCTION_BODY, NULL, NULL, decList);
 	}
 	return tokenNewWithAttributes(FUNCTION_BODY, NULL, NULL, compoundStatement);
 }
@@ -266,29 +274,45 @@ token *gStructOrUnionSpec( token *structOrUnion, token *name, token *structDecs 
 	else
 		type = UNION_SPEC;
 	
+	if(NULL != structDecs) {
+		token *structDecList = tokenNewWithAttributes(LIST, NULL, NULL, structDecs);
+	
 	if(NULL != name) {
-		if(NULL != structDecs)
-			tokenSetNextSibling(name, structDecs);
+		if(NULL != structDecList) {
+			tokenSetNextSibling(name, tokenSetNextSibling(tCurlyL(), tokenSetNextSibling(structDecList, tCurlyR())));
+		}
 		return tokenNewWithAttributes(type, NULL, NULL, name);
 	}	
 
-	return tokenNewWithAttributes(type, NULL, NULL, structDecs);	
+	return tokenNewWithAttributes(type, NULL, NULL, structDecList);	
 }
 
 token *gEnumSpec( token *name, token *enumerators ) {
 
-	if(NULL != enumerators) {
-		tokenSetNextSibling(name, enumerators);
-		return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, name);
+	token *enumeratorList = NULL;
+	
+	if(NULL != enumerators)
+		enumeratorList = tokenNewWithAttributes(LIST, NULL, NULL, enumerators);
+	if(NULL == name) {
+		return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, enumeratorList);
 	}
-	return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, enumerators);
+	if(NULL != enumeratorList)
+		tokenSetNextSibling(name, enumeratorList);
+	}
+	return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, name);
 }
 
 /* structure/union elements */
 token *gStructDec( token *specQuals, token *declarators ) {
-	tokenSetNextSibling(specQuals, declarators);
-	return tokenNewWithAttributes(STRUCT_DEC, NULL, NULL, specQuals);
+
+	token *specQualList = tokenNewWithAttributes(LIST, NULL, NULL, specQuals);
+	token *declaratorList = tokenNewWithAttributes(LIST, NULL, NULL, declarators);
+	
+	tokenSetNextSibling(specQualList, declaratorList);
+	
+	return tokenNewWithAttributes(STRUCT_DEC, NULL, NULL, specQualList);
 }
+
 token *gStructDeclarator( token *typeDeclarator, token *initValue ) {
 	if(NULL != typeDeclarator) {
 		tokenSetNextSibling(typeDeclarator, initValue);
