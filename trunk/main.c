@@ -38,8 +38,19 @@ Ideally, provide the following features:
 */
 
 int main( int argc, char *argv[] ) {
+
+	token *tree;
 	
-//	yyparse(stdin);
+	unsigned result = yyparse(&tree);
 	
-	return 0;
+	if(0 == result) {
+		
+		printf("parse successful");
+		// FIXME:  do something with tree
+		// printTree(tree);
+	}
+	
+	tokenFree(tree);
+	
+	return result;
 }
