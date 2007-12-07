@@ -218,13 +218,16 @@ token *tObjCString( char *tokenString ) { return tokenNewWithAttributes(OBJC_STR
 // NON-TERMINAL TOKENS
 
 token *gTranslationUnit( token *externalDef ) {
+	
+	// FIXME: create symbol scope table tree
+	
 	return tokenNewWithAttributes(TRANSLATION_UNIT, NULL, NULL, externalDef);
 }
 
 token *gDec( token *decSpecs, token *initDeclarators ) {
 	if(NULL != initDeclarators)
 		tokenSetNextSibling(decSpecs, tokenNewWithAttributes(LIST, NULL, NULL, initDeclarators));
-	return tokenNewWithAttributes(DECLARATION, NULL, NULL, decSpecs);
+	return tokenNewWithAttributes(DECLARATION, NULL, NULL, tokenListAppend(decSpecs, tSemi()));
 }
 
 token *gInitDeclarator( token *typeDeclarator, token *initializer ) {
@@ -248,6 +251,8 @@ token *gFunctionDef (token *decSpecs, token *typeDec, token *body ) {
 	if(! LIST_DECLARATOR == listDeclarator->type)
 		failWithError("Function signature ill-defined: no parameter list");
 	
+	// FIXME: Add functionName->text to current symbol scope
+
 	tokenSetNextSibling(typeDec, body);
 	
 	if(NULL != decSpecs) {
@@ -284,6 +289,9 @@ token *gStructOrUnionSpec( token *structOrUnion, token *name, token *structDecs 
 	}
 	
 	if(NULL != name) {
+		
+		// FIXME: add name and details to current type scope
+		
 		if(NULL != structBody) {
 			tokenSetNextSibling(name, structBody);
 		}
@@ -297,11 +305,18 @@ token *gEnumSpec( token *name, token *enumerators ) {
 
 	token *enumeratorList = NULL;
 	
-	if(NULL != enumerators)
+	if(NULL != enumerators) {
+
+		// FIXME: add enumerators and their values to local symbol scope
+
 		enumeratorList = tokenNewWithAttributes(LIST, NULL, NULL, enumerators);
+	}
 	if(NULL == name) {
 		return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, enumeratorList);
 	}
+	
+	// FIXME: add name to local symbol scope
+	
 	if(NULL != enumeratorList)
 		tokenSetNextSibling(name, enumeratorList);
 	return tokenNewWithAttributes(ENUM_SPEC, NULL, NULL, name);
@@ -309,10 +324,15 @@ token *gEnumSpec( token *name, token *enumerators ) {
 
 /* structure/union elements */
 token *gStructDec( token *specQuals, token *declarators ) {
+	
+	// FIXME: push new symbol scope
 
+	// FIXME: add declarators to current symbol scope
+	
 	token *specQualList = tokenNewWithAttributes(LIST, NULL, NULL, specQuals);
 	token *declaratorList = tokenNewWithAttributes(LIST, NULL, NULL, declarators);
 	
+	tokenSetNextSibling(declaratorList, tSemi());
 	tokenSetNextSibling(specQualList, declaratorList);
 	
 	return tokenNewWithAttributes(STRUCT_DEC, NULL, NULL, specQualList);
@@ -330,22 +350,31 @@ token *gStructDeclarator( token *typeDeclarator, token *initValue ) {
 token *gEnumerator( token *name, token *initValue ) {
 	if(NULL != initValue)
 		tokenSetNextSibling(name, initValue);
-	tokenListAppend(name, tParenR()); // name[, initValue], ')'
+	tokenListAppend(name, tParenR());
 	return tokenNewWithAttributes(ENUMERATOR, NULL, NULL, tokenSetNextSibling(tParenL(), name));
 }
 
 /* type declarations */
 token *gTypeDeclarator( token *pointer, token *declarators ) {
+	
+	token *directDeclarator = declarators;
+	while(LIST == directDeclarator->type) {
+		directDeclarator = directDeclarator->first;
+	}
+	
 	token *list = tokenNewWithAttributes(LIST, NULL, NULL, declarators);
 	if(NULL != pointer) {
 		tokenListAppend(pointer, list);
-		tokenNewWithAttributes(TYPE_DECLARATOR, NULL, NULL, pointer);
+		return tokenNewWithAttributes(TYPE_DECLARATOR, NULL, NULL, pointer);
 	}
 	return tokenNewWithAttributes(TYPE_DECLARATOR, NULL, NULL, list);
 }
+
 token *gArrayDeclarator( token *length ) {
-	return tokenNewWithAttributes(ARRAY_DECLARATOR, NULL, NULL, length);
+	tokenSetNextSibling(length, tSquareR());
+	return tokenNewWithAttributes(ARRAY_DECLARATOR, NULL, NULL, tokenSetNextSibling(tSquareL(), length));
 }
+
 token *gListDeclarator( token *parameters ) {
 	token *list = tokenNewWithAttributes(LIST, NULL, NULL, parameters);
 	tokenListAppend(list, tParenR());
@@ -355,7 +384,7 @@ token *gListDeclarator( token *parameters ) {
 token *gParameterDec( token *specs, token *declarator ) {
 	token *list = tokenNewWithAttributes(LIST, NULL, NULL, specs);
 	if(NULL != declarator)
-		tokenListAppend(list, declarator); // this is sketchy; we may need list tokens
+		tokenSetNextSibling(list, declarator);
 	return tokenNewWithAttributes(PARAMETER_DEC, NULL, NULL, list);
 }
 
@@ -372,23 +401,42 @@ token *gStructInitializer( token *assignmentExpr ) {
 /** Objective-C **/
 
 /* external definitions */
-token *gClassDecs( token *identifiers ) { return NULL; }
-token *gProtocolDecs( token *identifiers ) { return NULL; }
+token *gClassDecs( token *identifiers ) {
+	// FIXME: Add identifiers to local scope
+	token *nameList = tokenNewWithAttributes(LIST, NULL, NULL, identifiers);
+	return tokenNewWithAttributes(CLASS_DECS, NULL, NULL, tokenSetNextSibling(nameList, tSemi()));
+}
+token *gProtocolDecs( token *identifiers ) {
+	// FIXME: Add identifiers to local scope
+	token *nameList = tokenNewWithAttributes(LIST, NULL, NULL, identifiers);
+	return tokenNewWithAttributes(PROTOCOL_DECS, NULL, NULL, tokenSetNextSibling(nameList, tSemi()));
+}
 
 token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs ) { return NULL; }
+
 token *gCategoryInterface( token *className, token *categoryName, token *protocolRefs, token *interfaceDecs ) { return NULL; }
+
 token *gProtocolDec( token *protocolName, token *protocolRefs, token *interfaceDecs ) { return NULL; }
 
 token *gClassImplementation(token *className, token *methodDefs ) { return NULL; }
+
 token *gCategoryImplementation( token *className, token *categoryName, token *methodDefs ) { return NULL; }
 
 token *gClassMethodDec( token *returnType, token *selector ) { return NULL; }
+
 token *gInstanceMethodDec( token *returnType, token *selector ) { return NULL; }
 
 token *gClassMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ) { return NULL; }
+
 token *gInstanceMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ) { return NULL; }
 
 /* type specifiers */
 token *gTypeSpec( token *typeSpec, token *protocolRefs ) { return NULL; }
 
-token *gStructObjCDefs( token *className ) { return NULL; }
+token *gStructObjCDefs( token *className ) {
+	
+	// FIXME: check for classname in current scope
+	
+	token *at_defs = tokenSetNextSibling(tObjCAtDefs(), tokenSetNextSibling(tParenL(), tokenSetNextSibling(className, tParenR())));
+	return tokenNewWithAttributes(STRUCT_OBJC_DEFS, NULL, NULL, at_defs);
+}
