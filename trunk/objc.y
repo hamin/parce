@@ -62,6 +62,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %token CLASS_NAME PROTOCOL_NAME CATEGORY_NAME
 
 
+%parse-param {YYSTYPE *root}
+
 %pure-parser
 
 %start translation_unit
@@ -290,7 +292,7 @@ declaration_specifier_list
 
 init_declarator_list
 	: init_declarator
-	| init_declarator_list ',' init_declarator { $$ = tokenListAppend( $1, $2 ); }
+	| init_declarator_list ',' init_declarator { $$ = tokenListAppend( $1, tokenListAppend(tComma(), $3) ); }
 	;
 
 init_declarator
@@ -355,7 +357,7 @@ struct_declaration
 
 struct_declarator_list
 	: struct_declarator
-	| struct_declarator_list ',' struct_declarator { $$ = tokenListAppend( tokenListAppend($1, tComma()), $3 ); }
+	| struct_declarator_list ',' struct_declarator { $$ = tokenListAppend( $1, tokenListAppend(tComma(), $3) ); }
 	;
 
 struct_declarator
@@ -379,7 +381,7 @@ enum_specifier
 
 enumerator_list
 	: enumerator
-	| enumerator_list ',' enumerator { $$ = tokenListAppend( tokenListAppend($1, tComma()), $3 ); }
+	| enumerator_list ',' enumerator { $$ = tokenListAppend( $1, tokenListAppend(tComma(), $3) ); }
 	;
 
 enumerator
@@ -430,22 +432,22 @@ type_specifier_list
 
 parameter_identifier_list
 	: identifier_list
-	| identifier_list ',' ELLIPSIS { $$ = tokenListAppend( $1, tEllipsis() ); }
+	| identifier_list ',' ELLIPSIS { $$ = tokenListAppend( $1, tokenListAppend($2, tEllipsis()) ); }
 	;
 
 identifier_list
 	: identifier
-	| identifier_list ',' identifier { $$ = tokenListAppend( $1, $3 ); }
+	| identifier_list ',' identifier { $$ = tokenListAppend( $1, tokenListAppend(tComma(), $3) ); }
 	;
 
 parameter_type_list
 	: parameter_list
-	| parameter_list ',' ELLIPSIS { $$ = tokenListAppend( $1, tEllipsis() ); }
+	| parameter_list ',' ELLIPSIS { $$ = tokenListAppend( $1, tokenListAppend($2, tEllipsis()) ); }
 	;
 
 parameter_list
 	: parameter_declaration
-	| parameter_list ',' parameter_declaration { $$ = tokenListAppend( $1, $3 ); }
+	| parameter_list ',' parameter_declaration { $$ = tokenListAppend( $1, tokenListAppend(tComma(), $3) ); }
 	;
 
 parameter_declaration
@@ -633,7 +635,7 @@ throw_statement
 /* Definitions */
 
 translation_unit
-	: external_definition { $$ = gTranslationUnit($1); }
+	: external_definition { *root = $$ = gTranslationUnit($1); }
 	| translation_unit external_definition { $$ = tokenListAppend($1->first, $2); }
 	;
 
