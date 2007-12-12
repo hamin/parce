@@ -53,6 +53,9 @@ enum {
 	STRUCT_OBJC_DEFS,
 	CLASS_DECS,
 	PROTOCOL_DECS,
+	CLASS_INTERFACE,
+	CATEGORY_INTERFACE,
+	PROTOCOL_INTERFACE,
 	CLASS_IMP,
 	CATEGORY_IMP,
 	CLASS_METHOD_DEC,
@@ -108,8 +111,8 @@ extern token *tDivOp( void );            // /
 extern token *tModOp( void );            // %
 
 /* boolean operators */
-extern token *tLessOp( void );           // <
-extern token *tGreaterOp( void );        // >
+extern token *tLessOp( void );           // < // FIXME: rename to tAngleL() ?
+extern token *tGreaterOp( void );        // > // FIXME: rename to tAngleR() ?
 
 /* bitwise operators */
 extern token *tXOROp( void );            // ^
@@ -281,7 +284,7 @@ extern token *gStructInitializer( token *assignmentExpr );
 extern token *gClassDecs( token *identifiers );
 extern token *gProtocolDecs( token *identifiers );
 
-extern token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs );
+extern token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs ); // any or all of superClassName, protocolRefs, ivars or interfaceDecs may be NULL
 extern token *gCategoryInterface( token *className, token *categoryName, token *protocolRefs, token *interfaceDecs );
 extern token *gProtocolDec( token *protocolName, token *protocolRefs, token *interfaceDecs );
 
