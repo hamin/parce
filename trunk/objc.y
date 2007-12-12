@@ -676,20 +676,66 @@ protocol_declaration_list
 
 class_interface
 	// the identifier becomes the class_name; the class_name is the superclass name
-	: AT_INTERFACE identifier protocol_reference_list interface_declaration_list AT_END {
-		$$ = gClassInterface( $2, NULL, $3, NULL, $4 );
+	: AT_INTERFACE identifier ':' class_name protocol_reference_list instance_variables interface_declaration_list AT_END {
+		$$ = gClassInterface( $2, $4, $5, $6, $7 );
 	}
-	
+	| AT_INTERFACE identifier ':' class_name protocol_reference_list instance_variables AT_END {
+		$$ = gClassInterface( $2, $4, $5, $6, NULL );
+	}
 	| AT_INTERFACE identifier ':' class_name protocol_reference_list interface_declaration_list AT_END {
 		$$ = gClassInterface( $2, $4, $5, NULL, $6 );
+	}
+
+	| AT_INTERFACE identifier ':' class_name protocol_reference_list AT_END {
+		$$ = gClassInterface( $2, $4, $5, NULL, NULL );
+	}
+
+	| AT_INTERFACE identifier ':' class_name instance_variables interface_declaration_list AT_END {
+		$$ = gClassInterface( $2, $4, NULL, $5, $6 );
+	}
+	
+	| AT_INTERFACE identifier ':' class_name instance_variables AT_END {
+		$$ = gClassInterface( $2, $4, NULL, $5, NULL );
+	}
+	
+	| AT_INTERFACE identifier ':' class_name interface_declaration_list AT_END {
+		$$ = gClassInterface( $2, $4, NULL, NULL, $5 );
+	}
+
+	| AT_INTERFACE identifier ':' class_name AT_END {
+		$$ = gClassInterface( $2, $4, NULL, NULL, NULL );
 	}
 
 	| AT_INTERFACE identifier protocol_reference_list instance_variables interface_declaration_list AT_END {
 		$$ = gClassInterface( $2, NULL, $3, $4, $5 );
 	}
 
-	| AT_INTERFACE identifier ':' class_name protocol_reference_list instance_variables interface_declaration_list AT_END {
-		$$ = gClassInterface( $2, $4, $5, $6, $7 );
+	| AT_INTERFACE identifier protocol_reference_list instance_variables AT_END {
+		$$ = gClassInterface( $2, NULL, $3, $4, NULL );
+	}
+
+	| AT_INTERFACE identifier protocol_reference_list interface_declaration_list AT_END {
+		$$ = gClassInterface( $2, NULL, $3, NULL, $4 );
+	}
+	
+	| AT_INTERFACE identifier protocol_reference_list AT_END {
+		$$ = gClassInterface( $2, NULL, $3, NULL, NULL );
+	}
+	
+	| AT_INTERFACE identifier instance_variables interface_declaration_list AT_END {
+		$$ = gClassInterface( $2, NULL, NULL, $3, $4 );
+	}
+
+	| AT_INTERFACE identifier instance_variables AT_END {
+		$$ = gClassInterface( $2, NULL, NULL, $3, NULL );
+	}
+
+	| AT_INTERFACE identifier interface_declaration_list AT_END {
+		$$ = gClassInterface( $2, NULL, NULL, NULL, $3 );
+	}
+	
+	| AT_INTERFACE identifier AT_END {
+		$$ = gClassInterface( $2, NULL, NULL, NULL, NULL );
 	}
 	;
 
@@ -700,8 +746,8 @@ class_implementation
 
 category_interface
 	// the identifier becomes a category_name
-	: AT_INTERFACE class_name '(' identifier ')' protocol_reference_list interface_declaration_list AT_END {
-		$$ = gCategoryInterface( $2, $4, $6, $7 ); }
+	: AT_INTERFACE class_name '(' identifier ')' protocol_reference_list interface_declaration_list AT_END { $$ = gCategoryInterface( $2, $4, $6, $7 ); }
+	| AT_INTERFACE class_name '(' identifier ')' interface_declaration_list AT_END { $$ = gCategoryInterface( $2, $4, $6, $7 ); }
 	;
 
 category_implementation
@@ -728,10 +774,8 @@ instance_variables
 
 instance_variable_declaration_list
 	: visibility_specification
-//	| struct_declaration_list instance_variables
 	| struct_declaration
 	| instance_variable_declaration_list visibility_specification { $$ = tokenListAppend( $1, $2 ); }
-//	| instance_variable_declaration_list struct_declaration_list instance_variables
 	| instance_variable_declaration_list struct_declaration { $$ = tokenListAppend( $1, $2 ); }
 	;
 
