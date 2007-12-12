@@ -412,9 +412,50 @@ token *gProtocolDecs( token *identifiers ) {
 	return tokenNewWithAttributes(PROTOCOL_DECS, NULL, NULL, tokenSetNextSibling(nameList, tSemi()));
 }
 
-token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs ) { return NULL; }
+token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs ) {
 
-token *gCategoryInterface( token *className, token *categoryName, token *protocolRefs, token *interfaceDecs ) { return NULL; }
+	if(NULL != superClassName) {
+		tokenSetNextSibling(className, superClassName);
+	}
+	
+	if(NULL != protocolRefs) {
+		token *protocolRefList = tokenNewWithAttributes(LIST, NULL, NULL, protocolRefs);
+		protocolRefList = tokenSetNextSibling(tLessOp(), tokenSetNextSibling(protocolRefList, tGreaterOp()));
+		tokenListAppend(className, protocolRefList);
+	}
+	
+	if(NULL != ivars) {
+		token *ivarList = tokenNewWithAttributes(LIST, NULL, NULL, ivars);
+		ivarList = tokenSetNextSibling(tCurlyL(), tokenSetNextSibling(ivarList, tCurlyR()));
+		tokenListAppend(className, ivarList);
+	}
+	
+	if(NULL != interfaceDecs) {
+		token *interfaceList = tokenNewWithAttributes(LIST, NULL, NULL, interfaceDecs);
+		tokenListAppend(className, interfaceList);
+	}
+	
+	return tokenNewWithAttributes(CLASS_INTERFACE, NULL, NULL, className);
+}
+
+token *gCategoryInterface( token *className, token *categoryName, token *protocolRefs, token *interfaceDecs ) {
+	
+	// FIXME: push categoryName into current context
+	
+	token *interfaceDecList = tokenNewWithAttributes(LIST, NULL, NULL, interfaceDecs);
+	
+	tokenSetNextSibling(className, categoryName);
+	if(NULL != protocolRefs) {
+		token *protocolRefList = tokenNewWithAttributes(LIST, NULL, NULL, protocolRefs);
+		tokenSetNextSibling(categoryName, protocolRefList);
+		tokenSetNextSibling(protocolRefList, interfaceDecList);
+	}
+	else {
+		tokenSetNextSibling(categoryName, interfaceDecList);
+	}
+	
+	return tokenNewWithAttributes(CATEGORY_INTERFACE, NULL, NULL, className);
+}
 
 token *gProtocolDec( token *protocolName, token *protocolRefs, token *interfaceDecs ) { return NULL; }
 
