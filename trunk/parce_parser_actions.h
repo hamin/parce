@@ -51,8 +51,8 @@ enum {
 	PARAMETER_DEC,
 	STRUCT_INIT,
 	STRUCT_OBJC_DEFS,
-	CLASS_DECS,
-	PROTOCOL_DECS,
+	CLASS_NAMES,
+	PROTOCOL_NAMES,
 	CLASS_INTERFACE,
 	CATEGORY_INTERFACE,
 	PROTOCOL_INTERFACE,
@@ -221,6 +221,9 @@ extern token *tObjCString( char * );            // @"string" -- '@' and quotatio
 
 
 /** specialized token creation functions for groups (nonterminal symbols) - groups have children; terminals do not **/
+
+
+extern token *gList( token *first );
 
 /*
  
