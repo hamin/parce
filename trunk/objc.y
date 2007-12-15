@@ -296,7 +296,7 @@ init_declarator_list
 	;
 
 init_declarator
-	: type_declarator
+	: type_declarator { $$ = gInitDeclarator( NULL, $1 ); }
 	| type_declarator '=' initializer { $$ = gInitDeclarator( $1, $2 ); }
 	;
 
@@ -769,7 +769,7 @@ protocol_list
 	;
 
 instance_variables
-	: '{' instance_variable_declaration_list '}'
+	: '{' instance_variable_declaration_list '}' { $$ = $2; }
 	;
 
 instance_variable_declaration_list
@@ -834,7 +834,7 @@ instance_method_definition
 method_selector
 	: unary_selector
 	| keyword_selector
-	| keyword_selector ',' ELLIPSIS
+	| keyword_selector ',' ELLIPSIS { $$ = tokenListAppend( $1, tokenListAppend(tComma(), $3) ); }
 //	| keyword_selector ',' parameter_type_list // ambiguity: and who ever uses this form?
 	;
 
@@ -847,7 +847,6 @@ keyword_selector
 	| keyword_selector keyword_declarator { $$ = tokenListAppend( $1, $2 ); }
 	;
 	
-// don't like this approach - need to use parameter stuff from functions
 keyword_declarator
 	: ':' identifier { $$ = tokenListAppend( $1, $2 ); }
 	| ':' '(' type_specifier ')' identifier {
