@@ -505,7 +505,7 @@ token *gCategoryImplementation( token *className, token *categoryName, token *me
 	return tokenNewWithAttributes(CATEGORY_IMP, NULL, NULL, children);
 }
 
-token *gClassMethodDec( token *returnType, token *selector ) {
+token *methodDecShared( token *returnType, token *selector ) {
 	if(NULL != returnType) {
 		returnType = tokenSetNextSibling(tParenL(), 
 										 tokenSetNextSibling(returnType,
@@ -516,14 +516,50 @@ token *gClassMethodDec( token *returnType, token *selector ) {
 	return tokenNewWithAttributes(CLASS_IMP, NULL, NULL, selector);
 }
 
-token *gInstanceMethodDec( token *returnType, token *selector ) { return NULL; }
+token *gClassMethodDec( token *returnType, token *selector ) {
+	return tokenSetNextSibling(tAddOp(), methodDecShared(returnType, selector));
+}
 
-token *gClassMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ) { return NULL; }
+token *gInstanceMethodDec( token *returnType, token *selector ) {
+	return tokenSetNextSibling(tSubOp(), methodDecShared(returnType, selector));
+}
 
-token *gInstanceMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ) { return NULL; }
+token *methodDefShared( token *returnType, token *selector, token *decs, token *compoundStmt ) {
+	
+	token *firstHalf = NULL;
+	token *secondHalf = NULL;
+	
+	if(NULL != returnType) {
+		firstHalf = tokenSetNextSibling(tParenL(), 
+										tokenSetNextSibling(returnType,
+															tokenSetNextSibling(tParenR(), selector)));
+	}
+	else {
+		firstHalf = selector;
+	}
+	
+	if(NULL != decs) {
+		secondHalf = tokenSetNextSibling(gList(decs), compoundStmt);
+	}
+	else {
+		secondHalf = compoundStmt;
+	}
+	
+	return tokenNewWithAttributes(CLASS_IMP, NULL, NULL, tokenSetNextSibling(firstHalf, secondHalf));
+}
+
+token *gClassMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ) {
+	return tokenSetNextSibling(tAddOp(), methodDefShared(returnType, selector, decs, compoundStmt));
+}
+
+token *gInstanceMethodDef( token *returnType, token *selector, token *decs, token *compoundStmt ) {
+	return tokenSetNextSibling(tSubOp(), methodDefShared(returnType, selector, decs, compoundStmt));
+}
 
 /* type specifiers */
-token *gTypeSpec( token *typeSpec, token *protocolRefs ) { return NULL; }
+token *gTypeSpec( token *typeSpec, token *protocolRefs ) {
+	return tokenNewWithAttributes(TYPE_SPEC, NULL, NULL, tokenSetNextSibling(typeSpec, protocolRefs));
+}
 
 token *gStructObjCDefs( token *className ) {
 	
