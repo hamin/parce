@@ -174,8 +174,8 @@ token *tReturn( void ) { return tokenNewWithAttributes(RETURN, "return", NULL, N
 token *tBlockComment( void ) { return NULL; }
 token *tInLineComment( void ) { return NULL; }
 
-extern token *tConstant( char *text ) { return tokenNewWithAttributes(CONSTANT, text, NULL, NULL); } // FIXME: when to determine the value?
-extern token *tStringLiteral( char *text ) { return tokenNewWithAttributes(STRING_LITERAL, text, NULL, NULL); }
+token *tConstant( char *text ) { return tokenNewWithAttributes(CONSTANT, text, NULL, NULL); } // FIXME: when to determine the value?
+token *tStringLiteral( char *text ) { return tokenNewWithAttributes(STRING_LITERAL, text, NULL, NULL); }
 
 
 /** objective-c extensions **/
@@ -568,3 +568,159 @@ token *gStructObjCDefs( token *className ) {
 	token *at_defs = tokenSetNextSibling(tObjCAtDefs(), tokenSetNextSibling(tParenL(), tokenSetNextSibling(className, tParenR())));
 	return tokenNewWithAttributes(STRUCT_OBJC_DEFS, NULL, NULL, at_defs);
 }
+
+
+#pragma mark Statements
+/** Statements **/
+token *gCompound( token *stmtsAndDecs ) {
+	token *compound = tokenNewWithAttributes(STMT_COMPOUND, NULL, NULL, stmtsAndDecs);
+	return tokenSetNextSibling(tParenL(), tokenSetNextSibling(compound, tParenR()));
+}
+
+token *gIf() {
+	return NULL;
+}
+
+token *gWhile() {
+	return NULL;
+}
+
+token *gFor() {
+	return NULL;
+}
+
+token *gDo() {
+	return NULL;
+}
+
+token *gSwitch() {
+	return NULL;
+}
+
+token *gJump() {
+	return NULL;
+}
+
+token *gLabeled() {
+	return NULL;
+}
+
+token *gExpression( token *expr ) {
+	tokenSetNextSibling(expr, tSemi());
+	return tokenNewWithAttributes(STMT_EXPRESSION, NULL, NULL, expr);
+}
+
+
+/* objc */
+token *gTry() {
+	return NULL;
+}
+
+token *gSynch() {
+	return NULL;
+}
+
+token *gThrow() {
+	return NULL;
+}
+
+
+
+#pragma mark Expressions
+/** Expressions **/
+token *gPostfix( token *expr, token *op, token *member ) {
+	if(NULL != member)
+		tokenSetNextSibling(op, member);
+	tokenSetNextSibling(expr, op);
+	return tokenNewWithAttributes(EXPR_POSTFIX, NULL, NULL, expr);
+}
+
+token *gPrefix( token *op, token *expr) {
+	tokenSetNextSibling(op, expr);
+	return tokenNewWithAttributes(EXPR_PREFIX, NULL, NULL, op);
+}
+
+
+token *gArray( token *expr ) {
+	return tokenSetNextSibling(tParenL(), tokenSetNextSibling(expr, tParenR()));
+}
+
+token *gParen( token *expr ) {
+	return tokenSetNextSibling(tSquareL(), tokenSetNextSibling(expr, tSquareR()));
+}
+
+token *gDot( token *expr, token *ident ) {
+	return tokenSetNextSibling(expr, tokenSetNextSibling(tDotOp(), ident));
+}
+
+token *gBinary( token *left, token *op, token *right) {
+	tokenSetNextSibling(left, tokenSetNextSibling(op, right));
+	return tokenNewWithAttributes(EXPR_BINARY, NULL, NULL, left);
+}
+
+token *gCast( token *typeSpec, token *expr ) {
+	typeSpec = tokenSetNextSibling(tParenL(), tokenSetNextSibling(typeSpec, tParenR()));
+	return tokenNewWithAttributes(EXPR_CAST, NULL, NULL, typeSpec);
+}
+
+token *gAssign() {
+	return NULL;
+}
+
+token *gConditional( token *logical, token *trueExpr, token *falseExpr ) {
+	return NULL;
+}
+
+token *gSizeofUnary( token *unary ) {
+	return tokenSetNextSibling(tSizeof(), unary);
+}
+
+token *gSizeofType( token *typeSpec ) {
+	return tokenSetNextSibling(tSizeof(), gParen(typeSpec));
+}
+
+
+/* objc */
+token *gMessage() {
+	return NULL;
+}
+
+token *gReceiver() {
+	return NULL;
+}
+
+token *gAtSelector() {
+	return NULL;
+}
+
+token *gSelector() {
+	return NULL;
+}
+
+token *gSelectorKeyword( token *identifier ) {
+	if(NULL != identifier)
+		return tokenSetNextSibling(identifier, tColon());
+	else
+		return tColon();
+}
+
+token *gAtProtocol( token *identifier ) {
+	token *children = tokenSetNextSibling(tObjCAtProtocol(),
+										  tokenSetNextSibling(tParenL(),
+															  tokenSetNextSibling(identifier,
+																				  tParenR())));
+	return tokenNewWithAttributes(EXPR_AT_PROTOCOL, NULL, NULL, children);
+}
+
+token *gAtEncode( token *typeName ) {
+	
+	// FIXME: check typeName
+	token *children = tokenSetNextSibling(tObjCAtEncode(),
+										  tokenSetNextSibling(tParenL(),
+															  tokenSetNextSibling(typeName,
+																				  tParenR())));
+	return tokenNewWithAttributes(EXPR_AT_ENCODE, NULL, NULL, children);
+}
+
+
+

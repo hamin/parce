@@ -60,7 +60,33 @@ enum {
 	CATEGORY_IMP,
 	CLASS_METHOD_DEC,
 	INSTANCE_METHOD_DEC,
-	TYPE_SPEC
+	TYPE_SPEC,
+	STMT_COMPOUND,
+	STMT_IF,
+	STMT_WHILE,
+	STMT_FOR,
+	STMT_DO,
+	STMT_SWITCH,
+	STMT_JUMP,
+	STMT_LABELED,
+	STMT_TRY,
+	STMT_SYNC,
+	STMT_THROW,
+	STMT_EXPRESSION,
+	EXPR_POSTFIX,
+	EXPR_PREFIX,
+//	EXPR_ARRAY,
+//	EXPR_PAREN,
+	EXPR_DOT,
+	EXPR_BINARY,
+	EXPR_CAST,
+	EXPR_ASSIGN,
+	EXPR_MESSAGE,
+	EXPR_RECEIVER,
+	EXPR_SELECTOR,
+	EXPR_AT_SELECTOR,
+	EXPR_AT_PROTOCOL,
+	EXPR_AT_ENCODE
 };
 
 
@@ -186,7 +212,7 @@ extern token *tConstant( char *text );
 extern token *tStringLiteral( char *text );
 
 
-/** objective-c extensions **/
+#pragma mark objective-c extensions
 extern token *tObjCId( void );                // id
 extern token *tObjCSelf( void );              // self
 extern token *tObjCSuper( void );             // super
@@ -222,7 +248,7 @@ extern token *tObjCString( char * );            // @"string" -- '@' and quotatio
 
 /** specialized token creation functions for groups (nonterminal symbols) - groups have children; terminals do not **/
 
-
+#pragma mark Generic List
 extern token *gList( token *first );
 
 /*
@@ -239,7 +265,7 @@ extern token *gList( token *first );
  */
 
 
-/* external definitions */
+#pragma mark external definitions
 extern token *gTranslationUnit( token *externalDef );
 extern token *gDec( token *decSpecs, token *initDeclarators ); // initDeclarators may be NULL
 
@@ -281,6 +307,47 @@ extern token *gPointer( token *elements );
 extern token *gStructInitializer( token *assignmentExpr );
 
 
+/** Statements **/
+extern token *gCompound( token *stmtsAndDecs );
+
+extern token *gIf();
+extern token *gWhile();
+extern token *gFor();
+extern token *gDo();
+extern token *gSwitch();
+extern token *gJump();
+extern token *gLabeled();
+extern token *gExpression( token *expr );
+
+/* objc */
+extern token *gTry();
+extern token *gSynch();
+extern token *gThrow();
+
+/** Expressions **/
+extern token *gPostfix( token *expr, token *op, token *member ); // member may be NULL
+extern token *gPrefix( token *op, token *expr);
+extern token *gArray( token *expr );
+extern token *gParen( token *expr );
+extern token *gDot( token *expr, token *ident );
+extern token *gBinary( token *left, token *op, token *right);
+extern token *gCast();
+extern token *gAssign();
+extern token *gConditional( token *logical, token *trueExpr, token *falseExpr );
+
+extern token *gSizeofUnary( token *unary );
+extern token *gSizeofType( token *typeSpec );
+
+/* objc */
+extern token *gMessage();
+extern token *gReceiver();
+extern token *gAtSelector();
+extern token *gSelector();
+extern token *gSelectorKeyword( token *identifier );
+extern token *gAtProtocol( token *identifier );
+extern token *gAtEncode( token *typeName );
+
+
 /** Objective-C **/
 
 /* external definitions */
@@ -304,6 +371,5 @@ extern token *gInstanceMethodDef( token *returnType, token *selector, token *dec
 extern token *gTypeSpec( token *typeSpec, token *protocolRefs ); // type is either OBJC_ID or CLASS_NAME; protocolRefs is a list of protocol names
 
 extern token *gStructObjCDefs( token *className );
-
 
 #endif /* OBJC_PARSER_ACTIONS_H */
