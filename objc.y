@@ -77,7 +77,7 @@ primary_expression
 	| CONSTANT
 	| STRING_LITERAL
 	| NULL_VAL
-	| '(' expression ')'
+	| '(' expression ')' { $$ = gParen( $2 ); }
 	| message_expression
 	| selector_expression
 	| protocol_expression
@@ -86,27 +86,27 @@ primary_expression
 
 postfix_expression
 	: primary_expression
-	| postfix_expression '[' expression ']'
-	| postfix_expression '(' ')'
-	| postfix_expression '(' argument_expression_list ')'
-	| postfix_expression '.' identifier
-	| postfix_expression PTR_OP identifier
-	| postfix_expression INC_OP
-	| postfix_expression DEC_OP
+	| postfix_expression '[' expression ']' { $$ = gArray( $3 ); }
+	| postfix_expression '(' ')' { $$ = gParen( NULL ); }
+	| postfix_expression '(' argument_expression_list ')' { $$ = gParen( $3 ); }
+	| postfix_expression '.' identifier { $$ = gDot( $1, $3 ); }
+	| postfix_expression PTR_OP identifier { $$ = gPostfix( $1, $2, $3 ); }
+	| postfix_expression INC_OP { $$ = gPostfix( $1, $2, NULL ); }
+	| postfix_expression DEC_OP { $$ = gPostfix( $1, $2, NULL ); }
 	;
 
 argument_expression_list
 	: assignment_expression
-	| argument_expression_list ',' assignment_expression
+	| argument_expression_list ',' assignment_expression { $$ = tokenListAppend( $1, tokenListAppend(tComma(), $3) ); }
 	;
 
 unary_expression
 	: postfix_expression
-	| INC_OP unary_expression
-	| DEC_OP unary_expression
-	| unary_operator cast_expression
-	| SIZEOF unary_expression
-	| SIZEOF '(' type_specification ')'
+	| INC_OP unary_expression { $$ = gPrefix( $1, $2 ); }
+	| DEC_OP unary_expression { $$ = gPrefix( $1, $2 ); }
+	| unary_operator cast_expression { $$ = gPrefix( $1, $2 ); }
+	| SIZEOF unary_expression { $$ = gSizeofUnary( $2 ); }
+	| SIZEOF '(' type_specification ')' { $$ = gSizeofType( $3 ); }
 	;
 
 unary_operator
@@ -120,65 +120,65 @@ unary_operator
 
 cast_expression
 	: unary_expression
-	| '(' type_specification ')' cast_expression
+	| '(' type_specification ')' cast_expression { $$ = gCast( $2, $4 ); }
 	;
 
 multiplicative_expression
 	: cast_expression
-	| multiplicative_expression '*' cast_expression
-	| multiplicative_expression '/' cast_expression
-	| multiplicative_expression '%' cast_expression
+	| multiplicative_expression '*' cast_expression { $$ = gBinary( $1, $2, $3 ); }
+	| multiplicative_expression '/' cast_expression { $$ = gBinary( $1, $2, $3 ); }
+	| multiplicative_expression '%' cast_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 additive_expression
 	: multiplicative_expression
-	| additive_expression '+' multiplicative_expression
-	| additive_expression '-' multiplicative_expression
+	| additive_expression '+' multiplicative_expression { $$ = gBinary( $1, $2, $3 ); }
+	| additive_expression '-' multiplicative_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 shift_expression
 	: additive_expression
-	| shift_expression LEFT_OP additive_expression
-	| shift_expression RIGHT_OP additive_expression
+	| shift_expression LEFT_OP additive_expression { $$ = gBinary( $1, $2, $3 ); }
+	| shift_expression RIGHT_OP additive_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 relational_expression
 	: shift_expression
-	| relational_expression '<' shift_expression
-	| relational_expression '>' shift_expression
-	| relational_expression LE_OP shift_expression
-	| relational_expression GE_OP shift_expression
+	| relational_expression '<' shift_expression { $$ = gBinary( $1, $2, $3 ); }
+	| relational_expression '>' shift_expression { $$ = gBinary( $1, $2, $3 ); }
+	| relational_expression LE_OP shift_expression { $$ = gBinary( $1, $2, $3 ); }
+	| relational_expression GE_OP shift_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 equality_expression
 	: relational_expression
-	| equality_expression EQ_OP relational_expression
-	| equality_expression NE_OP relational_expression
+	| equality_expression EQ_OP relational_expression { $$ = gBinary( $1, $2, $3 ); }
+	| equality_expression NE_OP relational_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 and_expression
 	: equality_expression
-	| and_expression '&' equality_expression
+	| and_expression '&' equality_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 exclusive_or_expression
 	: and_expression
-	| exclusive_or_expression '^' and_expression
+	| exclusive_or_expression '^' and_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 inclusive_or_expression
 	: exclusive_or_expression
-	| inclusive_or_expression '|' exclusive_or_expression
+	| inclusive_or_expression '|' exclusive_or_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 logical_and_expression
 	: inclusive_or_expression
-	| logical_and_expression AND_OP inclusive_or_expression
+	| logical_and_expression AND_OP inclusive_or_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 logical_or_expression
 	: logical_and_expression
-	| logical_or_expression OR_OP logical_and_expression
+	| logical_or_expression OR_OP logical_and_expression { $$ = gBinary( $1, $2, $3 ); }
 	;
 
 conditional_expression
@@ -188,7 +188,7 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression
-	| unary_expression assignment_operator assignment_expression
+	| unary_expression assignment_operator assignment_expression { $$ = gAssign( $1, $2, $3 ); }
 	;
 
 assignment_operator
@@ -207,7 +207,7 @@ assignment_operator
 
 expression
 	: assignment_expression
-	| expression ',' assignment_expression
+	| expression ',' assignment_expression { $$ = tokenListAppend( $1, tokenListAppend(tComma(), $3) ); }
 	;
 
 constant_expression
@@ -216,7 +216,7 @@ constant_expression
 
 // objective-c additions
 message_expression
-	: '[' receiver message_selector ']'
+	: '[' receiver message_selector ']' { $$ = gMessage( $1, $2 ); }
 	;
 
 receiver
@@ -233,16 +233,16 @@ message_selector
 
 keyword_argument_list
 	: keyword_argument
-	| keyword_argument_list keyword_argument
+	| keyword_argument_list keyword_argument { $$ = tokenListAppend( $1, $2 ); }
 	;
 
 keyword_argument
-	: selector ':' expression
-	| ':' expression
+	: selector ':' expression { $$ = tokenListAppend( $1, tokenListAppend(tColon(), $3) ); }
+	| ':' expression { $$ = tokenListAppend( $1, $2 ); }
 	;
 
 selector_expression
-	: AT_SELECTOR '(' selector_name ')'
+	: AT_SELECTOR '(' selector_name ')' { $$ = gAtSelector( $3 ); }
 	;
 
 selector_name
@@ -252,12 +252,12 @@ selector_name
 
 keyword_name_list
 	: keyword_name
-	| keyword_name_list keyword_name
+	| keyword_name_list keyword_name { $$ = tokenListAppend( $1, $2 ); }
 	;
 
 keyword_name
-	: selector ':'
-	| ':'
+	: selector ':' { $$ = gSelectorKeyword( $1 ); }
+	| ':' { $$ = gSelectorKeyword( NULL ); }
 	;
 
 selector
@@ -265,11 +265,11 @@ selector
 	;
 	
 protocol_expression
-	: AT_PROTOCOL '(' identifier ')'
+	: AT_PROTOCOL '(' identifier ')' { $$ = gAtProtocol( $3 ); }
 	;
 
 encode_expression
-	: AT_ENCODE '(' type_name ')'
+	: AT_ENCODE '(' type_name ')' { $$ = gAtEncode( $3 ); }
 	;
 
 
@@ -535,8 +535,10 @@ closed_labeled_statement
 	;
 
 compound_statement
-	: '{' '}'
-	| '{' statement_or_declaration_list '}'
+	: '{' '}' { $$ = gCompound(NULL); }
+//	| '{' statement_or_declaration_list '}' { $$ = gCompound($2); }
+//	| '{' statement_or_declaration_list '}' { $$ = gCompoundText(/* text */); }
+	| '{' statement_or_declaration_list '}' { $$ = gCompound(NULL); }
 	;
 
 statement_or_declaration_list
@@ -553,7 +555,7 @@ declaration_list
 
 expression_statement
 	: ';'
-	| expression ';'
+	| expression ';' { $$ = gExpression( $1 ); }
 	;
 
 open_if_statement
