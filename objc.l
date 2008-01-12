@@ -31,9 +31,9 @@ E			[Ee][+-]?{D}+
 FS			(f|F|l|L)
 IS			(u|U|l|L)*
 
-%{
+%top{
 #include "parce_scanner_actions.h"
-%}
+}
 
 %%
 "^#.*"          { scanMacro( yytext ); }
