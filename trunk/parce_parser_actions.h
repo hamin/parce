@@ -53,6 +53,8 @@ enum {
 	STRUCT_OBJC_DEFS,
 	CLASS_NAMES,
 	PROTOCOL_NAMES,
+	PROTOCOL_REFS,
+	CLASS_IVARS,
 	CLASS_INTERFACE,
 	CATEGORY_INTERFACE,
 	PROTOCOL_INTERFACE,
@@ -81,6 +83,7 @@ enum {
 	EXPR_BINARY,
 	EXPR_CAST,
 	EXPR_ASSIGN,
+	EXRP_CONDITIONAL,
 	EXPR_MESSAGE,
 	EXPR_RECEIVER,
 	EXPR_SELECTOR,
@@ -109,10 +112,10 @@ extern token *tLessOrEqualOp( void );    // <=
 extern token *tGreaterOrEqualOp( void ); // >=
 extern token *tNotEqualToOp( void );     // !=
 
-extern token *tLeftShiftOp( void );      // <<
-extern token *tRightShiftOp( void );     // >>
+extern token *tShiftLOp( void );         // <<
+extern token *tShiftROp( void );         // >>
 
-extern token *tMultAssignOp( void );     // *=
+extern token *tMulAssignOp( void );     // *=
 extern token *tDivAssignOp( void );      // /=
 extern token *tModAssignOp( void );      // %=
 extern token *tAddAssignOp( void );      // +=
@@ -121,13 +124,13 @@ extern token *tSubAssignOp( void );      // -=
 extern token *tLeftAssignOp( void );     // <<=
 extern token *tRightAssignOp( void );    // >>=
 extern token *tAndAssignOp( void );      // &=
-extern token *tXORAssignOp( void );      // ^=
+extern token *tXorAssignOp( void );      // ^=
 extern token *tOrAssignOp( void );       // |=
 
 /* multi-purpose operators */
 extern token *tStarOp( void );           // *  "multiply" and "pointer dereference"
-extern token *tAmpOp( void );            // &  bitwise AND and "address of"
-extern token *tExclamOp( void );         // !  bitwise negation and boolean negation
+extern token *tAmpOp( void );            //  bitwise AND and "address of"
+extern token *tExclaimOp( void );         // !  bitwise negation and boolean negation
 extern token *tBarOp( void );            // |  bitwise OR and boolean OR
 extern token *tSubOp( void );            // -  arithmetic minus and arithmetic negation
 
@@ -141,7 +144,7 @@ extern token *tLessOp( void );           // < // FIXME: rename to tAngleL() ?
 extern token *tGreaterOp( void );        // > // FIXME: rename to tAngleR() ?
 
 /* bitwise operators */
-extern token *tXOROp( void );            // ^
+extern token *tXorOp( void );            // ^
 extern token *tCompOp( void );           // ~ (complement)
 
 /* other single character operators */
@@ -310,18 +313,22 @@ extern token *gStructInitializer( token *assignmentExpr );
 /** Statements **/
 extern token *gCompound( token *stmtsAndDecs );
 
-extern token *gIf();
-extern token *gWhile();
-extern token *gFor();
-extern token *gDo();
-extern token *gSwitch();
-extern token *gJump();
-extern token *gLabeled();
+extern token *gIf( token *test, token *trueStmt );
+extern token *gIfElse( token *test, token *trueStmt, token *falseStmt );
+extern token *gWhile( token *test, token *stmt );
+extern token *gFor( token *init, token *test, token *inc, token *stmt );
+extern token *gDo( token *stmt, token *test);
+extern token *gSwitch( token *test, token *compoundStmt );
+extern token *gGoto( token *identifier );
+extern token *gReturn( token *expr );
+extern token *gLabeled( token *identifier, token *stmt );
+extern token *gCase( token *constant, token *stmt );
+extern token *gDefault( token *stmt );
 extern token *gExpression( token *expr );
 
 /* objc */
-extern token *gTry();
-extern token *gSynch();
+extern token *gTry( token *tryBlock, token *catchInitDecl, token *catchBlock, token *finBlock );
+extern token *gSynch( token *identifier, token *stmt );
 extern token *gThrow();
 
 /** Expressions **/
@@ -331,8 +338,8 @@ extern token *gArray( token *expr );
 extern token *gParen( token *expr );
 extern token *gDot( token *expr, token *ident );
 extern token *gBinary( token *left, token *op, token *right);
-extern token *gCast();
-extern token *gAssign();
+extern token *gCast( token *typeSpec, token *expr );
+extern token *gAssign( token *left, token *op, token *right );
 extern token *gConditional( token *logical, token *trueExpr, token *falseExpr );
 
 extern token *gSizeofUnary( token *unary );
@@ -351,8 +358,11 @@ extern token *gAtEncode( token *typeName );
 /** Objective-C **/
 
 /* external definitions */
-extern token *gClassDecs( token *identifiers );
-extern token *gProtocolDecs( token *identifiers );
+extern token *gClassNameDecs( token *identifiers );
+extern token *gProtocolNameDecs( token *identifiers );
+
+extern token *gProtocolRefs( token *identifiers );
+extern token *gInstanceVariables( token *members );
 
 extern token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs ); // any or all of superClassName, protocolRefs, ivars or interfaceDecs may be NULL
 extern token *gCategoryInterface( token *className, token *categoryName, token *protocolRefs, token *interfaceDecs );
