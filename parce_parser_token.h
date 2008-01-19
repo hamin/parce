@@ -58,6 +58,21 @@ extern void tokenRelease( token *aToken ); // releases firstChild and nextSiblin
 /** value  **/
 typedef void (*freeFunction) ( void * );
 extern void tokenSetDeleteFunction ( freeFunction valueFreeFunction );
+
+
+
+// This parser does not perform semantic analysis. It only creates an abstract syntax tree.
+
+// The token type is not a semantic value type; it is a tree node type.
+// If you define a token with a semantic value member, you can set this member's value
+// in the value argument (a pointer to an instance of token) in your scanner action function,
+// it can then be used in your parser action function.
+#define YYSTYPE token *
+
 #endif
+
+
+//extern YYSTYPE yylval; // not valid for %pure-parser
+
 
 #endif /* OBJC_PARSER_TOKEN_H */
