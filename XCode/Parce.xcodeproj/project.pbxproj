@@ -188,6 +188,7 @@
 				4ED4EE060D02E5BF00A7502A /* objc.y */,
 				4ED4EF2D0D031FC300A7502A /* parce_parser_actions.h */,
 				4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */,
+				4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */,
 			);
 			name = "Core Parser";
 			sourceTree = "<group>";
@@ -197,7 +198,6 @@
 			children = (
 				4ED4EF2C0D031FC300A7502A /* parce_parser_actions.c */,
 				4ED4EF2E0D031FC300A7502A /* parce_parser_token.c */,
-				4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */,
 				4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */,
 				4ED4EED60D0304F300A7502A /* source */,
 			);
