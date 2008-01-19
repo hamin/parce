@@ -58,11 +58,6 @@ extern void tokenRelease( token *aToken ); // releases firstChild and nextSiblin
 /** value  **/
 typedef void (*freeFunction) ( void * );
 extern void tokenSetDeleteFunction ( freeFunction valueFreeFunction );
-
-
-/** smart setter functions -- these release any existing tokens before replacing them **/
-extern token *tokenSetNextSibling( token *aToken, token *next );
-extern token *tokenSetFirstChild( token *aToken, token *first );
 #endif
 
 #endif /* OBJC_PARSER_TOKEN_H */

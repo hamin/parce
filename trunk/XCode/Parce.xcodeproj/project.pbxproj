@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		4E8347B60D4248C500583B7C /* All */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4E8347BF0D4248F400583B7C /* Build configuration list for PBXAggregateTarget "All" */;
+			buildPhases = (
+			);
+			dependencies = (
+				4E8347BA0D4248CA00583B7C /* PBXTargetDependency */,
+				4E8347BC0D4248CA00583B7C /* PBXTargetDependency */,
+			);
+			name = All;
+			productName = All;
+		};
 		4ED4EEE70D0309EF00A7502A /* generate */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 4ED4EEEA0D030A0D00A7502A /* Build configuration list for PBXAggregateTarget "generate" */;
@@ -25,7 +37,6 @@
 		4ED4EEB60D02FF9400A7502A /* objc.l in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EE050D02E5BF00A7502A /* objc.l */; };
 		4ED4EF320D031FC300A7502A /* parce_parser_actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF2C0D031FC300A7502A /* parce_parser_actions.c */; };
 		4ED4EF330D031FC300A7502A /* parce_parser_actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF2D0D031FC300A7502A /* parce_parser_actions.h */; };
-		4ED4EF340D031FC300A7502A /* parce_parser_token.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF2E0D031FC300A7502A /* parce_parser_token.c */; };
 		4ED4EF350D031FC300A7502A /* parce_parser_token.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF2F0D031FC300A7502A /* parce_parser_token.h */; };
 		4ED4EF360D031FC300A7502A /* parce_scanner_actions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4EF300D031FC300A7502A /* parce_scanner_actions.c */; };
 		4ED4EF370D031FC300A7502A /* parce_scanner_actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ED4EF310D031FC300A7502A /* parce_scanner_actions.h */; };
@@ -44,6 +55,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4E8347B90D4248CA00583B7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4ED4EE7D0D02F68400A7502A /* libparce */;
+			remoteInfo = libparce;
+		};
+		4E8347BB0D4248CA00583B7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* Parce */;
+			remoteInfo = Parce;
+		};
 		4ED4EF0A0D03195900A7502A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -303,6 +328,7 @@
 				4ED4EEE70D0309EF00A7502A /* generate */,
 				4ED4EE7D0D02F68400A7502A /* libparce */,
 				8DC2EF4F0486A6940098B216 /* Parce */,
+				4E8347B60D4248C500583B7C /* All */,
 			);
 		};
 /* End PBXProject section */
@@ -344,7 +370,6 @@
 			files = (
 				4ED4EEB60D02FF9400A7502A /* objc.l in Sources */,
 				4ED4EF320D031FC300A7502A /* parce_parser_actions.c in Sources */,
-				4ED4EF340D031FC300A7502A /* parce_parser_token.c in Sources */,
 				4ED4EF360D031FC300A7502A /* parce_scanner_actions.c in Sources */,
 				4ED9509A0D0466C30020EE01 /* parce_parser.c in Sources */,
 			);
@@ -365,6 +390,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4E8347BA0D4248CA00583B7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4ED4EE7D0D02F68400A7502A /* libparce */;
+			targetProxy = 4E8347B90D4248CA00583B7C /* PBXContainerItemProxy */;
+		};
+		4E8347BC0D4248CA00583B7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* Parce */;
+			targetProxy = 4E8347BB0D4248CA00583B7C /* PBXContainerItemProxy */;
+		};
 		4ED4EF0B0D03195900A7502A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4ED4EEE70D0309EF00A7502A /* generate */;
@@ -402,6 +437,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = "";
 				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_TEMP_DIR)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				OTHER_CFLAGS = "-DCUSTOM_TOKEN_TYPE";
@@ -451,6 +490,27 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+			};
+			name = Release;
+		};
+		4E8347B70D4248C500583B7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = All;
+			};
+			name = Debug;
+		};
+		4E8347B80D4248C500583B7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = All;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -521,6 +581,15 @@
 			buildConfigurations = (
 				1DEB91B208733DA50010E9CD /* Debug */,
 				1DEB91B308733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4E8347BF0D4248F400583B7C /* Build configuration list for PBXAggregateTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4E8347B70D4248C500583B7C /* Debug */,
+				4E8347B80D4248C500583B7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

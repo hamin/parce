@@ -47,6 +47,32 @@ token *tokenCopy( token *original ) {
 	return result;
 }
 
+token *tokenNextSibling( token *aToken ) {
+	return aToken->first;
+}
+
+token *tokenSetNextSibling( token *aToken, token *next ) {
+	
+	if(NULL != aToken->next)
+		tokenRelease(aToken->next);
+	
+	aToken->next = next;
+	return aToken;
+}
+
+token *tokenFirstChild( token *aToken ) {
+	return aToken->next;
+}
+
+token *tokenSetFirstChild( token *aToken, token *first ) {
+	
+	if(NULL != aToken->first)
+		tokenRelease(aToken->first);
+	
+	aToken->first = first;
+	return aToken;
+}
+
 token *tokenListAppend( token *head, token *last ) {
 	token *oldLast = head->next;
 	while (NULL != oldLast->next)
@@ -744,20 +770,20 @@ token *gSizeofType( token *typeSpec ) {
 
 
 /* objc */
-token *gMessage() {
-	return NULL;
+token *gMessage( token *receiver, token *message ) {
+	token *children = tokenSetNextSibling(tSquareL(), 
+										  tokenSetNextSibling(receiver,
+															  tokenSetNextSibling(message,
+																				  tSquareR())));
+	return tokenNewWithAttributes(EXPR_MESSAGE, NULL, NULL, children);
 }
 
-token *gReceiver() {
-	return NULL;
+token *gAtSelector( token *name ) {
+	return tokenNewWithAttributes(EXPR_AT_SELECTOR, NULL, NULL, gList(name));
 }
 
-token *gAtSelector() {
-	return NULL;
-}
-
-token *gSelector() {
-	return NULL;
+token *gSelector( token *keysWordsAndArgs ) {
+	return tokenNewWithAttributes(EXPR_SELECTOR, NULL, NULL, keysWordsAndArgs);
 }
 
 token *gSelectorKeyword( token *identifier ) {

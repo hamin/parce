@@ -90,23 +90,3 @@ void tokenRelease( token *aToken ) {
 	if(NULL != aToken)
 		free(aToken);
 }
-
-
-/** smart setter functions -- these release any existing tokens before replacing them **/
-token *tokenSetNextSibling( token *aToken, token *next ) {
-	
-	if(NULL != aToken->next)
-		tokenRelease(aToken->next);
-	
-	aToken->next = next;
-	return aToken;
-}
-
-token *tokenSetFirstChild( token *aToken, token *first ) {
-	
-	if(NULL != aToken->first)
-		tokenRelease(aToken->first);
-	
-	aToken->first = first;
-	return aToken;
-}

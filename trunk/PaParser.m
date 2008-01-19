@@ -109,12 +109,19 @@
 
 
 /* All the functions from parce_parser_actions.h */
+#pragma mark PaToken management
+PaToken *tokenNextSibling( PaToken *aToken ) { return NULL; }
+PaToken *tokenFirstChild( PaToken *aToken ) { return NULL; }
 
-extern token *tokenCopy( token *original ) { return NULL; }
-extern token *tokenListAppend( token *list, token *last ) { return NULL; }
+PaToken *tokenSetNextSibling( PaToken *aToken, PaToken *next ) { return NULL; }
+PaToken *tokenSetFirstChild( PaToken *aToken, PaToken *first ) { return NULL; }
+
+PaToken *tokenCopy( PaToken *original ) { return NULL; }
+PaToken *tokenListAppend( PaToken *list, PaToken *last ) { return NULL; }
 
 
-
+#pragma mark -
+#pragma mark operators
 PaToken *tPtrOp( void ) { return NULL; }
 
 PaToken *tIncOp( void ) { return NULL; }
@@ -127,10 +134,10 @@ PaToken *tLessOrEqualOp( void ) { return NULL; }
 PaToken *tGreaterOrEqualOp( void ) { return NULL; }
 PaToken *tNotEqualToOp( void ) { return NULL; }
 
-PaToken *tLeftShiftOp( void ) { return NULL; }
-PaToken *tRightShiftOp( void ) { return NULL; }
+PaToken *tShiftLOp( void ) { return NULL; }
+PaToken *tShiftROp( void ) { return NULL; }
 
-PaToken *tMultAssignOp( void ) { return NULL; }
+PaToken *tMulAssignOp( void ) { return NULL; }
 PaToken *tDivAssignOp( void ) { return NULL; }
 PaToken *tModAssignOp( void ) { return NULL; }
 PaToken *tAddAssignOp( void ) { return NULL; }
@@ -139,13 +146,13 @@ PaToken *tSubAssignOp( void ) { return NULL; }
 PaToken *tLeftAssignOp( void ) { return NULL; }
 PaToken *tRightAssignOp( void ) { return NULL; }
 PaToken *tAndAssignOp( void ) { return NULL; }
-PaToken *tXORAssignOp( void ) { return NULL; }
+PaToken *tXorAssignOp( void ) { return NULL; }
 PaToken *tOrAssignOp( void ) { return NULL; }
 
 /* multi-purpose operators */
 PaToken *tStarOp( void ) { return NULL; }
 PaToken *tAmpOp( void ) { return NULL; }
-PaToken *tExclamOp( void ) { return NULL; }
+PaToken *tExclaimOp( void ) { return NULL; }
 PaToken *tBarOp( void ) { return NULL; }
 PaToken *tSubOp( void ) { return NULL; }
 
@@ -159,13 +166,16 @@ PaToken *tLessOp( void ) { return NULL; }
 PaToken *tGreaterOp( void ) { return NULL; }
 
 /* bitwise operators */
-PaToken *tXOROp( void ) { return NULL; }
+PaToken *tXorOp( void ) { return NULL; }
 PaToken *tCompOp( void ) { return NULL; }
 
 /* other single character operators */
 PaToken *tAssignOp( void ) { return NULL; }
 PaToken *tDotOp( void ) { return NULL; }
 
+
+#pragma mark -
+#pragma mark punctuation
 /* braces/parentheses */
 PaToken *tCurlyL( void ) { return NULL; }
 PaToken *tCurlyR( void ) { return NULL; }
@@ -180,6 +190,11 @@ PaToken *tColon( void ) { return NULL; }
 PaToken *tSemi( void ) { return NULL; }
 PaToken *tQuest( void ) { return NULL; }
 
+PaToken *tEllipsis( void ) { return NULL; }
+
+
+#pragma mark -
+#pragma mark type names
 /* built in types */
 PaToken *tChar( void ) { return NULL; }
 PaToken *tShort( void ) { return NULL; }
@@ -190,10 +205,11 @@ PaToken *tUnsigned( void ) { return NULL; }
 PaToken *tFloat( void ) { return NULL; }
 PaToken *tDouble( void ) { return NULL; }
 PaToken *tConst( void ) { return NULL; }
+
+
+#pragma mark type specifiers
 PaToken *tVolatile( void ) { return NULL; }
 PaToken *tVoid( void ) { return NULL; }
-
-/* reserved words */
 PaToken *tExtern( void ) { return NULL; }
 PaToken *tStatic( void ) { return NULL; }
 PaToken *tAuto( void ) { return NULL; }
@@ -201,15 +217,15 @@ PaToken *tRegister( void ) { return NULL; }
 
 PaToken *tSizeof( void ) { return NULL; }
 
-/* user defined type creation */
+
+#pragma mark type definition
 PaToken *tTypedef( void ) { return NULL; }
 PaToken *tStruct( void ) { return NULL; }
 PaToken *tUnion( void ) { return NULL; }
 PaToken *tEnum( void ) { return NULL; }
 
-PaToken *tEllipsis( void ) { return NULL; }
 
-/* control flow */
+#pragma mark control flow terminals
 PaToken *tIf( void ) { return NULL; }
 PaToken *tElse( void ) { return NULL; }
 PaToken *tSwitch( void ) { return NULL; }
@@ -223,12 +239,14 @@ PaToken *tContinue( void ) { return NULL; }
 PaToken *tBreak( void ) { return NULL; }
 PaToken *tReturn( void ) { return NULL; }
 
-/* comments */
+
+#pragma mark comments
 PaToken *tBlockComment( void ) { return NULL; }
 PaToken *tInLineComment( void ) { return NULL; }
 
 
-/** objective-c extensions **/
+#pragma mark -
+#pragma mark Objective-C
 PaToken *tObjCId( void ) { return NULL; }
 PaToken *tObjCSelf( void ) { return NULL; }
 PaToken *tObjCSuper( void ) { return NULL; }
@@ -262,65 +280,109 @@ PaToken *tObjCAtEncode( void ) { return NULL; }
 PaToken *tObjCString( char *tokenText ) { return NULL; }
 
 
+#pragma mark -
 // NON-TERMINAL TOKENS
+PaToken *gTranslationUnit( PaToken *externalDef ) { return NULL; }
+PaToken *gDec( PaToken *decSpecs, PaToken *initDeclarators ) { return NULL; }
 
-PaToken *gExternalDefinitionList( PaToken *externalDefinitions, PaToken *externalDefinition ) {
-	return NULL;
-}
-
-PaToken *gDec( PaToken *decSpecs, PaToken *initDeclarators ) {
-	return NULL;
-}
-
-PaToken *gInitDeclarator( PaToken *typeDeclarator, PaToken *initializer ){ return NULL; }
+PaToken *gInitDeclarator( PaToken *typeDeclarator, PaToken *initializer ) { return NULL; }
 
 
 /* functions */
-PaToken *gFunctionDef (PaToken *decSpecs, PaToken *typeDec, PaToken *body ){ return NULL; } 
-PaToken *gFunctionBody ( PaToken *decs, PaToken *compoundStatement ){ return NULL; } 
+PaToken *gFunctionDef (PaToken *decSpecs, PaToken *typeDec, PaToken *body ) { return NULL; } 
+PaToken *gFunctionBody ( PaToken *decs, PaToken *compoundStatement ) { return NULL; } 
 
 /* type specifiers */
-PaToken *gStructOrUnionSpec( PaToken *structOrUnion, PaToken *name, PaToken *structDecs ){ return NULL; } 
+PaToken *gStructOrUnionSpec( PaToken *structOrUnion, PaToken *name, PaToken *structDecs ) { return NULL; } 
 
 /* structure/union elements */
-PaToken *gStructDec( PaToken *specQuals, PaToken *declarators ){ return NULL; }
-PaToken *gStructDeclarator( PaToken *typeDeclarator, PaToken *initValue ){ return NULL; } 
+PaToken *gStructDec( PaToken *specQuals, PaToken *declarators ) { return NULL; }
+PaToken *gStructDeclarator( PaToken *typeDeclarator, PaToken *initValue ) { return NULL; } 
 
 /* enumeration elements */
-PaToken *gEnumSpec( PaToken *name, PaToken *enumerators ){ return NULL; } 
-PaToken *gEnumerator( PaToken *name, PaToken *initValue ){ return NULL; } 
+PaToken *gEnumSpec( PaToken *name, PaToken *enumerators ) { return NULL; } 
+PaToken *gEnumerator( PaToken *name, PaToken *initValue ) { return NULL; } 
 
 /* type declarations */
-PaToken *gTypeDeclarator( PaToken *pointer, PaToken *declarators ){ return NULL; } 
-PaToken *gArrayDeclarator( PaToken *length ){ return NULL; } 
-PaToken *gListDeclarator( PaToken *parameters ){ return NULL; } 
-PaToken *gParameterDec( PaToken *specs, PaToken *declarator ){ return NULL; } 
+PaToken *gTypeDeclarator( PaToken *pointer, PaToken *declarators ) { return NULL; } 
+PaToken *gArrayDeclarator( PaToken *length ) { return NULL; } 
+PaToken *gListDeclarator( PaToken *parameters ) { return NULL; } 
+PaToken *gParameterDec( PaToken *specs, PaToken *declarator ) { return NULL; } 
 
-PaToken *gStructInitializer( PaToken *assignmentExpr ){ return NULL; }
+PaToken *gStructInitializer( PaToken *assignmentExpr ) { return NULL; }
 
 
-/** Objective-C **/
+#pragma mark Expressions and Statements
+/** Statements **/
+PaToken *gCompound( PaToken *stmtsAndDecs ) { return NULL; }
+
+PaToken *gIf( PaToken *test, PaToken *trueStmt ) { return NULL; }
+PaToken *gIfElse( PaToken *test, PaToken *trueStmt, PaToken *falseStmt ) { return NULL; }
+PaToken *gWhile( PaToken *test, PaToken *stmt ) { return NULL; }
+PaToken *gFor( PaToken *init, PaToken *test, PaToken *inc, PaToken *stmt ) { return NULL; }
+PaToken *gDo( PaToken *stmt, PaToken *test) { return NULL; }
+PaToken *gSwitch( PaToken *test, PaToken *compoundStmt ) { return NULL; }
+PaToken *gGoto( PaToken *identifier ) { return NULL; }
+PaToken *gReturn( PaToken *expr ) { return NULL; }
+PaToken *gLabeled( PaToken *identifier, PaToken *stmt ) { return NULL; }
+PaToken *gCase( PaToken *constant, PaToken *stmt ) { return NULL; }
+PaToken *gDefault( PaToken *stmt ) { return NULL; }
+PaToken *gExpression( PaToken *expr ) { return NULL; }
+
+/* objc */
+PaToken *gTry( PaToken *tryBlock, PaToken *catchInitDecl, PaToken *catchBlock, PaToken *finBlock ) { return NULL; }
+PaToken *gSynch( PaToken *identifier, PaToken *stmt ) { return NULL; }
+PaToken *gThrow() { return NULL; }
+
+/** Expressions **/
+PaToken *gPostfix( PaToken *expr, PaToken *op, PaToken *member ) { return NULL; } // member may be NULL
+PaToken *gPrefix( PaToken *op, PaToken *expr) { return NULL; }
+PaToken *gArray( PaToken *expr ) { return NULL; }
+PaToken *gParen( PaToken *expr ) { return NULL; }
+PaToken *gDot( PaToken *expr, PaToken *ident ) { return NULL; }
+PaToken *gBinary( PaToken *left, PaToken *op, PaToken *right) { return NULL; }
+PaToken *gCast( PaToken *typeSpec, PaToken *expr ) { return NULL; }
+PaToken *gAssign( PaToken *left, PaToken *op, PaToken *right ) { return NULL; }
+PaToken *gConditional( PaToken *logical, PaToken *trueExpr, PaToken *falseExpr ) { return NULL; }
+
+PaToken *gSizeofUnary( PaToken *unary ) { return NULL; }
+PaToken *gSizeofType( PaToken *typeSpec ) { return NULL; }
+
+#pragma mark -
+#pragma mark Objective-C groups
+
+/* expressions */
+PaToken *gMessage( token *receiver, token *message ) { return NULL; }
+PaToken *gAtSelector( token *name ) { return NULL; }
+PaToken *gSelector( token *keysWordsAndArgs ) { return NULL; }
+PaToken *gSelectorKeyword( PaToken *identifier ) { return NULL; }
+PaToken *gAtProtocol( PaToken *identifier ) { return NULL; }
+PaToken *gAtEncode( PaToken *typeName ) { return NULL; }
+
 
 /* external definitions */
-PaToken *gClassDecs( PaToken *identifiers ){ return NULL; }
-PaToken *gProtocolDecs( PaToken *identifiers ){ return NULL; }
+PaToken *gClassNameDecs( PaToken *identifiers ) { return NULL; }
+PaToken *gProtocolNameDecs( PaToken *identifiers ) { return NULL; }
 
-PaToken *gClassInterface( PaToken *className, PaToken *superClassName, PaToken *protocolRefs, PaToken *ivars, PaToken *interfaceDecs ){ return NULL; }
-PaToken *gCategoryInterface( PaToken *className, PaToken *categoryName, PaToken *protocolRefs, PaToken *interfaceDecs ){ return NULL; }
-PaToken *gProtocolDec( PaToken *protocolName, PaToken *protocolRefs, PaToken *interfaceDecs ){ return NULL; }
+PaToken *gProtocolRefs( PaToken *identifiers ) { return NULL; }
+PaToken *gInstanceVariables( PaToken *members ) { return NULL; }
 
-PaToken *gClassImplementation(PaToken *className, PaToken *methodDefs ){ return NULL; }
-PaToken *gCategoryImplementation( PaToken *className, PaToken *categoryName, PaToken *methodDefs ){ return NULL; }
+PaToken *gClassInterface( PaToken *className, PaToken *superClassName, PaToken *protocolRefs, PaToken *ivars, PaToken *interfaceDecs ) { return NULL; }
+PaToken *gCategoryInterface( PaToken *className, PaToken *categoryName, PaToken *protocolRefs, PaToken *interfaceDecs ) { return NULL; }
+PaToken *gProtocolDec( PaToken *protocolName, PaToken *protocolRefs, PaToken *interfaceDecs ) { return NULL; }
 
-PaToken *gClassMethodDec( PaToken *returnType, PaToken *selector ){ return NULL; }
-PaToken *gInstanceMethodDec( PaToken *returnType, PaToken *selector ){ return NULL; }
+PaToken *gClassImplementation(PaToken *className, PaToken *methodDefs ) { return NULL; }
+PaToken *gCategoryImplementation( PaToken *className, PaToken *categoryName, PaToken *methodDefs ) { return NULL; }
 
-PaToken *gClassMethodDef( PaToken *returnType, PaToken *selector, PaToken *decs, PaToken *compoundStmt ){ return NULL; }
-PaToken *gInstanceMethodDef( PaToken *returnType, PaToken *selector, PaToken *decs, PaToken *compoundStmt ){ return NULL; }
+PaToken *gClassMethodDec( PaToken *returnType, PaToken *selector ) { return NULL; }
+PaToken *gInstanceMethodDec( PaToken *returnType, PaToken *selector ) { return NULL; }
+
+PaToken *gClassMethodDef( PaToken *returnType, PaToken *selector, PaToken *decs, PaToken *compoundStmt ) { return NULL; }
+PaToken *gInstanceMethodDef( PaToken *returnType, PaToken *selector, PaToken *decs, PaToken *compoundStmt ) { return NULL; }
 
 /* type specifiers */
-PaToken *gTypeSpec( PaToken *typeSpec, PaToken *protocolRefs ){ return NULL; } 
+PaToken *gTypeSpec( PaToken *typeSpec, PaToken *protocolRefs ) { return NULL; } 
 
-PaToken *gStructObjCDefs( PaToken *className ){ return NULL; }
+PaToken *gStructObjCDefs( PaToken *className ) { return NULL; }
 
 
