@@ -33,9 +33,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-#define token PaToken // override the C-lib definition of token -- requires additional GCC argument -DCUSTOM_TOKEN_TYPE
-
-
 @interface PaToken : NSObject {
 
 }
