@@ -27,6 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdlib.h>
 	
+#include "parce_parser_token.h"
 #include "parce_parser_actions.h"
 	
 // This parser does not perform semantic analysis. It only creates an abstract syntax tree.
@@ -601,11 +602,11 @@ do_statement
 	;
 
 open_for_statement
-	: for_prefix open_statement { $1->first = $2; $$ = $1; }
+	: for_prefix open_statement { tokenSetFirstChild($1, $2); }
 	;
 
 closed_for_statement
-	: for_prefix closed_statement { $1->first = $2; $$ = $1; }
+	: for_prefix closed_statement { tokenSetFirstChild($1, $2); }
 	;
 
 for_prefix
@@ -638,7 +639,7 @@ throw_statement
 
 translation_unit
 	: external_definition { *root = $$ = gTranslationUnit($1); }
-	| translation_unit external_definition { $$ = tokenListAppend($1->first, $2); }
+	| translation_unit external_definition { $$ = tokenListAppend( tokenFirstChild($1), $2 ); }
 	;
 
 external_definition // default rule

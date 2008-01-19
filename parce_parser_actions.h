@@ -93,6 +93,12 @@ enum {
 };
 
 
+extern token *tokenNextSibling( token *aToken );
+extern token *tokenFirstChild( token *aToken );
+
+extern token *tokenSetNextSibling( token *aToken, token *next );
+extern token *tokenSetFirstChild( token *aToken, token *first );
+
 extern token *tokenCopy( token *original );
 extern token *tokenListAppend( token *list, token *last );
 
@@ -345,17 +351,15 @@ extern token *gConditional( token *logical, token *trueExpr, token *falseExpr );
 extern token *gSizeofUnary( token *unary );
 extern token *gSizeofType( token *typeSpec );
 
-/* objc */
-extern token *gMessage();
-extern token *gReceiver();
-extern token *gAtSelector();
-extern token *gSelector();
+
+/** Objective-C **/
+/* expressions */
+extern token *gMessage( token *receiver, token *message );
+extern token *gAtSelector( token *name );
+extern token *gSelector( token *keysWordsAndArgs );
 extern token *gSelectorKeyword( token *identifier );
 extern token *gAtProtocol( token *identifier );
 extern token *gAtEncode( token *typeName );
-
-
-/** Objective-C **/
 
 /* external definitions */
 extern token *gClassNameDecs( token *identifiers );
