@@ -696,7 +696,7 @@ token *gSynch( token *identifier, token *stmt ) {
 	return NULL;
 }
 
-token *gThrow() {
+token *gThrow( token *identifier ) {
 	return NULL;
 }
 
