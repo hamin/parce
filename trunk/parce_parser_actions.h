@@ -335,7 +335,7 @@ extern token *gExpression( token *expr );
 /* objc */
 extern token *gTry( token *tryBlock, token *catchInitDecl, token *catchBlock, token *finBlock );
 extern token *gSynch( token *identifier, token *stmt );
-extern token *gThrow();
+extern token *gThrow( token *identifier );
 
 /** Expressions **/
 extern token *gPostfix( token *expr, token *op, token *member ); // member may be NULL
