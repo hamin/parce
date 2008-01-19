@@ -6,6 +6,7 @@ parce: objc.y
 
 Copyright 2007 Bored Astronaut Software. All rights reserved.
 
+
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
 - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
@@ -23,22 +24,18 @@ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 */
+
+
+
 
 #include <stdlib.h>
 	
-#include "parce_parser_token.h"
 #include "parce_parser_actions.h"
-	
-// This parser does not perform semantic analysis. It only creates an abstract syntax tree.
-
-// The token type is not a semantic value type; it is a tree node type.
-// If you define a token with a semantic value member, you can set this member's value
-// in the value argument (a pointer to an instance of token) in your scanner action function,
-// it can then be used in your parser action function.
-#define YYSTYPE token *
-	
 %}
+
+
 
 %token IDENTIFIER CONSTANT STRING_LITERAL NULL_VAL SIZEOF
 %token PTR_OP INC_OP DEC_OP LEFT_OP RIGHT_OP LE_OP GE_OP EQ_OP NE_OP
@@ -63,12 +60,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %token CLASS_NAME PROTOCOL_NAME CATEGORY_NAME
 
 
+
 %parse-param {YYSTYPE *root}
 
 %pure-parser
 
 %start translation_unit
 %%
+
 
 
 /* Expressions */
@@ -174,12 +173,12 @@ inclusive_or_expression
 
 logical_and_expression
 	: inclusive_or_expression
-	| logical_and_expression AND_OP inclusive_or_expression { $$ = gBinary( $1, tAmpOp(), $3 ); }
+	| logical_and_expression AND_OP inclusive_or_expression { $$ = gBinary( $1, tBooleanAndOp(), $3 ); }
 	;
 
 logical_or_expression
 	: logical_and_expression
-	| logical_or_expression OR_OP logical_and_expression { $$ = gBinary( $1, tBarOp(), $3 ); }
+	| logical_or_expression OR_OP logical_and_expression { $$ = gBinary( $1, tBooleanOrOp(), $3 ); }
 	;
 
 conditional_expression
@@ -228,8 +227,8 @@ receiver
 	;
 
 message_selector
-	: selector
-	| keyword_argument_list
+	: selector { $$ = gSelector( $1 ); }
+	| keyword_argument_list { $$ = gSelector( $1 ); }
 	;
 
 keyword_argument_list
@@ -602,11 +601,11 @@ do_statement
 	;
 
 open_for_statement
-	: for_prefix open_statement { tokenSetFirstChild($1, $2); }
+	: for_prefix open_statement { tokenSetFirstChild( $1, $2 ); }
 	;
 
 closed_for_statement
-	: for_prefix closed_statement { tokenSetFirstChild($1, $2); }
+	: for_prefix closed_statement { tokenSetFirstChild( $1, $2 ); }
 	;
 
 for_prefix
