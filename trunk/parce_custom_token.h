@@ -7,3 +7,8 @@
  */
 
 #include "PaToken.h"
+
+#define YYSTYPE PaToken *
+
+#define token PaToken // override the C-lib definition of token -- requires additional GCC argument -DCUSTOM_TOKEN_TYPE
+
