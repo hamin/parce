@@ -104,19 +104,23 @@
 
 @end
 
-extern void scanMacro( char *tokenString ) { return; }
+extern void scanInitialize( void ) {
+	return;
+}
 
-extern void scanCommentBlock( char *tokenString ) { return; }
-extern void scanCommentLine( char *tokenString ) { return; }
-extern void scanWhiteSpace( char *tokenString ) { return; }
+extern void scanMacro( YYSTYPE yylval, char *tokenString ) { return; }
 
-extern int scanHexConstant( char *tokenString ) { return 0; }    
-extern int scanOctalConstant( char *tokenString ) { return 0; }    
-extern int scanDecimalConstant( char *tokenString ) { return 0; }    
-extern int scanEscapeConstant( char *tokenString ) { return 0; }    
-extern int scanFloatEConstant( char *tokenString ) { return 0; }    
-extern int scanFloatDotConstant( char *tokenString ) { return 0; }    
-extern int scanCString( char *tokenString ) { return 0; }     
-extern int scanObjCString( char *tokenString ) { return 0; }  
+extern void scanCommentBlock( YYSTYPE yylval, char *tokenString ) { return; }
+extern void scanCommentLine( YYSTYPE yylval, char *tokenString ) { return; }
+extern void scanWhiteSpace( YYSTYPE yylval, char *tokenString ) { return; }
 
-extern int scanType( char *tokenString ) { return 0; }
+extern int scanHexConstant( YYSTYPE yylval, char *tokenString ) { return 0; }    
+extern int scanOctalConstant( YYSTYPE yylval, char *tokenString ) { return 0; }    
+extern int scanDecimalConstant( YYSTYPE yylval, char *tokenString ) { return 0; }    
+extern int scanEscapeConstant( YYSTYPE yylval, char *tokenString ) { return 0; }    
+extern int scanFloatEConstant( YYSTYPE yylval, char *tokenString ) { return 0; }    
+extern int scanFloatDotConstant( YYSTYPE yylval, char *tokenString ) { return 0; }    
+extern int scanCString( YYSTYPE yylval, char *tokenString ) { return 0; }     
+extern int scanObjCString( YYSTYPE yylval, char *tokenString ) { return 0; }  
+
+extern int scanType( YYSTYPE yylval, char *tokenString ) { return 0; }
