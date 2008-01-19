@@ -74,9 +74,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 primary_expression
 	: identifier
-	| CONSTANT
-	| STRING_LITERAL
-	| NULL_VAL
+	| CONSTANT { $$ = tokenCopy( yylval ); }
+	| STRING_LITERAL { $$ = tokenCopy( yylval ); }
+	| NULL_VAL { $$ = tokenCopy( yylval ); }
 	| '(' expression ')' { $$ = gParen( $2 ); }
 	| message_expression
 	| selector_expression
@@ -90,9 +90,9 @@ postfix_expression
 	| postfix_expression '(' ')' { $$ = gParen( NULL ); }
 	| postfix_expression '(' argument_expression_list ')' { $$ = gParen( $3 ); }
 	| postfix_expression '.' identifier { $$ = gDot( $1, $3 ); }
-	| postfix_expression PTR_OP identifier { $$ = gPostfix( $1, $2, $3 ); }
-	| postfix_expression INC_OP { $$ = gPostfix( $1, $2, NULL ); }
-	| postfix_expression DEC_OP { $$ = gPostfix( $1, $2, NULL ); }
+	| postfix_expression PTR_OP identifier { $$ = gPostfix( $1, tPtrOp(), $3 ); }
+	| postfix_expression INC_OP { $$ = gPostfix( $1, tIncOp(), NULL ); }
+	| postfix_expression DEC_OP { $$ = gPostfix( $1, tDecOp(), NULL ); }
 	;
 
 argument_expression_list
@@ -102,20 +102,20 @@ argument_expression_list
 
 unary_expression
 	: postfix_expression
-	| INC_OP unary_expression { $$ = gPrefix( $1, $2 ); }
-	| DEC_OP unary_expression { $$ = gPrefix( $1, $2 ); }
+	| INC_OP unary_expression { $$ = gPrefix( tIncOp(), $2 ); }
+	| DEC_OP unary_expression { $$ = gPrefix( tDecOp(), $2 ); }
 	| unary_operator cast_expression { $$ = gPrefix( $1, $2 ); }
 	| SIZEOF unary_expression { $$ = gSizeofUnary( $2 ); }
 	| SIZEOF '(' type_specification ')' { $$ = gSizeofType( $3 ); }
 	;
 
 unary_operator
-	: '&'
-	| '*'
-	| '+'
-	| '-'
-	| '~'
-	| '!'
+	: '&' { $$ = tAmpOp(); }
+	| '*' { $$ = tStarOp(); }
+	| '+' { $$ = tAddOp(); }
+	| '-' { $$ = tSubOp(); }
+	| '~' { $$ = tCompOp(); }
+	| '!' { $$ = tExclaimOp(); }
 	;
 
 cast_expression
@@ -125,65 +125,65 @@ cast_expression
 
 multiplicative_expression
 	: cast_expression
-	| multiplicative_expression '*' cast_expression { $$ = gBinary( $1, $2, $3 ); }
-	| multiplicative_expression '/' cast_expression { $$ = gBinary( $1, $2, $3 ); }
-	| multiplicative_expression '%' cast_expression { $$ = gBinary( $1, $2, $3 ); }
+	| multiplicative_expression '*' cast_expression { $$ = gBinary( $1, tStarOp(), $3 ); }
+	| multiplicative_expression '/' cast_expression { $$ = gBinary( $1, tDivOp(), $3 ); }
+	| multiplicative_expression '%' cast_expression { $$ = gBinary( $1, tModOp(), $3 ); }
 	;
 
 additive_expression
 	: multiplicative_expression
-	| additive_expression '+' multiplicative_expression { $$ = gBinary( $1, $2, $3 ); }
-	| additive_expression '-' multiplicative_expression { $$ = gBinary( $1, $2, $3 ); }
+	| additive_expression '+' multiplicative_expression { $$ = gBinary( $1, tAddOp(), $3 ); }
+	| additive_expression '-' multiplicative_expression { $$ = gBinary( $1, tSubOp(), $3 ); }
 	;
 
 shift_expression
 	: additive_expression
-	| shift_expression LEFT_OP additive_expression { $$ = gBinary( $1, $2, $3 ); }
-	| shift_expression RIGHT_OP additive_expression { $$ = gBinary( $1, $2, $3 ); }
+	| shift_expression LEFT_OP additive_expression { $$ = gBinary( $1, tShiftLOp(), $3 ); }
+	| shift_expression RIGHT_OP additive_expression { $$ = gBinary( $1, tShiftROp(), $3 ); }
 	;
 
 relational_expression
 	: shift_expression
-	| relational_expression '<' shift_expression { $$ = gBinary( $1, $2, $3 ); }
-	| relational_expression '>' shift_expression { $$ = gBinary( $1, $2, $3 ); }
-	| relational_expression LE_OP shift_expression { $$ = gBinary( $1, $2, $3 ); }
-	| relational_expression GE_OP shift_expression { $$ = gBinary( $1, $2, $3 ); }
+	| relational_expression '<' shift_expression { $$ = gBinary( $1, tLessOp(), $3 ); }
+	| relational_expression '>' shift_expression { $$ = gBinary( $1, tGreaterOp(), $3 ); }
+	| relational_expression LE_OP shift_expression { $$ = gBinary( $1, tLessOrEqualOp(), $3 ); }
+	| relational_expression GE_OP shift_expression { $$ = gBinary( $1, tGreaterOrEqualOp(), $3 ); }
 	;
 
 equality_expression
 	: relational_expression
-	| equality_expression EQ_OP relational_expression { $$ = gBinary( $1, $2, $3 ); }
-	| equality_expression NE_OP relational_expression { $$ = gBinary( $1, $2, $3 ); }
+	| equality_expression EQ_OP relational_expression { $$ = gBinary( $1, tEqualToOp(), $3 ); }
+	| equality_expression NE_OP relational_expression { $$ = gBinary( $1, tNotEqualToOp(), $3 ); }
 	;
 
 and_expression
 	: equality_expression
-	| and_expression '&' equality_expression { $$ = gBinary( $1, $2, $3 ); }
+	| and_expression '&' equality_expression { $$ = gBinary( $1, tAmpOp(), $3 ); }
 	;
 
 exclusive_or_expression
 	: and_expression
-	| exclusive_or_expression '^' and_expression { $$ = gBinary( $1, $2, $3 ); }
+	| exclusive_or_expression '^' and_expression { $$ = gBinary( $1, tXorOp(), $3 ); }
 	;
 
 inclusive_or_expression
 	: exclusive_or_expression
-	| inclusive_or_expression '|' exclusive_or_expression { $$ = gBinary( $1, $2, $3 ); }
+	| inclusive_or_expression '|' exclusive_or_expression { $$ = gBinary( $1, tBarOp(), $3 ); }
 	;
 
 logical_and_expression
 	: inclusive_or_expression
-	| logical_and_expression AND_OP inclusive_or_expression { $$ = gBinary( $1, $2, $3 ); }
+	| logical_and_expression AND_OP inclusive_or_expression { $$ = gBinary( $1, tAmpOp(), $3 ); }
 	;
 
 logical_or_expression
 	: logical_and_expression
-	| logical_or_expression OR_OP logical_and_expression { $$ = gBinary( $1, $2, $3 ); }
+	| logical_or_expression OR_OP logical_and_expression { $$ = gBinary( $1, tBarOp(), $3 ); }
 	;
 
 conditional_expression
 	: logical_or_expression
-	| logical_or_expression '?' logical_or_expression ':' conditional_expression
+	| logical_or_expression '?' logical_or_expression ':' conditional_expression { $$ = gConditional( $1, $3, $5 ); }
 	;
 
 assignment_expression
@@ -193,16 +193,16 @@ assignment_expression
 
 assignment_operator
 	: '='
-	| MUL_ASSIGN
-	| DIV_ASSIGN
-	| MOD_ASSIGN
-	| ADD_ASSIGN
-	| SUB_ASSIGN
-	| LEFT_ASSIGN
-	| RIGHT_ASSIGN
-	| AND_ASSIGN
-	| XOR_ASSIGN
-	| OR_ASSIGN
+	| MUL_ASSIGN { $$ = tMulAssignOp(); }
+	| DIV_ASSIGN { $$ = tDivAssignOp(); }
+	| MOD_ASSIGN { $$ = tModAssignOp(); }
+	| ADD_ASSIGN { $$ = tAddAssignOp(); }
+	| SUB_ASSIGN { $$ = tSubAssignOp(); }
+	| LEFT_ASSIGN { $$ = tLeftAssignOp(); }
+	| RIGHT_ASSIGN { $$ = tRightAssignOp(); }
+	| AND_ASSIGN { $$ = tAndAssignOp(); }
+	| XOR_ASSIGN { $$ = tXorAssignOp(); }
+	| OR_ASSIGN { $$ = tOrAssignOp(); }
 	;
 
 expression
@@ -221,8 +221,8 @@ message_expression
 
 receiver
 	: expression
-	| SELF
-	| SUPER
+	| SELF { $$ = tObjCSelf(); }
+	| SUPER { $$ = tObjCSuper(); }
 	| class_name
 	;
 
@@ -523,34 +523,34 @@ closed_statement
 	;
 
 open_labeled_statement
-	: identifier ':' open_statement
-	| CASE constant_expression ':' open_statement
-	| DEFAULT ':' open_statement
+	: identifier ':' open_statement { $$ = gLabeled( $1, $3 ); }
+	| CASE constant_expression ':' open_statement { $$ = gCase( $2, $4 ); }
+	| DEFAULT ':' open_statement { $$ = gDefault( $3 ); }
 	;
 
 closed_labeled_statement
-	: identifier ':' closed_statement
-	| CASE constant_expression ':' closed_statement
-	| DEFAULT ':' closed_statement
+	: identifier ':' closed_statement { $$ = gLabeled( $1, $3 ); }
+	| CASE constant_expression ':' closed_statement { $$ = gCase( $2, $4 ); }
+	| DEFAULT ':' closed_statement { $$ = gDefault( $3 ); }
 	;
 
 compound_statement
-	: '{' '}' { $$ = gCompound(NULL); }
-//	| '{' statement_or_declaration_list '}' { $$ = gCompound($2); }
+	: '{' '}' { $$ = gCompound( NULL ); }
+//	| '{' statement_or_declaration_list '}' { $$ = gCompound( $2 ); }
 //	| '{' statement_or_declaration_list '}' { $$ = gCompoundText(/* text */); }
 	| '{' statement_or_declaration_list '}' { $$ = gCompound(NULL); }
 	;
 
 statement_or_declaration_list
 	: statement
-	| statement statement_or_declaration_list
+	| statement statement_or_declaration_list { $$ = tokenListAppend( $1, $2 ); }
 	| declaration
-	| declaration statement_or_declaration_list
+	| declaration statement_or_declaration_list { $$ = tokenListAppend( $1, $2 ); }
 	;
 
 declaration_list
 	: declaration
-	| declaration_list declaration
+	| declaration_list declaration { $$ = tokenListAppend( $1, $2 ); }
 	;
 
 expression_statement
@@ -559,77 +559,77 @@ expression_statement
 	;
 
 open_if_statement
-	: IF '(' expression ')' statement
-	| IF '(' expression ')' closed_statement ELSE open_statement
+	: IF '(' expression ')' statement { $$ = gIf( $3, $5 ); }
+	| IF '(' expression ')' closed_statement ELSE open_statement { $$ = gIfElse( $3, $5, $7 ); }
 	;
 
 closed_if_statement
-	: IF '(' expression ')' closed_statement ELSE closed_statement
+	: IF '(' expression ')' closed_statement ELSE closed_statement { $$ = gIfElse( $3, $5, $7 ); }
 	;
 
 open_try_statement
-	: AT_TRY closed_statement AT_CATCH '(' init_declarator ')' statement
-	| AT_TRY closed_statement AT_CATCH '(' init_declarator ')' closed_statement AT_FINALLY open_statement
+	: AT_TRY closed_statement AT_CATCH '(' init_declarator ')' statement { $$ = gTry ($2, $5, $7, NULL); }
+	| AT_TRY closed_statement AT_CATCH '(' init_declarator ')' closed_statement AT_FINALLY open_statement { $$ = gTry ($2, $5, $7, $9); }
 	;
 
 closed_try_statement
-	: AT_TRY closed_statement AT_CATCH '(' init_declarator ')' closed_statement AT_FINALLY closed_statement
+	: AT_TRY closed_statement AT_CATCH '(' init_declarator ')' closed_statement AT_FINALLY closed_statement { $$ = gTry ($2, $5, $7, $9); }
 	;
 
 open_synchronized_statement
-	: AT_SYNCHRONIZED '(' identifier ')' open_statement
+	: AT_SYNCHRONIZED '(' identifier ')' open_statement { $$ = gSynch( $3, $5 ); }
 	;
 
 closed_synchronized_statement
-	: AT_SYNCHRONIZED '(' identifier ')' closed_statement
+	: AT_SYNCHRONIZED '(' identifier ')' closed_statement { $$ = gSynch( $3, $5 ); }
 	;
 
 switch_statement
-	: SWITCH '(' expression ')' compound_statement
+	: SWITCH '(' expression ')' compound_statement { $$ = gSwitch( $3, $5 ); }
 	;
 
 open_while_statement
-	: WHILE '(' expression ')' open_statement
+	: WHILE '(' expression ')' open_statement { $$ = gWhile( $3, $5 ); }
 	;
 
 closed_while_statement
-	: WHILE '(' expression ')' closed_statement
+	: WHILE '(' expression ')' closed_statement { $$ = gWhile( $3, $5 ); }
 	;
 
 do_statement
-	: DO statement WHILE '(' expression ')' ';'
+	: DO statement WHILE '(' expression ')' ';' { $$ = gDo( $2, $5 ); }
 	;
 
 open_for_statement
-	: for_prefix open_statement
+	: for_prefix open_statement { $1->first = $2; $$ = $1; }
 	;
 
 closed_for_statement
-	: for_prefix closed_statement
+	: for_prefix closed_statement { $1->first = $2; $$ = $1; }
 	;
 
 for_prefix
-	: FOR '(' ';' ';' ')'
-	| FOR '(' ';' ';' expression ')'
-	| FOR '(' ';' expression ';' ')'
-	| FOR '(' ';' expression ';' expression ')'
-	| FOR '(' expression ';' ';' ')'
-	| FOR '(' expression ';' ';' expression ')'
-	| FOR '(' expression ';' expression ';' ')'
-	| FOR '(' expression ';' expression ';' expression ')'
+	: FOR '(' ';' ';' ')' { $$ = gFor( NULL, NULL, NULL, NULL ); }
+	| FOR '(' ';' ';' expression ')' { $$ = gFor( NULL, NULL, $5, NULL ); }
+	| FOR '(' ';' expression ';' ')' { $$ = gFor( NULL, $4, NULL, NULL ); }
+	| FOR '(' ';' expression ';' expression ')' { $$ = gFor( NULL, $4, $6, NULL ); }
+	| FOR '(' expression ';' ';' ')' { $$ = gFor( $3, NULL, NULL, NULL ); }
+	| FOR '(' expression ';' ';' expression ')' { $$ = gFor( $3, NULL, $6, NULL ); }
+	| FOR '(' expression ';' expression ';' ')' { $$ = gFor( $3, $5, NULL, NULL ); }
+	| FOR '(' expression ';' expression ';' expression ')' { $$ = gFor( $3, $5, $7, NULL ); }
 	;
 
 jump_statement
-	: GOTO identifier ';'
-	| CONTINUE ';'
-	| BREAK ';'
-	| RETURN ';'
-	| RETURN expression ';'
+	: GOTO identifier ';' { $$ = gGoto( $2 ); }
+	| CONTINUE ';' { $$ == tContinue(); }
+	| BREAK ';' { $$ == tBreak(); }
+	| RETURN ';' { $$ = gReturn( NULL ); }
+	| RETURN expression ';' { $$ = gReturn( $2 ); }
 	;
 
 throw_statement
-	: AT_THROW '(' identifier ')'
-	| AT_THROW identifier
+	: AT_THROW '(' identifier ')' { $$ = gThrow( gParen( $3 ) ); }
+	| AT_THROW identifier { $$ = gThrow( $2 ); }
 	;
 
 
@@ -668,12 +668,12 @@ function_body
 // objective-c additions
 class_declaration_list
 	// the identifiers become class_names
-	: AT_CLASS identifier_list ';' { $$ = gClassDecs( $2 ); }
+	: AT_CLASS identifier_list ';' { $$ = gClassNameDecs( $2 ); }
 	;
 
 protocol_declaration_list
 	// the identifiers become protocol_names
-	: AT_PROTOCOL identifier_list ';' { $$ = gProtocolDecs( $2 ); }
+	: AT_PROTOCOL identifier_list ';' { $$ = gProtocolNameDecs( $2 ); }
 	;
 
 class_interface
@@ -762,7 +762,7 @@ protocol_declaration
 	;
 
 protocol_reference_list
-	: '<' protocol_list '>' { $$ = $2; }
+	: '<' protocol_list '>' { $$ = gProtocolRefs( $2 ); }
 	;
 
 protocol_list
@@ -771,7 +771,7 @@ protocol_list
 	;
 
 instance_variables
-	: '{' instance_variable_declaration_list '}' { $$ = $2; }
+	: '{' instance_variable_declaration_list '}' { $$ = gInstanceVariables( $2 ); }
 	;
 
 instance_variable_declaration_list

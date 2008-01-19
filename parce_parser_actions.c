@@ -62,7 +62,7 @@ void failWithError(const char *message) {
 /** specialized token creation functions for terminal symbols **/
 
 /* multi-character operators */
-token *tPtrOp( void ) { return tokenNewWithAttributes(PTR_OP, "*", NULL, NULL); }
+token *tPtrOp( void ) { return tokenNewWithAttributes(PTR_OP, "->", NULL, NULL); }
 
 token *tIncOp( void ) { return tokenNewWithAttributes(INC_OP, "++", NULL, NULL); }
 token *tDecOp( void ) { return tokenNewWithAttributes(DEC_OP, "--", NULL, NULL); }
@@ -74,10 +74,10 @@ token *tLessOrEqualOp( void ) { return tokenNewWithAttributes(LE_OP, "<=", NULL,
 token *tGreaterOrEqualOp( void ) { return tokenNewWithAttributes(GE_OP, ">=", NULL, NULL); }
 token *tNotEqualToOp( void ) { return tokenNewWithAttributes(NE_OP, "!=", NULL, NULL); }
 
-token *tLeftShiftOp( void ) { return tokenNewWithAttributes(LEFT_OP, "<<", NULL, NULL); }
-token *tRightShiftOp( void ) { return tokenNewWithAttributes(RIGHT_OP, ">>", NULL, NULL); }
+token *tShiftLOp( void ) { return tokenNewWithAttributes(LEFT_OP, "<<", NULL, NULL); }
+token *tShiftROp( void ) { return tokenNewWithAttributes(RIGHT_OP, ">>", NULL, NULL); }
 
-token *tMultAssignOp( void ) { return tokenNewWithAttributes(MUL_ASSIGN, "*=", NULL, NULL); }
+token *tMulAssignOp( void ) { return tokenNewWithAttributes(MUL_ASSIGN, "*=", NULL, NULL); }
 token *tDivAssignOp( void ) { return tokenNewWithAttributes(DIV_ASSIGN, "/=", NULL, NULL); }
 token *tModAssignOp( void ) { return tokenNewWithAttributes(MOD_ASSIGN, "%=", NULL, NULL); }
 token *tAddAssignOp( void ) { return tokenNewWithAttributes(ADD_ASSIGN, "+=", NULL, NULL); }
@@ -86,13 +86,13 @@ token *tSubAssignOp( void ) { return tokenNewWithAttributes(SUB_ASSIGN, "-=", NU
 token *tLeftAssignOp( void ) { return tokenNewWithAttributes(LEFT_ASSIGN, "<<=", NULL, NULL); }
 token *tRightAssignOp( void ) { return tokenNewWithAttributes(RIGHT_ASSIGN, ">>=", NULL, NULL); }
 token *tAndAssignOp( void ) { return tokenNewWithAttributes(AND_ASSIGN, "&=", NULL, NULL); }
-token *tXORAssignOp( void ) { return tokenNewWithAttributes(XOR_ASSIGN, "^=", NULL, NULL); }
+token *tXorAssignOp( void ) { return tokenNewWithAttributes(XOR_ASSIGN, "^=", NULL, NULL); }
 token *tOrAssignOp( void ) { return tokenNewWithAttributes(OR_ASSIGN, "|=", NULL, NULL); }
 
 /* multi-purpose operators */
 token *tStarOp( void ) { return tokenNewWithAttributes((unsigned int)'*', "*", NULL, NULL); }
 token *tAmpOp( void ) { return tokenNewWithAttributes((unsigned int)'&', "&", NULL, NULL); }
-token *tExclamOp( void ) { return tokenNewWithAttributes((unsigned int)'!', "!", NULL, NULL); }
+token *tExclaimOp( void ) { return tokenNewWithAttributes((unsigned int)'!', "!", NULL, NULL); }
 token *tBarOp( void ) { return tokenNewWithAttributes((unsigned int)'|', "|", NULL, NULL); }
 token *tSubOp( void ) { return tokenNewWithAttributes((unsigned int)'-', "-", NULL, NULL); }
 
@@ -106,7 +106,7 @@ token *tLessOp( void ) { return tokenNewWithAttributes((unsigned int)'<', "<", N
 token *tGreaterOp( void ) { return tokenNewWithAttributes((unsigned int)'>', ">", NULL, NULL); }
 
 /* bitwise operators */
-token *tXOROp( void ) { return tokenNewWithAttributes((unsigned int)'^', "^", NULL, NULL); }
+token *tXorOp( void ) { return tokenNewWithAttributes((unsigned int)'^', "^", NULL, NULL); }
 token *tCompOp( void ) { return tokenNewWithAttributes((unsigned int)'~', "~", NULL, NULL); }
 
 /* other single character operators */
@@ -170,10 +170,17 @@ token *tContinue( void ) { return tokenNewWithAttributes(CONTINUE, "continue", N
 token *tBreak( void ) { return tokenNewWithAttributes(BREAK, "break", NULL, NULL); }
 token *tReturn( void ) { return tokenNewWithAttributes(RETURN, "return", NULL, NULL); }
 
-/* comments */
-token *tBlockComment( void ) { return NULL; }
-token *tInLineComment( void ) { return NULL; }
 
+/* comments */
+token *tBlockComment( void ) {
+	return NULL;
+}
+token *tInLineComment( void ) {
+	return NULL;
+}
+
+
+/* literals */
 token *tConstant( char *text ) { return tokenNewWithAttributes(CONSTANT, text, NULL, NULL); } // FIXME: when to determine the value?
 token *tStringLiteral( char *text ) { return tokenNewWithAttributes(STRING_LITERAL, text, NULL, NULL); }
 
@@ -210,6 +217,8 @@ token *tObjCAtSelector( void ) { return tokenNewWithAttributes(AT_SELECTOR, "@se
 token *tObjCAtEncode( void ) { return tokenNewWithAttributes(AT_ENCODE, "@encode", NULL, NULL); }
 
 token *tObjCString( char *tokenString ) { return tokenNewWithAttributes(OBJC_STRING_LITERAL, tokenString, NULL, NULL); }
+
+
 
 
 // NON-TERMINAL TOKENS
@@ -404,15 +413,28 @@ token *gStructInitializer( token *assignmentExpr ) {
 /** Objective-C **/
 
 /* external definitions */
-token *gClassDecs( token *identifiers ) {
+token *gClassNameDecs( token *identifiers ) {
 	// FIXME: Add identifiers to local scope
 	token *nameList = gList(identifiers);
 	return tokenNewWithAttributes(CLASS_NAMES, NULL, NULL, tokenSetNextSibling(nameList, tSemi()));
 }
-token *gProtocolDecs( token *identifiers ) {
+token *gProtocolNameDecs( token *identifiers ) {
 	// FIXME: Add identifiers to local scope
 	token *nameList = gList(identifiers);
 	return tokenNewWithAttributes(PROTOCOL_NAMES, NULL, NULL, tokenSetNextSibling(nameList, tSemi()));
+}
+
+token *gProtocolRefs( token *identifiers ) {
+	token *children = tokenSetNextSibling(tLessOp(),
+										  tokenSetNextSibling(identifiers, tGreaterOp()));
+	return tokenNewWithAttributes(PROTOCOL_REFS, NULL, NULL, children);
+}
+
+token *gInstanceVariables( token *members ) {
+	token *children = tokenSetNextSibling(tCurlyL(),
+										  tokenSetNextSibling(members, 
+															  tCurlyR()));
+	return tokenNewWithAttributes(CLASS_IVARS, NULL, NULL, children);
 }
 
 token *gClassInterface( token *className, token *superClassName, token *protocolRefs, token *ivars, token *interfaceDecs ) {
@@ -573,35 +595,63 @@ token *gStructObjCDefs( token *className ) {
 #pragma mark Statements
 /** Statements **/
 token *gCompound( token *stmtsAndDecs ) {
-	token *compound = tokenNewWithAttributes(STMT_COMPOUND, NULL, NULL, stmtsAndDecs);
-	return tokenSetNextSibling(tParenL(), tokenSetNextSibling(compound, tParenR()));
+	token *children = tokenSetNextSibling(tParenL(), tokenSetNextSibling(stmtsAndDecs, tParenR()));
+	return tokenNewWithAttributes(STMT_COMPOUND, NULL, NULL, children);
 }
 
-token *gIf() {
+token *gIf( token *test, token *trueStmt ) {
+	token *testList = tokenSetNextSibling(tParenL(),
+										  tokenSetNextSibling(test,
+															  tokenSetNextSibling(tParenR(), trueStmt)));
+	token *children = tokenSetNextSibling(tIf(), testList);
+	return tokenNewWithAttributes(STMT_IF, NULL, NULL, children);
+}
+
+token *gIfElse( token *test, token *trueStmt, token *falseStmt ) {
+	token *trueAndFalse = tokenSetNextSibling(trueStmt, 
+											  tokenSetNextSibling(tElse(),
+																  falseStmt));
+	token *testList = tokenSetNextSibling(tParenL(),
+										  tokenSetNextSibling(test,
+															  tokenSetNextSibling(tParenR(),
+																				  trueAndFalse)));
+	token *children = tokenSetNextSibling(tIf(), testList);
+	return tokenNewWithAttributes(STMT_IF, NULL, NULL, children);
+}
+
+token *gWhile( token *test, token *stmt ) {
 	return NULL;
 }
 
-token *gWhile() {
+token *gFor( token *init, token *test, token *inc, token *stmt ) {
 	return NULL;
 }
 
-token *gFor() {
+token *gDo( token *stmt, token *test) {
 	return NULL;
 }
 
-token *gDo() {
+token *gSwitch( token *test, token *compoundStmt ) {
 	return NULL;
 }
 
-token *gSwitch() {
+token *gGoto( token *identifier ) {
 	return NULL;
 }
 
-token *gJump() {
+token *gReturn( token *expr ) {
 	return NULL;
 }
 
-token *gLabeled() {
+token *gLabeled( token *identifier, token *stmt ) {
+	return NULL;
+}
+
+token *gCase( token *constant, token *stmt ) {
+	return NULL;
+}
+
+token *gDefault( token *stmt ) {
 	return NULL;
 }
 
@@ -612,11 +662,11 @@ token *gExpression( token *expr ) {
 
 
 /* objc */
-token *gTry() {
+token *gTry( token *tryBlock, token *catchInitDecl, token *catchBlock, token *finBlock ) {
 	return NULL;
 }
 
-token *gSynch() {
+token *gSynch( token *identifier, token *stmt ) {
 	return NULL;
 }
 
@@ -663,12 +713,25 @@ token *gCast( token *typeSpec, token *expr ) {
 	return tokenNewWithAttributes(EXPR_CAST, NULL, NULL, typeSpec);
 }
 
-token *gAssign() {
-	return NULL;
+token *gAssign( token *left, token *op, token *right ) {
+	token *children = tokenSetNextSibling(left, tokenSetNextSibling(op, right));
+	return tokenNewWithAttributes(EXPR_ASSIGN, NULL, NULL, children);
 }
 
 token *gConditional( token *logical, token *trueExpr, token *falseExpr ) {
-	return NULL;
+	
+	token *children = tColon();
+	
+	if(NULL != falseExpr)
+		tokenSetNextSibling(children, falseExpr);
+	if(NULL != trueExpr)
+		children = tokenSetNextSibling(trueExpr, children);
+	
+	children = tokenSetNextSibling(tQuest(), children);
+	
+	tokenSetNextSibling(logical, children);
+	
+	return tokenNewWithAttributes(EXRP_CONDITIONAL, NULL, NULL, children);
 }
 
 token *gSizeofUnary( token *unary ) {
