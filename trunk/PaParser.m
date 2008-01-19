@@ -33,9 +33,6 @@
 
 #import "PaToken.h"
 
-#import "parce_parser_actions.h"
-
-
 
 /** Public Symbol Definitions **/
 
@@ -332,7 +329,7 @@ PaToken *gExpression( PaToken *expr ) { return NULL; }
 /* objc */
 PaToken *gTry( PaToken *tryBlock, PaToken *catchInitDecl, PaToken *catchBlock, PaToken *finBlock ) { return NULL; }
 PaToken *gSynch( PaToken *identifier, PaToken *stmt ) { return NULL; }
-PaToken *gThrow() { return NULL; }
+PaToken *gThrow( PaToken *identifier ) { return NULL; }
 
 /** Expressions **/
 PaToken *gPostfix( PaToken *expr, PaToken *op, PaToken *member ) { return NULL; } // member may be NULL
@@ -352,9 +349,9 @@ PaToken *gSizeofType( PaToken *typeSpec ) { return NULL; }
 #pragma mark Objective-C groups
 
 /* expressions */
-PaToken *gMessage( token *receiver, token *message ) { return NULL; }
-PaToken *gAtSelector( token *name ) { return NULL; }
-PaToken *gSelector( token *keysWordsAndArgs ) { return NULL; }
+PaToken *gMessage( PaToken *receiver, PaToken *message ) { return NULL; }
+PaToken *gAtSelector( PaToken *name ) { return NULL; }
+PaToken *gSelector( PaToken *keysWordsAndArgs ) { return NULL; }
 PaToken *gSelectorKeyword( PaToken *identifier ) { return NULL; }
 PaToken *gAtProtocol( PaToken *identifier ) { return NULL; }
 PaToken *gAtEncode( PaToken *typeName ) { return NULL; }
