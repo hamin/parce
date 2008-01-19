@@ -26,30 +26,92 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "parce_scanner_actions.h"
 
-//#include "parce_parser_context.h" // identifiers (type names, classes, protocols, categories, variables)
+#include "parce_parser_token.h"
+
+#include <stdlib.h>
+
+//#include "parce_parser_context.h" // identifiers (macros, type names, classes, protocols, categories, variables)
 
 
-void scanMacro( char *tokenString ){ return; }
 
-void scanCommentBlock( char *tokenString ){ return; }
-void scanCommentLine( char *tokenString ){ return; }
-void scanWhiteSpace( char *tokenString ){ return; }
+void scanInitialize( void ) {
+	tokenSetDeleteFunction(free);
+}
 
-int scanHexConstant( char *tokenString ) { return CONSTANT; }
-int scanOctalConstant( char *tokenString ) { return CONSTANT; }
-int scanDecimalConstant( char *tokenString ) { return CONSTANT; }
-int scanEscapeConstant( char *tokenString ) { return CONSTANT; }
-int scanFloatEConstant( char *tokenString ) { return CONSTANT; }
-int scanFloatDotConstant( char *tokenString ) { return CONSTANT; }
-int scanCString( char *tokenString ) { return STRING_LITERAL; }
-int scanObjCString( char *tokenString ) { return OBJC_STRING_LITERAL; }
+void scanMacro( YYSTYPE yylval, char *tokenString ) {
+return;
+}
+
+void scanCommentBlock( YYSTYPE yylval, char *tokenString ) {
+	return;
+}
+void scanCommentLine( YYSTYPE yylval, char *tokenString ) {
+	return;
+}
+void scanWhiteSpace( YYSTYPE yylval, char *tokenString ) {
+	return;
+}
+
+double scanConstantValue( char *tokenString, const char *formatString ) {
+	
+	double value = 0.0f;
+	
+//	sscanf(tokenString, formatString, &value);
+	
+	return value;
+}
+
+int scanConstantShared( YYSTYPE yylval, char *tokenString, const char *formatString ) {
+	
+	double *doublePtr = malloc(sizeof(double));
+	
+	yylval->type = CONSTANT;
+	yylval->text = tokenString;
+	yylval->value = (void *)doublePtr;
+	*doublePtr = scanConstantValue(tokenString, formatString);
+	return CONSTANT;
+}
+
+int scanHexConstant( YYSTYPE yylval, char *tokenString ) {
+	return scanConstantShared( yylval, tokenString, "%x" );
+	
+}
+int scanOctalConstant( YYSTYPE yylval, char *tokenString ) {
+	return scanConstantShared( yylval, tokenString, "%o" );
+}
+int scanDecimalConstant( YYSTYPE yylval, char *tokenString ) {
+	return scanConstantShared( yylval, tokenString, "%x" );
+}
+int scanEscapeConstant( YYSTYPE yylval, char *tokenString ) {
+	return CONSTANT;
+}
+int scanFloatEConstant( YYSTYPE yylval, char *tokenString ) {
+	return CONSTANT;
+}
+int scanFloatDotConstant( YYSTYPE yylval, char *tokenString ) {
+	return CONSTANT;
+}
+int scanCString( YYSTYPE yylval, char *tokenString ) {
+	
+	yylval->type = STRING_LITERAL;
+	yylval->text = tokenString;
+	
+	return STRING_LITERAL;
+}
+int scanObjCString( YYSTYPE yylval, char *tokenString ) {
+	
+	yylval->type = OBJC_STRING_LITERAL;
+	yylval->text = tokenString;
+	
+	return OBJC_STRING_LITERAL;
+}
 
 /*
  An identifier is stored in a context table as a specialized type determined by the parser, and retrieved on subsequent occurrences
  */
 
 // IDENTIFIER->TYPE_NAME/CLASS_NAME/
-int scanType( char *tokenString ) {
+int scanType( YYSTYPE yylval, char *tokenString ) {
 	
 	// check the context stack for a matching type; if found, return associated token type and set yylval
 	
