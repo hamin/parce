@@ -33,12 +33,17 @@ IS			(u|U|l|L)*
 
 %top{
 #include "parce_scanner_actions.h"
+#include "parce_parser_token.h"
+
+#define YY_DECL int yylex( token *yylval )
+
+#define YY_USER_INIT scanInitialize()
 }
 
 %%
-"^#.*"          { scanMacro( yytext ); }
-"\/\*.*\*\/"	{ scanCommentBlock( yytext ); }
-"\/\/.*"		{ scanCommentLine( yytext ); }
+"^#.*"          { scanMacro( yylval, yytext ); }
+"\/\*.*\*\/"	{ scanCommentBlock(  yylval, yytext ); }
+"\/\/.*"		{ scanCommentLine(  yylval, yytext ); }
 
 "auto"			{ return AUTO; }
 "break"			{ return BREAK; }
@@ -103,20 +108,20 @@ IS			(u|U|l|L)*
 "byref"			{ return BYREF; }
 "oneway"		{ return ONEWAY; }
  
-{L}({L}|{D})*	{ return scanType( yytext ); }
+{L}({L}|{D})*	{ return scanType(  yylval, yytext ); }
 
-0[xX]{H}+{IS}?	{ return scanHexConstant( yytext ); }
-0{D}+{IS}?		{ return scanOctalConstant( yytext ); }
-{D}+{IS}?		{ return scanDecimalConstant( yytext ); }
-'(\\.|[^\\'])+'		{ return scanEscapeConstant( yytext ); }
+0[xX]{H}+{IS}?	{ return scanHexConstant(  yylval, yytext ); }
+0{D}+{IS}?		{ return scanOctalConstant(  yylval, yytext ); }
+{D}+{IS}?		{ return scanDecimalConstant(  yylval, yytext ); }
+'(\\.|[^\\'])+'		{ return scanEscapeConstant(  yylval, yytext ); }
 
-{D}+{E}{FS}?		{ return scanFloatEConstant( yytext ); }
-{D}*"."{D}+({E})?{FS}?	{ return scanFloatDotConstant( yytext ); }
-{D}+"."{D}*({E})?{FS}?	{ return scanFloatDotConstant( yytext ); }
+{D}+{E}{FS}?		{ return scanFloatEConstant(  yylval, yytext ); }
+{D}*"."{D}+({E})?{FS}?	{ return scanFloatDotConstant(  yylval, yytext ); }
+{D}+"."{D}*({E})?{FS}?	{ return scanFloatDotConstant(  yylval, yytext ); }
 
-\"(\\.|[^\\"])*\"	{ return scanCString( yytext ); }
+\"(\\.|[^\\"])*\"	{ return scanCString(  yylval, yytext ); }
 
-@\"(\\.|[^\\"])*\"	{ return scanObjCString( yytext ); }
+@\"(\\.|[^\\"])*\"	{ return scanObjCString(  yylval, yytext ); }
 
 ">>="		{ return RIGHT_ASSIGN; }
 "<<="		{ return LEFT_ASSIGN; }
@@ -164,7 +169,7 @@ IS			(u|U|l|L)*
 "|"			{ return '|'; }
 "?"			{ return '?'; }
 
-[ \t\v\n\f]+		{ scanWhiteSpace( yytext ); }
+[ \t\v\n\f]+		{ scanWhiteSpace(  yylval, yytext ); }
 .			{ /* ignore bad characters */ }
 
 %%
